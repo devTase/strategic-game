@@ -7,3 +7,5 @@ Workers Management
 
 No UI, only console for now.
 Runs with separeted threads
+
+Changed here
