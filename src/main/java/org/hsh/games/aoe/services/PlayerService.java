@@ -5,6 +5,7 @@ import org.hsh.games.aoe.entities.Building;
 import org.hsh.games.aoe.entities.ConstructionProcess;
 import org.hsh.games.aoe.entities.ResourceAmount;
 import org.hsh.games.aoe.entities.*;
+import org.hsh.games.aoe.entities.skills.PlayerSkills;
 import org.hsh.games.aoe.threads.ResourceConsumptionThread;
 
 import java.util.*;
@@ -16,9 +17,11 @@ public class PlayerService {
     private List<Worker> workers = new ArrayList<>();
     private List<Building> buildingList = new ArrayList<>();
     private DailyRewardService dailyRewardService = new DailyRewardService();
+    private PlayerSkills playerSkills;
 
     public PlayerService(Player player) {
         this.player = player;
+        this.playerSkills = new PlayerSkills(player);
         this.setLevel(1);
         addWorker(new Worker("worker1"));
         addWorker(new Worker("worker2"));
@@ -439,5 +442,96 @@ public class PlayerService {
         } else {
             playerResources.add(reward);
         }
+    }
+
+    /**
+     * Validates if all mandatory buildings for the current era are built and meet level requirements.
+     * Mandatory buildings are defined in the EraAge requirements map.
+     * 
+     * @return true if all mandatory buildings are met, false otherwise
+     */
+    public boolean validateMandatoryBuildings() {
+        Map<ConstructionType, Integer> requiredBuildings = player.getEraAge().getRequirementsForNextLevel();
+        
+        for (Map.Entry<ConstructionType, Integer> entry : requiredBuildings.entrySet()) {
+            ConstructionType requiredType = entry.getKey();
+            int requiredLevel = entry.getValue();
+            
+            boolean hasRequiredBuilding = buildingList.stream()
+                    .anyMatch(building -> 
+                            building.getConstructionTypeName().equals(requiredType.getName()) &&
+                            building.getBuilded() &&
+                            building.getLevel() >= requiredLevel
+                    );
+            
+            if (!hasRequiredBuilding) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+
+    /**
+     * Gets a list of missing mandatory buildings for the current era.
+     * 
+     * @return List of construction types that are missing or don't meet level requirements
+     */
+    public List<ConstructionType> getMissingMandatoryBuildings() {
+        Map<ConstructionType, Integer> requiredBuildings = player.getEraAge().getRequirementsForNextLevel();
+        List<ConstructionType> missingBuildings = new ArrayList<>();
+        
+        for (Map.Entry<ConstructionType, Integer> entry : requiredBuildings.entrySet()) {
+            ConstructionType requiredType = entry.getKey();
+            int requiredLevel = entry.getValue();
+            
+            boolean hasRequiredBuilding = buildingList.stream()
+                    .anyMatch(building -> 
+                            building.getConstructionTypeName().equals(requiredType.getName()) &&
+                            building.getBuilded() &&
+                            building.getLevel() >= requiredLevel
+                    );
+            
+            if (!hasRequiredBuilding) {
+                missingBuildings.add(requiredType);
+            }
+        }
+        
+        return missingBuildings;
+    }
+    
+    /**
+     * Gets the time multiplier from player skills for construction speed.
+     * Used by Building class to calculate construction time with skill modifiers.
+     * @return Time multiplier (less than 1.0 means faster construction)
+     */
+    public double getConstructionTimeMultiplier() {
+        return playerSkills.getTimeMultiplier();
+    }
+    
+    /**
+     * Gets the cost multiplier from player skills for construction cost.
+     * Used by Building class to calculate construction cost with skill modifiers.
+     * @return Cost multiplier (less than 1.0 means cheaper construction)
+     */
+    public double getConstructionCostMultiplier() {
+        return playerSkills.getCostMultiplier();
+    }
+    
+    /**
+     * Gets the loot multiplier from player skills for plunder bonus.
+     * Used by combat/raid services to calculate loot with skill modifiers.
+     * @return Loot multiplier (greater than 1.0 means more loot)
+     */
+    public double getLootMultiplier() {
+        return playerSkills.getLootMultiplier();
+    }
+    
+    /**
+     * Gets the player skills instance for advanced operations.
+     * @return PlayerSkills instance
+     */
+    public PlayerSkills getPlayerSkills() {
+        return playerSkills;
     }
 }

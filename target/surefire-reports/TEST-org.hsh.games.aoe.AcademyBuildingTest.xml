@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="org.hsh.games.aoe.services.GuildServiceTest" time="0.055" tests="30" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="org.hsh.games.aoe.AcademyBuildingTest" time="18.104" tests="6" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="24"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -7,7 +7,6 @@
     <property name="java.vm.vendor" value="Homebrew"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="java.vendor.url" value="https://github.com/Homebrew/homebrew-core/issues"/>
-    <property name="user.timezone" value="Europe/Lisbon"/>
     <property name="os.name" value="Mac OS X"/>
     <property name="java.vm.specification.version" value="24"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
@@ -60,120 +59,28 @@
     <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.class.version" value="68.0"/>
   </properties>
-  <testcase name="getPlayerGuildWithPlayerNotInGuildReturnsNull" classname="org.hsh.games.aoe.services.GuildServiceTest" time="0.002"/>
-  <testcase name="depositToVaultSuccessfullyAddsResources" classname="org.hsh.games.aoe.services.GuildServiceTest" time="0.004">
-    <system-out><![CDATA[[GUILD Test Guild] Guild 'Test Guild' has been founded by leader
-[GUILD Test Guild] Player leader deposited 100 Madeira to the guild vault
+  <testcase name="testAcademyHasNoCosts" classname="org.hsh.games.aoe.AcademyBuildingTest" time="3.022">
+    <system-out><![CDATA[Descoberta Uma Nova ERA! A Era da Idade da Pedra
 ]]></system-out>
   </testcase>
-  <testcase name="getGuildByIdWithInvalidIdReturnsNull" classname="org.hsh.games.aoe.services.GuildServiceTest" time="0.001"/>
-  <testcase name="depositToVaultWithNegativeAmountThrowsException" classname="org.hsh.games.aoe.services.GuildServiceTest" time="0.002">
-    <system-out><![CDATA[[GUILD Test Guild] Guild 'Test Guild' has been founded by leader
+  <testcase name="testAcademyConstructionTypeExists" classname="org.hsh.games.aoe.AcademyBuildingTest" time="3.015">
+    <system-out><![CDATA[Descoberta Uma Nova ERA! A Era da Idade da Pedra
 ]]></system-out>
   </testcase>
-  <testcase name="broadcastEventDoesNotThrowWithValidParameters" classname="org.hsh.games.aoe.services.GuildServiceTest" time="0.003">
-    <system-out><![CDATA[[GUILD Test Guild] Guild 'Test Guild' has been founded by leader
-[GUILD Test Guild] Test message
+  <testcase name="testMandatoryBuildingValidation" classname="org.hsh.games.aoe.AcademyBuildingTest" time="3.031">
+    <system-out><![CDATA[Descoberta Uma Nova ERA! A Era da Idade da Pedra
 ]]></system-out>
   </testcase>
-  <testcase name="removePlayerFromGuildAllowsSelfRemoval" classname="org.hsh.games.aoe.services.GuildServiceTest" time="0.005">
-    <system-out><![CDATA[[GUILD Test Guild] Guild 'Test Guild' has been founded by leader
-[GUILD Test Guild] Player player1 has been invited to the guild by leader
-[GUILD Test Guild] Player player1 left the guild
+  <testcase name="testAcademyAvailableInEra1" classname="org.hsh.games.aoe.AcademyBuildingTest" time="3.01">
+    <system-out><![CDATA[Descoberta Uma Nova ERA! A Era da Idade da Pedra
 ]]></system-out>
   </testcase>
-  <testcase name="changeRankSuccessfullyPromotesMember" classname="org.hsh.games.aoe.services.GuildServiceTest" time="0.002">
-    <system-out><![CDATA[[GUILD Test Guild] Guild 'Test Guild' has been founded by leader
-[GUILD Test Guild] Player player1 has been invited to the guild by leader
-[GUILD Test Guild] Player player1 rank changed to Guild Member by leader
+  <testcase name="testAcademyCanBeBuilt" classname="org.hsh.games.aoe.AcademyBuildingTest" time="3.009">
+    <system-out><![CDATA[Descoberta Uma Nova ERA! A Era da Idade da Pedra
 ]]></system-out>
   </testcase>
-  <testcase name="isPlayerInGuildReturnsFalseForNonMember" classname="org.hsh.games.aoe.services.GuildServiceTest" time="0.0"/>
-  <testcase name="getGuildCountReturnsCorrectCount" classname="org.hsh.games.aoe.services.GuildServiceTest" time="0.001">
-    <system-out><![CDATA[[GUILD Guild 1] Guild 'Guild 1' has been founded by leader1
-[GUILD Guild 2] Guild 'Guild 2' has been founded by leader2
-]]></system-out>
-  </testcase>
-  <testcase name="removePlayerFromGuildSuccessfullyRemovesMember" classname="org.hsh.games.aoe.services.GuildServiceTest" time="0.001">
-    <system-out><![CDATA[[GUILD Test Guild] Guild 'Test Guild' has been founded by leader
-[GUILD Test Guild] Player player1 has been invited to the guild by leader
-[GUILD Test Guild] Player player1 was removed from the guild
-]]></system-out>
-  </testcase>
-  <testcase name="invitePlayerWithNonMemberInviterThrowsException" classname="org.hsh.games.aoe.services.GuildServiceTest" time="0.001">
-    <system-out><![CDATA[[GUILD Test Guild] Guild 'Test Guild' has been founded by leader
-]]></system-out>
-  </testcase>
-  <testcase name="createGuildSuccessfullyCreatesNewGuild" classname="org.hsh.games.aoe.services.GuildServiceTest" time="0.001">
-    <system-out><![CDATA[[GUILD Test Guild] Guild 'Test Guild' has been founded by player1
-]]></system-out>
-  </testcase>
-  <testcase name="isPlayerInGuildReturnsTrueForGuildMember" classname="org.hsh.games.aoe.services.GuildServiceTest" time="0.001">
-    <system-out><![CDATA[[GUILD Test Guild] Guild 'Test Guild' has been founded by leader
-]]></system-out>
-  </testcase>
-  <testcase name="invitePlayerSuccessfullyAddsNewMember" classname="org.hsh.games.aoe.services.GuildServiceTest" time="0.001">
-    <system-out><![CDATA[[GUILD Test Guild] Guild 'Test Guild' has been founded by leader
-[GUILD Test Guild] Player player2 has been invited to the guild by leader
-]]></system-out>
-  </testcase>
-  <testcase name="getAllGuildIdsReturnsAllGuildIds" classname="org.hsh.games.aoe.services.GuildServiceTest" time="0.001">
-    <system-out><![CDATA[[GUILD Guild 1] Guild 'Guild 1' has been founded by leader1
-[GUILD Guild 2] Guild 'Guild 2' has been founded by leader2
-]]></system-out>
-  </testcase>
-  <testcase name="invitePlayerWithInvalidGuildThrowsException" classname="org.hsh.games.aoe.services.GuildServiceTest" time="0.001"/>
-  <testcase name="getGuildByIdReturnsCorrectGuild" classname="org.hsh.games.aoe.services.GuildServiceTest" time="0.001">
-    <system-out><![CDATA[[GUILD Test Guild] Guild 'Test Guild' has been founded by leader
-]]></system-out>
-  </testcase>
-  <testcase name="getPlayerGuildReturnsCorrectGuild" classname="org.hsh.games.aoe.services.GuildServiceTest" time="0.001">
-    <system-out><![CDATA[[GUILD Test Guild] Guild 'Test Guild' has been founded by leader
-]]></system-out>
-  </testcase>
-  <testcase name="createGuildWithBlankNameThrowsException" classname="org.hsh.games.aoe.services.GuildServiceTest" time="0.001"/>
-  <testcase name="createGuildWithNegativeVaultCapacityThrowsException" classname="org.hsh.games.aoe.services.GuildServiceTest" time="0.001"/>
-  <testcase name="changeRankOfLeaderThrowsException" classname="org.hsh.games.aoe.services.GuildServiceTest" time="0.001">
-    <system-out><![CDATA[[GUILD Test Guild] Guild 'Test Guild' has been founded by leader
-]]></system-out>
-  </testcase>
-  <testcase name="invitePlayerAlreadyInGuildThrowsException" classname="org.hsh.games.aoe.services.GuildServiceTest" time="0.001">
-    <system-out><![CDATA[[GUILD Guild 1] Guild 'Guild 1' has been founded by leader1
-[GUILD Guild 2] Guild 'Guild 2' has been founded by leader2
-[GUILD Guild 1] Player player1 has been invited to the guild by leader1
-]]></system-out>
-  </testcase>
-  <testcase name="depositToVaultWithNonMemberThrowsException" classname="org.hsh.games.aoe.services.GuildServiceTest" time="0.001">
-    <system-out><![CDATA[[GUILD Test Guild] Guild 'Test Guild' has been founded by leader
-]]></system-out>
-  </testcase>
-  <testcase name="createGuildWithNullNameThrowsException" classname="org.hsh.games.aoe.services.GuildServiceTest" time="0.001"/>
-  <testcase name="broadcastEventWithNullMessageThrowsException" classname="org.hsh.games.aoe.services.GuildServiceTest" time="0.001">
-    <system-out><![CDATA[[GUILD Test Guild] Guild 'Test Guild' has been founded by leader
-]]></system-out>
-  </testcase>
-  <testcase name="createGuildWithFounderAlreadyInGuildThrowsException" classname="org.hsh.games.aoe.services.GuildServiceTest" time="0.001">
-    <system-out><![CDATA[[GUILD First Guild] Guild 'First Guild' has been founded by player1
-]]></system-out>
-  </testcase>
-  <testcase name="createGuildWithDuplicateNameThrowsException" classname="org.hsh.games.aoe.services.GuildServiceTest" time="0.001">
-    <system-out><![CDATA[[GUILD Test Guild] Guild 'Test Guild' has been founded by player1
-]]></system-out>
-  </testcase>
-  <testcase name="broadcastEventWithBlankMessageThrowsException" classname="org.hsh.games.aoe.services.GuildServiceTest" time="0.001">
-    <system-out><![CDATA[[GUILD Test Guild] Guild 'Test Guild' has been founded by leader
-]]></system-out>
-  </testcase>
-  <testcase name="changeRankWithoutPermissionThrowsException" classname="org.hsh.games.aoe.services.GuildServiceTest" time="0.001">
-    <system-out><![CDATA[[GUILD Test Guild] Guild 'Test Guild' has been founded by leader
-[GUILD Test Guild] Player player1 has been invited to the guild by leader
-[GUILD Test Guild] Player player2 has been invited to the guild by leader
-]]></system-out>
-  </testcase>
-  <testcase name="removePlayerWithoutPermissionThrowsException" classname="org.hsh.games.aoe.services.GuildServiceTest" time="0.001">
-    <system-out><![CDATA[[GUILD Test Guild] Guild 'Test Guild' has been founded by leader
-[GUILD Test Guild] Player player1 has been invited to the guild by leader
-[GUILD Test Guild] Player player2 has been invited to the guild by leader
+  <testcase name="testAcademyIsMandatoryInEra1" classname="org.hsh.games.aoe.AcademyBuildingTest" time="3.004">
+    <system-out><![CDATA[Descoberta Uma Nova ERA! A Era da Idade da Pedra
 ]]></system-out>
   </testcase>
 </testsuite>

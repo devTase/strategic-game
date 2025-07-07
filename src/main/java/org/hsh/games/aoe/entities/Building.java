@@ -2,6 +2,7 @@ package org.hsh.games.aoe.entities;
 
 import org.hsh.games.aoe.threads.ResourceGeneratorThread;
 import org.hsh.games.aoe.utils.ThreadUtils;
+import org.hsh.games.aoe.services.PlayerService;
 
 import java.util.List;
 
@@ -41,6 +42,63 @@ public class Building {
         return timeBetweenProductions;
     }
 
+    public void build(List<ResourceAmount> playerResources, List<Worker> playerWorkersList, PlayerService playerService) {
+        if(amountConstructionsAllowed > 0) {
+            System.out.println("A retirar recursos necessários do teu inventário...");
+            
+            // Apply skill-modified construction time
+            int skillModifiedTime = (int)(constructionMinutes * playerService.getConstructionTimeMultiplier());
+            sleep(skillModifiedTime);
+            
+            level = 1;
+            isBuilt = true;
+            amountConstructionsAllowed--;
+            
+            // Apply skill-modified resource cost
+            deductResourcesWithSkillModifier(playerResources, playerService.getConstructionCostMultiplier());
+            
+            increaseResourceCost();
+            startThreadForProductions(playerResources, playerWorkersList);
+        } else {
+            System.out.println("Já construiste o máximo deste tipo de edificio");
+        }
+    }
+
+    public void upgrade(PlayerService playerService) {
+        if(level < maxLevel) {
+            // Apply skill-modified construction time
+            int skillModifiedTime = (int)(constructionMinutes * playerService.getConstructionTimeMultiplier());
+            sleep(skillModifiedTime);
+            
+            level++;
+            constructionMinutes += level * 2;
+            increaseResourceCost();
+            increaseResourceProductions();
+        }
+        checkIfPlayerIsEligibleToNextEra();
+    }
+    
+    /**
+     * Backward compatibility method for upgrade without skill modifiers.
+     * @deprecated Use upgrade(PlayerService) instead for skill integration
+     */
+    @Deprecated
+    public void upgrade() {
+        if(level < maxLevel) {
+            sleep(getConstructionTimeInMils());
+            level++;
+            constructionMinutes += level * 2;
+            increaseResourceCost();
+            increaseResourceProductions();
+        }
+        checkIfPlayerIsEligibleToNextEra();
+    }
+    
+    /**
+     * Backward compatibility method for build without skill modifiers.
+     * @deprecated Use build(List, List, PlayerService) instead for skill integration
+     */
+    @Deprecated
     public void build(List<ResourceAmount> playerResources, List<Worker> playerWorkersList) {
         if(amountConstructionsAllowed > 0) {
             System.out.println("A retirar recursos necessários do teu inventário...");
@@ -53,17 +111,6 @@ public class Building {
         } else {
             System.out.println("Já construiste o máximo deste tipo de edificio");
         }
-    }
-
-    public void upgrade() {
-        if(level < maxLevel) {
-            sleep(getConstructionTimeInMils());
-            level++;
-            constructionMinutes += level * 2;
-            increaseResourceCost();
-            increaseResourceProductions();
-        }
-        checkIfPlayerIsEligibleToNextEra();
     }
 
     private void checkIfPlayerIsEligibleToNextEra() {
@@ -89,6 +136,22 @@ public class Building {
 
     private void increaseResourceCost() {
         resourceCost.forEach(resourceAmount -> resourceAmount.setAmount(resourceAmount.getAmount() * (level+1)));
+    }
+    
+    /**
+     * Deducts construction resources from player inventory with skill-based cost reduction.
+     * @param playerResources Player's current resources
+     * @param costMultiplier Skill-based cost multiplier (less than 1.0 means cheaper)
+     */
+    private void deductResourcesWithSkillModifier(List<ResourceAmount> playerResources, double costMultiplier) {
+        for (ResourceAmount buildingResource : resourceCost) {
+            for (ResourceAmount playerResource : playerResources) {
+                if(playerResource.getResource() == buildingResource.getResource()) {
+                    int adjustedCost = (int)(buildingResource.getAmount() * costMultiplier);
+                    playerResource.setAmount(playerResource.getAmount() - adjustedCost);
+                }
+            }
+        }
     }
 
     private void increaseResourceProductions() {

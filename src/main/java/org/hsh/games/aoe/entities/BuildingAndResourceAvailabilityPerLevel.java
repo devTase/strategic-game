@@ -9,7 +9,8 @@ public enum BuildingAndResourceAvailabilityPerLevel {
                     ConstructionType.TOWN_CENTER,
                     ConstructionType.HOUSE,
                     ConstructionType.LUMBER_CAMP,
-                    ConstructionType.MILL
+                    ConstructionType.MILL,
+                    ConstructionType.ACADEMY
             ), ResourceType.getResourcesPackBasedOnCurrentEra(1)
     ),
     LEVEL_2(2,

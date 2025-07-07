@@ -7,9 +7,11 @@ org/hsh/games/aoe/entities/PlayerTest.class
 org/hsh/games/aoe/services/GuildServiceTest.class
 org/hsh/games/aoe/entities/ResourceTypeGuildVaultTest.class
 org/hsh/games/aoe/entities/PlayerGuildIntegrationTest.class
+org/hsh/games/aoe/services/SkillServiceTest.class
 org/hsh/games/aoe/services/GuildMissionServiceTest.class
 org/hsh/games/aoe/entities/achievements/AchievementTest.class
 org/hsh/games/aoe/entities/EraAgeMissionMultipliersTest.class
 org/hsh/games/aoe/DailyRewardServiceTest.class
 org/hsh/games/aoe/services/ShadowTerritoryServiceTest.class
+org/hsh/games/aoe/AcademyBuildingTest.class
 org/hsh/games/aoe/GameOfStrategyTest.class

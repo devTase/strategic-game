@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 public enum EraAge {
-    STONE_AGE("Idade da Pedra", 1, Map.of(ConstructionType.TOWN_CENTER, 1, ConstructionType.HOUSE, 1)),
+    STONE_AGE("Idade da Pedra", 1, Map.of(ConstructionType.TOWN_CENTER, 1, ConstructionType.HOUSE, 1, ConstructionType.ACADEMY, 1)),
     BRONZE_AGE("Idade do Bronze", 2, Map.of(ConstructionType.TOWN_CENTER, 2, ConstructionType.HOUSE, 2, ConstructionType.LUMBER_CAMP, 2)),
     IRON_AGE("Idade do Ferro", 3, Map.of(ConstructionType.TOWN_CENTER, 3, ConstructionType.HOUSE, 3, ConstructionType.LUMBER_CAMP, 3, ConstructionType.MILL, 3)),
     MEDIEVAL_AGE("Idade Medával", 4, Map.of(ConstructionType.TOWN_CENTER, 4, ConstructionType.HOUSE, 4, ConstructionType.LUMBER_CAMP, 4, ConstructionType.MILL, 4, ConstructionType.BARRACKS, 4)),

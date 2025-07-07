@@ -6,10 +6,12 @@
 /Users/tiagoesteves/Desktop/Repos/github/strategic-game/src/test/java/org/hsh/games/aoe/entities/PlayerGuildIntegrationTest.java
 /Users/tiagoesteves/Desktop/Repos/github/strategic-game/src/test/java/org/hsh/games/aoe/services/GuildMissionServiceTest.java
 /Users/tiagoesteves/Desktop/Repos/github/strategic-game/src/test/java/org/hsh/games/aoe/DailyRewardServiceTest.java
+/Users/tiagoesteves/Desktop/Repos/github/strategic-game/src/test/java/org/hsh/games/aoe/services/SkillServiceTest.java
 /Users/tiagoesteves/Desktop/Repos/github/strategic-game/src/test/java/org/hsh/games/aoe/entities/EraAgeMissionMultipliersTest.java
 /Users/tiagoesteves/Desktop/Repos/github/strategic-game/src/test/java/org/hsh/games/aoe/entities/achievements/PlayerAchievementsTest.java
 /Users/tiagoesteves/Desktop/Repos/github/strategic-game/src/test/java/org/hsh/games/aoe/ui/ConsoleDisplayUtilsTest.java
 /Users/tiagoesteves/Desktop/Repos/github/strategic-game/src/test/java/org/hsh/games/aoe/services/ShadowTerritoryServiceTest.java
 /Users/tiagoesteves/Desktop/Repos/github/strategic-game/src/test/java/org/hsh/games/aoe/entities/achievements/AchievementTest.java
+/Users/tiagoesteves/Desktop/Repos/github/strategic-game/src/test/java/org/hsh/games/aoe/AcademyBuildingTest.java
 /Users/tiagoesteves/Desktop/Repos/github/strategic-game/src/test/java/org/hsh/games/aoe/entities/PlayerTest.java
 /Users/tiagoesteves/Desktop/Repos/github/strategic-game/src/test/java/org/hsh/games/aoe/entities/achievements/AchievementCategoryTest.java

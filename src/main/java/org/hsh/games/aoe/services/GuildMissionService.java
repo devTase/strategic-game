@@ -4,6 +4,7 @@ import org.hsh.games.aoe.entities.guild.*;
 import org.hsh.games.aoe.entities.ResourceType;
 import org.hsh.games.aoe.entities.EraAge;
 import org.hsh.games.aoe.utils.ThreadUtils;
+import org.hsh.games.aoe.services.PlayerService;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -192,8 +193,8 @@ public class GuildMissionService {
                 if (success) {
                     resolvedMission = startedMission.complete();
                     
-                    // Distribute rewards to guild vault
-                    distributeRewards(guild, resolvedMission);
+                    // Distribute rewards to guild vault with plunder bonuses
+                    distributeRewardsWithPlunderBonus(guild, resolvedMission);
                     
                     guildService.broadcastEvent(guildId, 
                         String.format("Mission %s completed successfully! Rewards distributed to guild vault.", 
@@ -377,6 +378,88 @@ public class GuildMissionService {
                 System.err.printf("Failed to distribute reward %s: %s%n", reward.getKey(), e.getMessage());
             }
         }
+    }
+    
+    /**
+     * Distributes mission rewards to the guild vault with plunder bonus calculations.
+     * Applies skill-based loot multipliers for combat/raid missions.
+     * @param guild Guild to receive rewards
+     * @param mission Completed mission with rewards
+     */
+    private void distributeRewardsWithPlunderBonus(Guild guild, GuildMission mission) {
+        Map<ResourceType, Integer> rewards = mission.getRewardMapCopy();
+        
+        // Apply plunder bonus for combat missions
+        if (mission.isCombatMission()) {
+            rewards = applyPlunderBonusToRewards(rewards, mission, guild);
+        }
+        
+        for (Map.Entry<ResourceType, Integer> reward : rewards.entrySet()) {
+            try {
+                guildService.depositToVault(
+                    guild.id(), 
+                    reward.getKey(), 
+                    reward.getValue(), 
+                    "MISSION_SYSTEM"
+                );
+            } catch (Exception e) {
+                // Log error but continue with other rewards
+                System.err.printf("Failed to distribute reward %s: %s%n", reward.getKey(), e.getMessage());
+            }
+        }
+    }
+    
+    /**
+     * Applies plunder bonus to mission rewards based on participants' skills.
+     * Stub implementation for skill-based loot multiplier integration.
+     * @param baseRewards Original mission rewards
+     * @param mission Mission with participant information
+     * @param guild Guild executing the mission
+     * @return Modified rewards with plunder bonuses applied
+     */
+    private Map<ResourceType, Integer> applyPlunderBonusToRewards(
+            Map<ResourceType, Integer> baseRewards, 
+            GuildMission mission, 
+            Guild guild) {
+        
+        Map<ResourceType, Integer> bonusRewards = new HashMap<>(baseRewards);
+        
+        // Apply plunder bonus for each participant
+        for (String participantId : mission.participants()) {
+            // TODO: Replace with actual PlayerService lookup when available
+            // For now, this is a stub implementation
+            PlayerService playerService = getPlayerServiceForParticipant(participantId);
+            
+            if (playerService != null) {
+                double lootMultiplier = playerService.getLootMultiplier();
+                
+                // Apply loot multiplier to combat-related resources
+                for (Map.Entry<ResourceType, Integer> reward : bonusRewards.entrySet()) {
+                    int baseLoot = baseRewards.get(reward.getKey());
+                    int plunder = (int)(baseLoot * lootMultiplier);
+                    
+                    // Update the reward with plunder bonus (average across all participants)
+                    int currentAmount = reward.getValue();
+                    int newAmount = currentAmount + ((plunder - baseLoot) / mission.getParticipantCount());
+                    reward.setValue(Math.max(baseLoot, newAmount));
+                }
+            }
+        }
+        
+        return bonusRewards;
+    }
+    
+    /**
+     * Stub method to get PlayerService for a participant.
+     * This should be replaced with actual player service lookup when available.
+     * @param participantId Player ID to get service for
+     * @return PlayerService instance or null if not available
+     */
+    private PlayerService getPlayerServiceForParticipant(String participantId) {
+        // TODO: Implement actual player service lookup
+        // This is a stub implementation for now
+        // return gameContext.getPlayerService(participantId);
+        return null;
     }
     
     /**

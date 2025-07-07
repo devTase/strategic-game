@@ -160,6 +160,7 @@ public enum ConstructionType {
                     new ResourceAmount(ResourceType.FAVOR, 2)
             ), ThreadUtils.toMilliseconds(0)
     ),
+    ACADEMY("Academia", 5, 1, ThreadUtils.toMilliseconds(8), Collections.emptyList(), Collections.emptyList(), 0),
     ;
 
     private String name;
