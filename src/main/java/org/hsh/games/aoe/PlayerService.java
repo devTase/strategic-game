@@ -6,11 +6,12 @@ import org.hsh.games.aoe.threads.ResourceConsumptionThread;
 import java.util.*;
 import java.util.stream.Collectors;
 
-class PlayerService {
+public class PlayerService {
     private Player player;
     private List<ResourceAmount> playerResources = new ArrayList<>();
     private List<Worker> workers = new ArrayList<>();
     private List<Building> buildingList = new ArrayList<>();
+    private DailyRewardService dailyRewardService = new DailyRewardService();
 
     public PlayerService(Player player) {
         this.player = player;
@@ -66,27 +67,137 @@ class PlayerService {
                 resource.setAmount(populationAmount - 1);
             }
         });
-        System.out.println("Worker " + worker.getName() + " has died.");
+        System.out.println("Trabalhador " + worker.getName() + " morreu por falta de recursos.");
     }
 
-
-
     public void showResourcesHeader() {
-        System.out.println("====================================================================================================================");
-        System.out.println(player.getEraAge().getEraName());
-        for (ResourceAmount entry : playerResources) {
+        showEnhancedDashboard();
+    }
 
-            if(entry.getResource() == ResourceType.POPULATION) {
-                System.out.printf("%s: ", entry.getResource().getDescription());
-                System.out.print(workers.stream().filter(worker -> !worker.isOccupied()).count() + "/" + workers.size());
-            } else {
-                System.out.printf("%s: %d", entry.getResource().getDescription(), entry.getAmount());
-            }
-
-            System.out.print("   *   ");
-        }
+    public void showEnhancedDashboard() {
         System.out.println();
-        System.out.println("====================================================================================================================");
+        System.out.println("╔══════════════════════════════════════════════════════════════════════════════════════════════╗");
+        System.out.println("║                                    🏛️  STRATEGIC GAME  🏛️                                    ║");
+        System.out.println("╠══════════════════════════════════════════════════════════════════════════════════════════════╣");
+        
+        // Village Info
+        System.out.printf("║ 🏘️  Aldeia: %-25s │ %s Era: %-25s ║%n", 
+            player.getFarmName(), getEraIcon(), player.getEraAge().getEraName());
+        
+        System.out.println("╠══════════════════════════════════════════════════════════════════════════════════════════════╣");
+        
+        // Resources Section
+        System.out.println("║                                        📦 RECURSOS 📦                                       ║");
+        System.out.println("╠══════════════════════════════════════════════════════════════════════════════════════════════╣");
+        
+        // Split resources into two columns for better layout
+        List<ResourceAmount> basicResources = new ArrayList<>();
+        List<ResourceAmount> advancedResources = new ArrayList<>();
+        
+        for (ResourceAmount resource : playerResources) {
+            if (isBasicResource(resource.getResource())) {
+                basicResources.add(resource);
+            } else {
+                advancedResources.add(resource);
+            }
+        }
+        
+        // Display basic resources
+        for (int i = 0; i < Math.max(basicResources.size(), advancedResources.size()); i++) {
+            String leftSide = "";
+            String rightSide = "";
+            
+            if (i < basicResources.size()) {
+                ResourceAmount resource = basicResources.get(i);
+                if (resource.getResource() == ResourceType.POPULATION) {
+                    long availableWorkers = workers.stream().filter(worker -> !worker.isOccupied()).count();
+                    leftSide = String.format("║ %s %-12s: %d/%d disponíveis", 
+                        getResourceIcon(resource.getResource()), 
+                        resource.getResource().getDescription(),
+                        availableWorkers, workers.size());
+                } else {
+                    leftSide = String.format("║ %s %-12s: %-8d", 
+                        getResourceIcon(resource.getResource()), 
+                        resource.getResource().getDescription(), 
+                        resource.getAmount());
+                }
+            } else {
+                leftSide = "║" + " ".repeat(45);
+            }
+            
+            if (i < advancedResources.size()) {
+                ResourceAmount resource = advancedResources.get(i);
+                rightSide = String.format("│ %s %-12s: %-8d ║", 
+                    getResourceIcon(resource.getResource()), 
+                    resource.getResource().getDescription(), 
+                    resource.getAmount());
+            } else {
+                rightSide = "│" + " ".repeat(45) + "║";
+            }
+            
+            System.out.println(leftSide + rightSide);
+        }
+        
+        System.out.println("╠══════════════════════════════════════════════════════════════════════════════════════════════╣");
+        
+        // Quick Status Section
+        System.out.println("║                                      ⚡ STATUS RÁPIDO ⚡                                       ║");
+        System.out.println("╠══════════════════════════════════════════════════════════════════════════════════════════════╣");
+        
+        long busyWorkers = workers.stream().filter(Worker::isOccupied).count();
+        int totalBuildings = buildingList.size();
+        long completedBuildings = buildingList.stream().filter(Building::getBuilded).count();
+        
+        // Daily reward status
+        String playerId = player.getFarmName();
+        String dailyStatus = dailyRewardService.hasClaimedToday(playerId) ? 
+            "✅ Coletada" : "🎁 Disponível";
+        int currentStreak = dailyRewardService.getCurrentStreak(playerId);
+        
+        System.out.printf("║ 👷 Trabalhadores Ocupados: %-8d │ 🏗️  Edifícios: %d/%d concluídos        ║%n", 
+            busyWorkers, completedBuildings, totalBuildings);
+        System.out.printf("║ 🎁 Recompensa Diária: %-14s     │ 🔥 Streak: %-3d dias consecutivos      ║%n",
+            dailyStatus, currentStreak);
+        
+        System.out.println("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
+        System.out.println();
+    }
+    
+    private String getEraIcon() {
+        return switch (player.getEraAge()) {
+            case STONE_AGE -> "🗿";
+            case BRONZE_AGE -> "🥉";
+            case IRON_AGE -> "⚔️";
+            case MEDIEVAL_AGE -> "🏰";
+            case RENAISSANCE -> "🎨";
+            case INDUSTRIAL_AGE -> "🏭";
+            case MODERN_AGE -> "🌆";
+            case INFORMATION_AGE -> "💻";
+            case FUTURE_AGE -> "🚀";
+        };
+    }
+    
+    private String getResourceIcon(ResourceType resourceType) {
+        return switch (resourceType) {
+            case WOOD -> "🪵";
+            case WATER -> "💧";
+            case FOOD -> "🍞";
+            case STONE -> "🪨";
+            case POPULATION -> "👥";
+            case IRON -> "⚙️";
+            case SILVER -> "🥈";
+            case GRAPES -> "🍇";
+            case GOLD -> "🏅";
+            case FAVOR -> "⭐";
+        };
+    }
+    
+    private boolean isBasicResource(ResourceType resourceType) {
+        return resourceType == ResourceType.WOOD || 
+               resourceType == ResourceType.WATER || 
+               resourceType == ResourceType.FOOD || 
+               resourceType == ResourceType.STONE || 
+               resourceType == ResourceType.POPULATION;
     }
 
     /**
@@ -213,8 +324,8 @@ class PlayerService {
     }
 
     public void checkForNewEraConditions() {
-        int nextLevel = player.getEraAge().getNextLevel().getLevel();
-        if(buildingList.stream().allMatch(x -> x.getLevel() == nextLevel-1)) {
+        if(isPlayerEligibleForNewEra()) {
+            int nextLevel = player.getEraAge().getNextLevel().getLevel();
             setLevel(nextLevel);
         }
     }
@@ -230,5 +341,28 @@ class PlayerService {
         return getBuildingList().stream()
                 .filter(building -> building.getConstructionTypeName().equals(constructionName))
                 .toList();
+    }
+
+    public void claimDailyReward() {
+        List<ResourceAmount> rewards = dailyRewardService.claimDailyReward(player.getFarmName(), player.getEraAge());
+        rewards.forEach(this::addResourceFromReward);
+        System.out.println("Recompensa diária coletada!");
+        rewards.forEach(reward -> System.out.printf("%s: +%d\n", reward.getResource().getDescription(), reward.getAmount()));
+    }
+
+    public DailyRewardService getDailyRewardService() {
+        return dailyRewardService;
+    }
+
+    private void addResourceFromReward(ResourceAmount reward) {
+        Optional<ResourceAmount> existingResource = playerResources.stream()
+                .filter(resource -> resource.getResource() == reward.getResource())
+                .findFirst();
+
+        if (existingResource.isPresent()) {
+            existingResource.get().setAmount(existingResource.get().getAmount() + reward.getAmount());
+        } else {
+            playerResources.add(reward);
+        }
     }
 }

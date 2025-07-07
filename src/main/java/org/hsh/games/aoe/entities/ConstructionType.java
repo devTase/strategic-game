@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Objects;
 
 public enum ConstructionType {
-    TOWN_CENTER("Cidade Central", 10, 2, ThreadUtils.toMilliseconds(10),
+    TOWN_CENTER("Cidade Central", 10, 2, ThreadUtils.toMilliseconds(1),
             List.of(
                     new ResourceAmount(ResourceType.FOOD, 100),
                     new ResourceAmount(ResourceType.WATER, 120),

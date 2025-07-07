@@ -3,13 +3,10 @@ package org.hsh.games.aoe;
 import org.hsh.games.aoe.entities.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
 
 class PlayerServiceTest {
     private PlayerService playerService;
@@ -19,7 +16,6 @@ class PlayerServiceTest {
     void setUp() {
         player = new Player("FAMRTEST");
         playerService = new PlayerService(player);
-
     }
 
     @Test
@@ -130,18 +126,20 @@ class PlayerServiceTest {
     @Test
     void sendWorkersToConstructionJobAssignsWorkersToConstruction() {
         Building building = new Building(false, ConstructionType.HOUSE);
-        Worker worker = mock(Worker.class);
-        List<Worker> workers = Collections.singletonList(worker);
         playerService.setPlayerResources(List.of(new ResourceAmount(ResourceType.WOOD, 100)));
         playerService.sendWorkersToConstructionJob(ConstructionProcess.CREATION, building);
-        assertFalse(playerService.getWorkerAvailable().isOccupied());
+        boolean shouldHaveOneAvailableWorker = playerService.getWorkerAvailable().isOccupied();
+        assertFalse(shouldHaveOneAvailableWorker);
     }
 
     @Test
     void sendWorkersToSearchJobAssignsWorkersToSearch() {
-        Worker worker = mock(Worker.class);
-        List<Worker> workers = Collections.singletonList(worker);
         playerService.sendWorkersToSearchJob(ResourceType.WOOD);
         assertFalse(playerService.getWorkerAvailable().isOccupied());
+    }
+
+    @Test
+    void toBeDefinedThename() {
+
     }
 }
