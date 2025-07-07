@@ -43,7 +43,7 @@ public final class AchievementDefinitions {
     public static List<Achievement> getAchievementsByCategory(AchievementCategory category) {
         return ACHIEVEMENTS.stream()
                 .filter(achievement -> achievement.getCategory() == category)
-                .collect(Collections.toUnmodifiableList());
+                .toList();
     }
     
     /**

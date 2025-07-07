@@ -59,6 +59,22 @@ Progride através de 9 eras históricas:
 - **Persistência entre sessões** - O progresso é mantido entre jogos
 - **Reset automático** - Streak reinicia se faltares um dia
 
+## 🎨 Interface Enhanced
+
+### Nova Experiência Visual
+- **🏰 Tema Medieval** - Interface completamente redesenhada com temática medieval
+- **📦 Caixas ASCII** - Menus elegantes com bordas duplas estilo pergaminho
+- **🌈 Cores ANSI** - Texto colorido para melhor experiência visual
+- **⚔️ Ícones Temáticos** - Emojis contextualizados para cada ação
+- **🎯 Mensagens Imersivas** - Textos que remetem à época medieval
+
+### Características da Interface
+- **Council Chamber** - Menu principal estilizado como câmara real
+- **Resource Expedition** - Menu de recursos com tema de exploração
+- **Construction Guild** - Interface de construção com estilo arquitetônico
+- **Daily Tribute** - Sistema de recompensas como tributos reais
+- **Kingdom Status** - Relatórios do reino com pergaminhos reais
+
 ## 🚀 Como Jogar
 
 ### Requisitos
@@ -103,9 +119,12 @@ java -jar target/StrategyGame-1.0-SNAPSHOT.jar
 src/main/java/org/hsh/games/aoe/
 ├── entities/          # Entidades do jogo (Player, Worker, Building, etc.)
 ├── threads/           # Threads para operações assíncronas
+├── ui/               # Utilitários de interface console enhanced
 ├── visual/           # Componentes de interface (futuro JavaFX)
 ├── Game.java         # Ponto de entrada
-└── GameOfStrategy.java # Loop principal do jogo
+├── GameOfStrategy.java # Loop principal do jogo
+├── ApplicationConstants.java # Constantes e mensagens temáticas
+└── ConsoleUtils.java # Utilitários básicos de console
 ```
 
 ### Funcionalidades Técnicas
@@ -140,6 +159,9 @@ mvn test -Dtest=PlayerServiceTest
 - ✅ Sistema de recompensas diárias
 - ✅ Multiplicadores de era
 - ✅ Gestão de streaks
+- ✅ Interface console enhanced (ConsoleDisplayUtils)
+- ✅ Mensagens temáticas e cores ANSI
+- ✅ Formatação de menus medievais
 
 ## 🎯 Funcionalidades Futuras
 

@@ -4,6 +4,7 @@ import org.hsh.games.aoe.entities.BuildingAndResourceAvailabilityPerLevel;
 import org.hsh.games.aoe.entities.ConstructionType;
 import org.hsh.games.aoe.entities.Player;
 import org.hsh.games.aoe.entities.ResourceType;
+import org.hsh.games.aoe.ui.ConsoleDisplayUtils;
 
 import javax.security.auth.Subject;
 import java.util.*;
@@ -25,15 +26,23 @@ public class GameOfStrategy {
     public PlayerService createPlayer() {
         Player player = null;
         
+        ConsoleDisplayUtils.printGameBanner();
+        
         while (player == null) {
-            System.out.println("Escolhe um nome para a tua aldeia: ");
+            System.out.println(ApplicationConstants.MESSAGE_VILLAGE_NAME_PROMPT);
             String farmName = scanner.nextLine();
             
             try {
                 player = new Player(farmName);
+                ConsoleDisplayUtils.printSuccessMessage(ApplicationConstants.MESSAGE_VILLAGE_CREATION_SUCCESS);
+                try {
+                    Thread.sleep(ApplicationConstants.TIME_TO_SHOW_MESSAGE);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
             } catch (IllegalArgumentException e) {
-                System.out.println("Erro: " + e.getMessage());
-                System.out.println("Por favor, tenta novamente.\n");
+                ConsoleDisplayUtils.printErrorMessage("Error: " + e.getMessage());
+                ConsoleDisplayUtils.printWarningMessage(ApplicationConstants.MESSAGE_VILLAGE_CREATION_ERROR);
             }
         }
         
@@ -69,62 +78,92 @@ public class GameOfStrategy {
                     displayPlayerStatus(playerService);
                     break;
                 case 0:
-                    System.out.println("Obrigado por jogar!");
+                    ConsoleDisplayUtils.printInfoMessage(ApplicationConstants.MESSAGE_FAREWELL);
                     System.exit(0);
                 default:
-                    System.out.println(ApplicationConstants.MESSAGE_WRONG_OPTION_TRY_AGAIN);
+                    ConsoleDisplayUtils.printErrorMessage(ApplicationConstants.MESSAGE_WRONG_OPTION_TRY_AGAIN);
             }
         }
-        System.out.println("Game Over! It seems theres no one left!");
+        ConsoleDisplayUtils.printErrorMessage(ApplicationConstants.MESSAGE_GAME_OVER);
     }
 
     private void showMenu(PlayerService playerService) {
         playerService.showResourcesHeader();
-        showEnhancedMenu();
+        ConsoleDisplayUtils.printMainMenu();
     }
     
-    private void showEnhancedMenu() {
-        System.out.println("┌──────────────────────────────────────────────────────────────────────────────────────────────┐");
-        System.out.println("│                                        🎮 MENU PRINCIPAL 🎮                                    │");
-        System.out.println("├──────────────────────────────────────────────────────────────────────────────────────────────┤");
-        System.out.println("│                                                                                              │");
-        System.out.println("│  1️⃣  🔍 Procurar por recursos          │  3️⃣  🎁 Recompensas Diárias                    │");
-        System.out.println("│                                         │                                                 │");
-        System.out.println("│  2️⃣  🏗️  Construir/Atualizar edifícios   │  4️⃣  📊 Ver status detalhado                   │");
-        System.out.println("│                                         │                                                 │");
-        System.out.println("│                                         │  0️⃣  🚪 Sair do jogo                           │");
-        System.out.println("│                                         │                                                 │");
-        System.out.println("└──────────────────────────────────────────────────────────────────────────────────────────────┘");
-        System.out.print("\n🎯 " + ApplicationConstants.MESSAGE_CHOOSE_OPTION);
-    }
 
     private void displayResourcesAvailableToSearchFor(PlayerService playerService) {
-        System.out.println("Lista de Recursos:");
+        ConsoleDisplayUtils.printResourceMenu();
 
         int index = 1;
         List<ResourceType> availableResources = BuildingAndResourceAvailabilityPerLevel
             .getByLevel(playerService.getPlayer().getEraAge().getLevel()).getAvailableResources();
-        for (ResourceType ct : availableResources) {
-            System.out.printf("%d. %s\n", index, ct.getDescription());
+        
+        for (ResourceType resourceType : availableResources) {
+            String icon = getResourceIcon(resourceType);
+            ConsoleDisplayUtils.printResourceItem(index, resourceType.getDescription(), icon);
             index++;
         }
+        
+        ConsoleDisplayUtils.printMenuFooter();
+        System.out.print("\n⚔️  Choose the resource to gather: ");
 
         int input = scanner.nextInt();
         if (input < 1 || input > availableResources.size()) {
-            System.out.println(ApplicationConstants.MESSAGE_WRONG_OPTION_TRY_AGAIN);
+            ConsoleDisplayUtils.printErrorMessage(ApplicationConstants.MESSAGE_WRONG_OPTION_TRY_AGAIN);
             return;
         }
         if (playerService.getWorkerAvailable() != null) {
             playerService.sendWorkersToSearchJob(availableResources.get(input - 1));
+            ConsoleDisplayUtils.printSuccessMessage(ApplicationConstants.MESSAGE_WORKER_SENT_TO_GATHER);
+        } else {
+            ConsoleDisplayUtils.printWarningMessage(ApplicationConstants.MESSAGE_NO_WORKERS_AVAILABLE);
+        }
+    }
+
+    /**
+     * Helper method to get appropriate icon for resource types
+     */
+    private String getResourceIcon(ResourceType resourceType) {
+        switch (resourceType.name().toUpperCase()) {
+            case "WOOD": return ApplicationConstants.ICON_WOOD;
+            case "STONE": return ApplicationConstants.ICON_STONE;
+            case "GOLD": return ApplicationConstants.ICON_GOLD;
+            case "FOOD": return ApplicationConstants.ICON_FOOD;
+            case "IRON": return ApplicationConstants.ICON_IRON;
+            default: return "📦"; // Generic package icon
+        }
+    }
+    
+    /**
+     * Helper method to get appropriate icon for building types
+     */
+    private String getBuildingIcon(String buildingType) {
+        switch (buildingType.toUpperCase()) {
+            case "HOUSE": return ApplicationConstants.ICON_HOUSE;
+            case "FARM": return ApplicationConstants.ICON_FARM;
+            case "MINE": return ApplicationConstants.ICON_MINE;
+            case "BARRACKS": return ApplicationConstants.ICON_BARRACKS;
+            case "MARKET": return ApplicationConstants.ICON_MARKET;
+            case "TEMPLE": return ApplicationConstants.ICON_TEMPLE;
+            default: return "🏗️"; // Generic construction icon
         }
     }
 
     private void displayBuildingTypes(PlayerService playerService) {
-        System.out.println("Lista de Edificios:");
+        ConsoleDisplayUtils.printConstructionMenu();
+        
         List<String> constructionTypes = new ArrayList<>(playerService.getAvailableConstructionTypes());
-        for (int i = 0; i < constructionTypes.size(); i++) {
-            System.out.println((i + 1) + ". " + constructionTypes.get(i));
+        int index = 1;
+        for (String constructionType : constructionTypes) {
+            String icon = getBuildingIcon(constructionType);
+            ConsoleDisplayUtils.printBuildingItem(index, constructionType, icon, "Available for construction");
+            index++;
         }
+        
+        ConsoleDisplayUtils.printMenuFooter();
+        System.out.print("\n🏗️  Choose the building type: ");
 
         int typeOption = scanner.nextInt();
         scanner.nextLine();
@@ -135,7 +174,7 @@ public class GameOfStrategy {
         if (typeOption > 0 && typeOption <= constructionTypes.size()) {
             displayBuildingsOfType(playerService, constructionTypes.get(typeOption - 1));
         } else {
-            System.out.println(ApplicationConstants.MESSAGE_WRONG_OPTION_TRY_AGAIN);
+            ConsoleDisplayUtils.printErrorMessage(ApplicationConstants.MESSAGE_WRONG_OPTION_TRY_AGAIN);
         }
         playerService.checkForNewEraConditions();
     }
@@ -157,7 +196,7 @@ public class GameOfStrategy {
             processNewBuilding(playerService,
                     new Building(false, Objects.requireNonNull(ConstructionType.getEnumFromConstant(selectedType))));
         } else {
-            System.out.println(ApplicationConstants.MESSAGE_WRONG_OPTION_TRY_AGAIN);
+            ConsoleDisplayUtils.printErrorMessage(ApplicationConstants.MESSAGE_WRONG_OPTION_TRY_AGAIN);
         }
     }
 
@@ -177,7 +216,7 @@ public class GameOfStrategy {
                 if(process == ConstructionProcess.UPDATE) playerService.checkForNewEraConditions();
             }
         } else {
-            System.out.println(ApplicationConstants.MESSAGE_NOT_ENOUGH_RESOURCES);
+            ConsoleDisplayUtils.printErrorMessage(ApplicationConstants.MESSAGE_NOT_ENOUGH_RESOURCES);
         }
     }
 
@@ -186,42 +225,50 @@ public class GameOfStrategy {
             playerService.addNewBuilding(building);
             playerService.sendWorkersToConstructionJob(ConstructionProcess.CREATION, building);
         } else {
-            System.out.println(ApplicationConstants.MESSAGE_NOT_ENOUGH_RESOURCES);
+            ConsoleDisplayUtils.printErrorMessage(ApplicationConstants.MESSAGE_NOT_ENOUGH_RESOURCES);
         }
     }
 
     private void handleDailyRewards(PlayerService playerService) {
+        ConsoleDisplayUtils.printDailyRewardsHeader();
+        
         try {
             playerService.claimDailyReward();
-            System.out.println("\n🎉 Parabéns! Recompensa coletada com sucesso!");
+            ConsoleDisplayUtils.printSuccessMessage(ApplicationConstants.MESSAGE_DAILY_REWARD_CLAIMED);
         } catch (IllegalStateException e) {
-            System.out.println("⚠️ " + e.getMessage());
+            ConsoleDisplayUtils.printWarningMessage(e.getMessage());
         }
         
         // Show next reward preview
-        System.out.println("\n🔮 Próxima recompensa: " + 
+        ConsoleDisplayUtils.printInfoMessage("\n🔮 Next tribute: " + 
             playerService.getDailyRewardService().getNextReward(playerService.getPlayer().getFarmName()).toString());
         
-        System.out.println("\nPressiona Enter para continuar...");
+        ConsoleDisplayUtils.printMenuFooter();
+        ConsoleDisplayUtils.printWaitPrompt();
         scanner.nextLine();
     }
 
     private void displayPlayerStatus(PlayerService playerService) {
-        System.out.println("🏘️ Estado da Aldeia: " + playerService.getPlayer().getFarmName());
-        System.out.println("🎯 Era Atual: " + playerService.getPlayer().getEraAge().getEraName());
-        System.out.println("👥 Trabalhadores: " + playerService.getWorkers().size());
-        System.out.println("🏠 Edifícios: " + playerService.getBuildingList().size());
+        ConsoleDisplayUtils.printStatusHeader();
+        
+        System.out.println("🏰 Kingdom: " + playerService.getPlayer().getFarmName());
+        System.out.println("🎯 Current Era: " + playerService.getPlayer().getEraAge().getEraName());
+        System.out.println("👥 Population: " + playerService.getWorkers().size() + " workers");
+        System.out.println("🏠 Structures: " + playerService.getBuildingList().size() + " buildings");
+        
+        ConsoleDisplayUtils.printSeparator();
         
         // Daily reward status
         String playerId = playerService.getPlayer().getFarmName();
         if (playerService.getDailyRewardService().hasClaimedToday(playerId)) {
-            System.out.println("✅ Recompensa diária já coletada hoje!");
+            ConsoleDisplayUtils.printSuccessMessage("Daily tribute already collected today!");
         } else {
-            System.out.println("🎁 Recompensa diária disponível!");
+            ConsoleDisplayUtils.printInfoMessage("Daily tribute available for collection!");
         }
-        System.out.println("🔥 Streak atual: " + playerService.getDailyRewardService().getCurrentStreak(playerId) + " dias");
+        System.out.println("🔥 Current streak: " + playerService.getDailyRewardService().getCurrentStreak(playerId) + " days");
         
-        System.out.println("\nPressiona Enter para continuar...");
+        ConsoleDisplayUtils.printMenuFooter();
+        ConsoleDisplayUtils.printWaitPrompt();
         scanner.nextLine();
     }
 }

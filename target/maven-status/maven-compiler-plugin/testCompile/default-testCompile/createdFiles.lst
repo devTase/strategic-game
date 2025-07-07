@@ -1,8 +1,0 @@
-org/hsh/games/aoe/PlayerServiceTest.class
-org/hsh/games/aoe/entities/achievements/AchievementProgressTest.class
-org/hsh/games/aoe/entities/achievements/PlayerAchievementsTest.class
-org/hsh/games/aoe/entities/achievements/AchievementCategoryTest.class
-org/hsh/games/aoe/DailyRewardServiceTest.class
-org/hsh/games/aoe/entities/PlayerTest.class
-org/hsh/games/aoe/entities/achievements/AchievementTest.class
-org/hsh/games/aoe/GameOfStrategyTest.class

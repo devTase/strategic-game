@@ -23,9 +23,7 @@ public class SearchResourcesThread extends Thread {
     @Override
     public void run() {
         worker.setOccupied(true);
-
         resourceToLookFor.search(playerResources, worker.getName(), worker.getCurrentMission());
-
         worker.setOccupied(false);
 
         try {

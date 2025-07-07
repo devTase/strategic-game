@@ -22,6 +22,7 @@
 /Users/tiagoesteves/Desktop/Repos/github/strategic-game/src/main/java/org/hsh/games/aoe/ConsoleUtils.java
 /Users/tiagoesteves/Desktop/Repos/github/strategic-game/src/main/java/org/hsh/games/aoe/DailyRewardService.java
 /Users/tiagoesteves/Desktop/Repos/github/strategic-game/src/main/java/org/hsh/games/aoe/entities/achievements/PlayerAchievements.java
+/Users/tiagoesteves/Desktop/Repos/github/strategic-game/src/main/java/org/hsh/games/aoe/ui/ConsoleDisplayUtils.java
 /Users/tiagoesteves/Desktop/Repos/github/strategic-game/src/main/java/org/hsh/games/aoe/ThreadUtils.java
 /Users/tiagoesteves/Desktop/Repos/github/strategic-game/src/main/java/org/hsh/games/aoe/PlayerService.java
 /Users/tiagoesteves/Desktop/Repos/github/strategic-game/src/main/java/org/hsh/games/aoe/Game.java
@@ -30,4 +31,5 @@
 /Users/tiagoesteves/Desktop/Repos/github/strategic-game/src/main/java/org/hsh/games/aoe/entities/ConstructionType.java
 /Users/tiagoesteves/Desktop/Repos/github/strategic-game/src/main/java/module-info.java
 /Users/tiagoesteves/Desktop/Repos/github/strategic-game/src/main/java/org/hsh/games/aoe/entities/Worker.java
+/Users/tiagoesteves/Desktop/Repos/github/strategic-game/src/main/java/org/hsh/games/aoe/entities/achievements/AchievementDefinitions.java
 /Users/tiagoesteves/Desktop/Repos/github/strategic-game/src/main/java/org/hsh/games/aoe/visual/modal/GameOfStrategyUI.java
