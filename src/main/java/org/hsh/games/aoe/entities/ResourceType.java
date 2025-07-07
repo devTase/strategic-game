@@ -1,6 +1,6 @@
 package org.hsh.games.aoe.entities;
 
-import org.hsh.games.aoe.ThreadUtils;
+import org.hsh.games.aoe.utils.ThreadUtils;
 
 import java.util.List;
 import java.util.Objects;

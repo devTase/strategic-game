@@ -1,8 +1,11 @@
-package org.hsh.games.aoe;
+package org.hsh.games.aoe.services;
 
+import org.hsh.games.aoe.ApplicationConstants;
+import org.hsh.games.aoe.entities.Building;
+import org.hsh.games.aoe.entities.ConstructionProcess;
+import org.hsh.games.aoe.entities.ResourceAmount;
 import org.hsh.games.aoe.entities.*;
 import org.hsh.games.aoe.threads.ResourceConsumptionThread;
-import org.hsh.games.aoe.services.GuildService;
 
 import java.util.*;
 import java.util.stream.Collectors;

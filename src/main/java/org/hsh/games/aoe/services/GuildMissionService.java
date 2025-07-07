@@ -3,7 +3,7 @@ package org.hsh.games.aoe.services;
 import org.hsh.games.aoe.entities.guild.*;
 import org.hsh.games.aoe.entities.ResourceType;
 import org.hsh.games.aoe.entities.EraAge;
-import org.hsh.games.aoe.ThreadUtils;
+import org.hsh.games.aoe.utils.ThreadUtils;
 
 import java.time.LocalDateTime;
 import java.util.*;

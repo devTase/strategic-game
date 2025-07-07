@@ -1,7 +1,5 @@
 package org.hsh.games.aoe.entities;
 
-import org.hsh.games.aoe.ResourceAmount;
-
 import java.util.List;
 
 public class DailyReward {

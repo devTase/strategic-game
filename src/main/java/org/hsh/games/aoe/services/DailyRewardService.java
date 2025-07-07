@@ -1,9 +1,9 @@
-package org.hsh.games.aoe;
+package org.hsh.games.aoe.services;
 
+import org.hsh.games.aoe.entities.ResourceAmount;
 import org.hsh.games.aoe.entities.DailyReward;
 import org.hsh.games.aoe.entities.EraAge;
 import org.hsh.games.aoe.entities.ResourceType;
-import org.hsh.games.aoe.services.GuildService;
 import org.hsh.games.aoe.entities.guild.Guild;
 import java.util.*;
 

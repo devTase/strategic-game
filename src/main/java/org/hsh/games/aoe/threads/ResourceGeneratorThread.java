@@ -1,7 +1,7 @@
 package org.hsh.games.aoe.threads;
 
-import org.hsh.games.aoe.Building;
-import org.hsh.games.aoe.ResourceAmount;
+import org.hsh.games.aoe.entities.Building;
+import org.hsh.games.aoe.entities.ResourceAmount;
 import org.hsh.games.aoe.entities.ResourceType;
 import org.hsh.games.aoe.entities.Worker;
 import java.util.List;

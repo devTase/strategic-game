@@ -1,4 +1,4 @@
-package org.hsh.games.aoe;
+package org.hsh.games.aoe.utils;
 
 public class ConsoleUtils {
     public static void clearConsole() {

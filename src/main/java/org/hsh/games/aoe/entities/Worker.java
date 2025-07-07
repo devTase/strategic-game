@@ -1,10 +1,9 @@
 package org.hsh.games.aoe.entities;
 
-import org.hsh.games.aoe.*;
 import org.hsh.games.aoe.threads.ConstructionBuildingThread;
 import org.hsh.games.aoe.threads.ConstructionUpdatingThread;
-import org.hsh.games.aoe.threads.ResourceConsumptionThread;
 import org.hsh.games.aoe.threads.SearchResourcesThread;
+import org.hsh.games.aoe.utils.ThreadUtils;
 
 import java.util.List;
 

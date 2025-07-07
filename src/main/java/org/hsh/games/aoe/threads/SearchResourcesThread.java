@@ -1,9 +1,9 @@
 package org.hsh.games.aoe.threads;
 
 import org.hsh.games.aoe.ApplicationConstants;
-import org.hsh.games.aoe.ConsoleUtils;
-import org.hsh.games.aoe.Resource;
-import org.hsh.games.aoe.ResourceAmount;
+import org.hsh.games.aoe.utils.ConsoleUtils;
+import org.hsh.games.aoe.entities.Resource;
+import org.hsh.games.aoe.entities.ResourceAmount;
 import org.hsh.games.aoe.entities.Worker;
 
 import java.util.List;

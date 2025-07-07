@@ -1,12 +1,11 @@
-package org.hsh.games.aoe;
+package org.hsh.games.aoe.entities;
 
-import org.hsh.games.aoe.entities.Difficulty;
-import org.hsh.games.aoe.entities.ResourceType;
+import org.hsh.games.aoe.utils.ThreadUtils;
+
 import java.util.List;
 import java.util.Random;
 
 public class Resource {
-
     ResourceType type;
     String name;
     Difficulty hardToGet;
@@ -49,7 +48,6 @@ public class Resource {
     }
 
     public boolean isPLayerWorkerKilled() {
-
         if(hardToGet.equals(Difficulty.EASY)) return false;
         if(hardToGet.equals(Difficulty.MEDIUM)) {
             Random random = new Random();

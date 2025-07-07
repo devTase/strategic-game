@@ -1,8 +1,8 @@
-package org.hsh.games.aoe;
+package org.hsh.games.aoe.entities;
 
-import org.hsh.games.aoe.entities.ConstructionType;
-import org.hsh.games.aoe.entities.Worker;
 import org.hsh.games.aoe.threads.ResourceGeneratorThread;
+import org.hsh.games.aoe.utils.ThreadUtils;
+
 import java.util.List;
 
 public class Building {

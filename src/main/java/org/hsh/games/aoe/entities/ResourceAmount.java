@@ -1,6 +1,5 @@
-package org.hsh.games.aoe;
+package org.hsh.games.aoe.entities;
 
-import org.hsh.games.aoe.entities.ResourceType;
 import java.util.Objects;
 
 public class ResourceAmount {

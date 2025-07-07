@@ -1,6 +1,6 @@
 package org.hsh.games.aoe.threads;
 
-import org.hsh.games.aoe.ResourceAmount;
+import org.hsh.games.aoe.entities.ResourceAmount;
 import org.hsh.games.aoe.entities.Consumer;
 
 import java.util.List;

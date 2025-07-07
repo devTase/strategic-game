@@ -8,7 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.hsh.games.aoe.GameOfStrategy;
-import org.hsh.games.aoe.PlayerService;
+import org.hsh.games.aoe.services.PlayerService;
 import org.hsh.games.aoe.entities.Player;
 
 public class GameOfStrategyUI extends Application {
