@@ -1,0 +1,4 @@
+--patch-module
+org.hsh.games.aoe=_
+--add-reads
+org.hsh.games.aoe=ALL-UNNAMED

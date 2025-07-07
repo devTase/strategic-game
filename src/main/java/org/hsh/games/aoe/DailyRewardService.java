@@ -3,6 +3,8 @@ package org.hsh.games.aoe;
 import org.hsh.games.aoe.entities.DailyReward;
 import org.hsh.games.aoe.entities.EraAge;
 import org.hsh.games.aoe.entities.ResourceType;
+import org.hsh.games.aoe.services.GuildService;
+import org.hsh.games.aoe.entities.guild.Guild;
 import java.util.*;
 
 public class DailyRewardService {
@@ -10,8 +12,14 @@ public class DailyRewardService {
     private final List<DailyReward> rewards = new ArrayList<>();
     private final Map<String, Integer> playerStreaks = new HashMap<>();
     private final Map<String, String> lastClaimDate = new HashMap<>();
+    private GuildService guildService;
 
     public DailyRewardService() {
+        initializeRewards();
+    }
+    
+    public DailyRewardService(GuildService guildService) {
+        this.guildService = guildService;
         initializeRewards();
     }
 
@@ -145,6 +153,75 @@ public class DailyRewardService {
 
         return rewards.get(streak - 1).getAdjustedRewards(era);
     }
+    
+    /**
+     * Claims daily reward and deposits it directly to player's guild vault if they choose.
+     * Streak logic remains untouched.
+     * 
+     * @param playerId ID of the player claiming the reward
+     * @param era Current era of the player
+     * @param depositToGuild true to deposit to guild vault, false to return rewards for player inventory
+     * @return List of resources if depositToGuild is false, empty list if deposited to guild
+     * @throws IllegalStateException if already claimed today
+     * @throws IllegalArgumentException if player is not in a guild when trying to deposit to guild
+     */
+    public List<ResourceAmount> claimDailyRewardWithGuildOption(String playerId, EraAge era, boolean depositToGuild) {
+        if (hasClaimedToday(playerId)) {
+            throw new IllegalStateException("Já coletaste a recompensa de hoje! Volta amanhã.");
+        }
+
+        // Calculate streak exactly as before - streak logic is preserved
+        int streak = calculateNewStreak(playerId);
+        if (streak > rewards.size()) {
+            streak = 1; // loop back after all rewards have been claimed
+        }
+
+        // Update streak and claim date - same logic as original method
+        playerStreaks.put(playerId, streak);
+        lastClaimDate.put(playerId, getTodayDateString());
+
+        // Get the adjusted rewards for the player's era
+        List<ResourceAmount> rewardAmounts = rewards.get(streak - 1).getAdjustedRewards(era);
+        
+        if (depositToGuild) {
+            if (guildService == null) {
+                throw new IllegalStateException("Guild service not available. Cannot deposit to guild vault.");
+            }
+            
+            Guild playerGuild = guildService.getPlayerGuild(playerId);
+            if (playerGuild == null) {
+                throw new IllegalArgumentException("Player is not in a guild. Cannot deposit rewards to guild vault.");
+            }
+            
+            // Deposit each reward to the guild vault
+            for (ResourceAmount reward : rewardAmounts) {
+                try {
+                    // Check if this resource type can be stored in guild vault
+                    if (reward.getResource().isGuildVaultStorable()) {
+                        guildService.depositToVault(playerGuild.id(), reward.getResource(), 
+                                                   reward.getAmount(), playerId);
+                    } else {
+                        // If resource can't be stored in guild vault, it goes to player instead
+                        // This could happen with certain special resources
+                        throw new IllegalArgumentException(
+                            String.format("Resource %s cannot be stored in guild vault and will be awarded to player instead.", 
+                                        reward.getResource().getDescription()));
+                    }
+                } catch (Exception e) {
+                    // If vault deposit fails (e.g., capacity exceeded), throw meaningful error
+                    throw new IllegalStateException(
+                        String.format("Failed to deposit %d %s to guild vault: %s", 
+                                    reward.getAmount(), reward.getResource().getDescription(), e.getMessage()));
+                }
+            }
+            
+            // Return empty list since rewards were deposited to guild
+            return new ArrayList<>();
+        } else {
+            // Return rewards for player inventory (original behavior)
+            return rewardAmounts;
+        }
+    }
 
     public boolean hasClaimedToday(String playerId) {
         String lastDate = lastClaimDate.getOrDefault(playerId, "");
@@ -193,5 +270,24 @@ public class DailyRewardService {
 
     private String getTodayDateString() {
         return java.time.LocalDate.now().toString();
+    }
+    
+    /**
+     * Sets the guild service for vault deposits.
+     * This allows the service to be configured with guild functionality.
+     * 
+     * @param guildService The guild service to use for vault operations
+     */
+    public void setGuildService(GuildService guildService) {
+        this.guildService = guildService;
+    }
+    
+    /**
+     * Checks if guild vault deposit is available for this service instance.
+     * 
+     * @return true if guild service is configured and vault deposits are possible
+     */
+    public boolean isGuildVaultDepositAvailable() {
+        return guildService != null;
     }
 }

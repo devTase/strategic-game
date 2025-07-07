@@ -59,6 +59,16 @@ Progride através de 9 eras históricas:
 - **Persistência entre sessões** - O progresso é mantido entre jogos
 - **Reset automático** - Streak reinicia se faltares um dia
 
+### 🏛️ Sistema de Guilds
+**Cooperação e estratégia em grupo:**
+- **👑 Criação de Guilds** - Funda a tua própria guild ou junta-te a uma existente
+- **⚔️ Hierarquia de Ranks** - Leader, Officer, Member, Recruit, Spy
+- **💰 Cofre Partilhado** - Deposita recursos para benefício comum
+- **🗺️ Territórios Sombrios** - Conquista territórios para bonificações
+- **🎯 Missões de Guild** - Coopera em missões para recompensas épicas
+- **📢 Eventos em Tempo Real** - Sistema de broadcasting para comunicação
+- **🏹 Operações Estratégicas** - Missões de espionagem, conquista e defesa
+
 ## 🎨 Interface Enhanced
 
 ### Nova Experiência Visual
@@ -118,10 +128,12 @@ java -jar target/StrategyGame-1.0-SNAPSHOT.jar
 ```
 src/main/java/org/hsh/games/aoe/
 ├── entities/          # Entidades do jogo (Player, Worker, Building, etc.)
-├── threads/           # Threads para operações assíncronas
-├── ui/               # Utilitários de interface console enhanced
-├── visual/           # Componentes de interface (futuro JavaFX)
-├── Game.java         # Ponto de entrada
+│   └── guild/        # Entidades específicas do sistema de guilds
+├── services/         # Camada de serviços com injeção de dependências
+├── threads/          # Threads para operações assíncronas
+├── ui/              # Utilitários de interface console enhanced
+├── visual/          # Componentes de interface (futuro JavaFX)
+├── Game.java        # Ponto de entrada
 ├── GameOfStrategy.java # Loop principal do jogo
 ├── ApplicationConstants.java # Constantes e mensagens temáticas
 └── ConsoleUtils.java # Utilitários básicos de console
@@ -130,6 +142,8 @@ src/main/java/org/hsh/games/aoe/
 ### Funcionalidades Técnicas
 - **Programação Concorrente** - Múltiplas threads para simulação realista
 - **Padrão Strategy** - Diferentes tipos de construção e recursos
+- **Injeção de Dependências** - Constructor injection para serviços
+- **Coleções Thread-Safe** - ConcurrentHashMap para acesso concorrente
 - **Validação Robusta** - Verificação de entradas e estados
 - **Arquitetura Modular** - Fácil extensão e manutenção
 
@@ -162,6 +176,9 @@ mvn test -Dtest=PlayerServiceTest
 - ✅ Interface console enhanced (ConsoleDisplayUtils)
 - ✅ Mensagens temáticas e cores ANSI
 - ✅ Formatação de menus medievais
+- ✅ **Sistema de Guilds** - Criação, gestão de membros, ranks
+- ✅ **Missões de Guild** - Atribuição, resolução com delays
+- ✅ **Territórios Sombrios** - Conquista e atualização de status
 
 ## 🎯 Funcionalidades Futuras
 

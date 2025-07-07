@@ -1,19 +1,29 @@
 package org.hsh.games.aoe;
 
 import org.hsh.games.aoe.entities.*;
+import org.hsh.games.aoe.entities.guild.*;
+import org.hsh.games.aoe.services.GuildService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class DailyRewardServiceTest {
     private DailyRewardService dailyRewardService;
     private PlayerService playerService;
+    private GuildService guildService;
+    private Guild testGuild;
 
     @BeforeEach
     void setUp() {
         playerService = new PlayerService(new Player("devTASE"));
         dailyRewardService = playerService.getDailyRewardService();
+        
+        // Set up guild service and test guild for guild vault tests
+        guildService = new GuildService();
+        testGuild = guildService.createGuild("Test Guild", "devTASE", 1000);
+        dailyRewardService.setGuildService(guildService);
     }
 
     @Test
@@ -70,5 +80,103 @@ class DailyRewardServiceTest {
 
         assertEquals(expectedWood, adjustedRewards.get(0).getAmount());
         assertEquals(expectedFood, adjustedRewards.get(1).getAmount());
+    }
+    
+    @Test
+    void claimDailyRewardWithGuildOptionDepositsToVault() {
+        String playerId = "devTASE";
+        
+        // Claim reward with guild vault option
+        List<ResourceAmount> rewards = dailyRewardService.claimDailyRewardWithGuildOption(
+            playerId, EraAge.STONE_AGE, true);
+        
+        // Should return empty list when deposited to guild
+        assertTrue(rewards.isEmpty());
+        
+        // Verify streak was updated correctly
+        assertEquals(1, dailyRewardService.getCurrentStreak(playerId));
+        
+        // Verify player has claimed today
+        assertTrue(dailyRewardService.hasClaimedToday(playerId));
+        
+        // Verify guild vault has resources (basic test - checking vault has some resources)
+        Guild updatedGuild = guildService.getGuildById(testGuild.id());
+        assertNotNull(updatedGuild);
+        assertTrue(updatedGuild.vault().getTotalStoredResources() > 0);
+    }
+    
+    @Test
+    void claimDailyRewardWithGuildOptionFallsBackToPlayerInventory() {
+        String playerId = "devTASE";
+        
+        // Claim reward without guild vault option
+        List<ResourceAmount> rewards = dailyRewardService.claimDailyRewardWithGuildOption(
+            playerId, EraAge.STONE_AGE, false);
+        
+        // Should return rewards for player inventory
+        assertFalse(rewards.isEmpty());
+        assertEquals(2, rewards.size()); // Day 1 has wood and food
+        
+        // Verify streak was updated correctly
+        assertEquals(1, dailyRewardService.getCurrentStreak(playerId));
+        
+        // Verify player has claimed today
+        assertTrue(dailyRewardService.hasClaimedToday(playerId));
+    }
+    
+    @Test
+    void claimDailyRewardWithGuildOptionThrowsWhenPlayerNotInGuild() {
+        String playerNotInGuild = "outsider";
+        
+        // Should throw exception when player is not in a guild
+        assertThrows(IllegalArgumentException.class, () -> {
+            dailyRewardService.claimDailyRewardWithGuildOption(
+                playerNotInGuild, EraAge.STONE_AGE, true);
+        });
+    }
+    
+    @Test
+    void claimDailyRewardWithGuildOptionThrowsWhenGuildServiceNotAvailable() {
+        String playerId = "devTASE";
+        
+        // Create service without guild service
+        DailyRewardService serviceWithoutGuild = new DailyRewardService();
+        
+        // Should throw exception when guild service is not available
+        assertThrows(IllegalStateException.class, () -> {
+            serviceWithoutGuild.claimDailyRewardWithGuildOption(
+                playerId, EraAge.STONE_AGE, true);
+        });
+    }
+    
+    @Test
+    void streakLogicUntouchedWithGuildVaultOption() {
+        String playerId = "devTASE";
+        
+        // Claim first reward to guild vault
+        dailyRewardService.claimDailyRewardWithGuildOption(playerId, EraAge.STONE_AGE, true);
+        assertEquals(1, dailyRewardService.getCurrentStreak(playerId));
+        
+        // Try to claim again same day - should throw exception
+        assertThrows(IllegalStateException.class, () -> {
+            dailyRewardService.claimDailyRewardWithGuildOption(playerId, EraAge.STONE_AGE, true);
+        });
+        
+        // Streak should still be 1
+        assertEquals(1, dailyRewardService.getCurrentStreak(playerId));
+        
+        // Next reward should be day 2
+        DailyReward nextReward = dailyRewardService.getNextReward(playerId);
+        assertEquals("Dia 2: Água e Pedra", nextReward.toString());
+    }
+    
+    @Test
+    void guildVaultDepositAvailabilityCheck() {
+        // Service with guild service should have vault deposit available
+        assertTrue(dailyRewardService.isGuildVaultDepositAvailable());
+        
+        // Service without guild service should not have vault deposit available
+        DailyRewardService serviceWithoutGuild = new DailyRewardService();
+        assertFalse(serviceWithoutGuild.isGuildVaultDepositAvailable());
     }
 }

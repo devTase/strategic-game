@@ -80,15 +80,18 @@ public class ConsoleDisplayUtils {
         System.out.println("║                             🏛️  COUNCIL CHAMBER  🏛️                              ║");
         System.out.println("╠═══════════════════════════════════════════════════════════════════════════════════╣");
         System.out.println("║                                                                                   ║");
-        System.out.println("║  " + BRIGHT_WHITE + "1️⃣  🗺️  " + BRIGHT_GREEN + "RESOURCE EXPEDITION" + BRIGHT_CYAN + "     │  " + BRIGHT_WHITE + "3️⃣  🎁  " + BRIGHT_YELLOW + "DAILY TRIBUTE" + BRIGHT_CYAN + "          ║");
+        System.out.println("║  " + BRIGHT_WHITE + "1️⃣  🗺️  " + BRIGHT_GREEN + "RESOURCE EXPEDITION" + BRIGHT_CYAN + "     │  " + BRIGHT_WHITE + "4️⃣  🎁  " + BRIGHT_YELLOW + "DAILY TRIBUTE" + BRIGHT_CYAN + "          ║");
         System.out.println("║      " + BRIGHT_BLACK + "Send scouts to gather resources" + BRIGHT_CYAN + "   │      " + BRIGHT_BLACK + "Collect your daily rewards" + BRIGHT_CYAN + "    ║");
         System.out.println("║                                     │                                     ║");
-        System.out.println("║  " + BRIGHT_WHITE + "2️⃣  🏗️  " + BRIGHT_PURPLE + "CONSTRUCTION GUILD" + BRIGHT_CYAN + "      │  " + BRIGHT_WHITE + "4️⃣  📜  " + BRIGHT_BLUE + "KINGDOM STATUS" + BRIGHT_CYAN + "         ║");
+        System.out.println("║  " + BRIGHT_WHITE + "2️⃣  🏗️  " + BRIGHT_PURPLE + "CONSTRUCTION GUILD" + BRIGHT_CYAN + "      │  " + BRIGHT_WHITE + "5️⃣  📜  " + BRIGHT_BLUE + "KINGDOM STATUS" + BRIGHT_CYAN + "         ║");
         System.out.println("║      " + BRIGHT_BLACK + "Build and upgrade structures" + BRIGHT_CYAN + "    │      " + BRIGHT_BLACK + "View your realm's progress" + BRIGHT_CYAN + "    ║");
         System.out.println("║                                     │                                     ║");
-        System.out.println("║                                     │  " + BRIGHT_WHITE + "0️⃣  🚪  " + BRIGHT_RED + "ABANDON REALM" + BRIGHT_CYAN + "          ║");
-        System.out.println("║                                     │      " + BRIGHT_BLACK + "Exit the game" + BRIGHT_CYAN + "                ║");
+        System.out.println("║  " + BRIGHT_WHITE + "3️⃣  🏛️  " + BRIGHT_PURPLE + "GUILD MANAGEMENT" + BRIGHT_CYAN + "       │  " + BRIGHT_WHITE + "6️⃣  🕯️  " + BRIGHT_RED + "SHADOW GUILDS" + BRIGHT_CYAN + "          ║");
+        System.out.println("║      " + BRIGHT_BLACK + "Manage your guild affairs" + BRIGHT_CYAN + "      │      " + BRIGHT_BLACK + "Enter the shadow realm" + BRIGHT_CYAN + "       ║");
         System.out.println("║                                     │                                     ║");
+        System.out.println("║                    " + BRIGHT_WHITE + "0️⃣  🚪  " + BRIGHT_RED + "ABANDON REALM" + BRIGHT_CYAN + "                             ║");
+        System.out.println("║                        " + BRIGHT_BLACK + "Exit the game" + BRIGHT_CYAN + "                                ║");
+        System.out.println("║                                                                                   ║");
         System.out.println("╚═══════════════════════════════════════════════════════════════════════════════════╝");
         System.out.print(BRIGHT_WHITE + "⚔️  " + YELLOW + "Choose your action, noble ruler: " + RESET);
     }
@@ -145,6 +148,51 @@ public class ConsoleDisplayUtils {
         System.out.println("╠═══════════════════════════════════════════════════════════════════════════════════╣");
         System.out.println("║                                                                                   ║");
         System.out.println(RESET);
+    }
+    
+    /**
+     * Creates a guild management display with guild theme
+     */
+    public static void printGuildMenu() {
+        System.out.println(BRIGHT_PURPLE + BOLD);
+        System.out.println("╔═══════════════════════════════════════════════════════════════════════════════════╗");
+        System.out.println("║                           🏛️  GUILD MANAGEMENT  🏛️                            ║");
+        System.out.println("╠═══════════════════════════════════════════════════════════════════════════════════╣");
+        System.out.println("║                                                                                   ║");
+        System.out.println("║  " + BRIGHT_WHITE + "1️⃣  👑  " + BRIGHT_YELLOW + "CREATE GUILD" + BRIGHT_PURPLE + "           │  " + BRIGHT_WHITE + "4️⃣  🏹  " + BRIGHT_GREEN + "GUILD MISSIONS" + BRIGHT_PURPLE + "         ║");
+        System.out.println("║      " + BRIGHT_BLACK + "Found your own guild" + BRIGHT_PURPLE + "           │      " + BRIGHT_BLACK + "View and manage missions" + BRIGHT_PURPLE + "     ║");
+        System.out.println("║                                     │                                     ║");
+        System.out.println("║  " + BRIGHT_WHITE + "2️⃣  📜  " + BRIGHT_CYAN + "GUILD INFO" + BRIGHT_PURPLE + "             │  " + BRIGHT_WHITE + "5️⃣  🗺️  " + BRIGHT_RED + "TERRITORIES" + BRIGHT_PURPLE + "           ║");
+        System.out.println("║      " + BRIGHT_BLACK + "View guild information" + BRIGHT_PURPLE + "        │      " + BRIGHT_BLACK + "Shadow territory conquest" + BRIGHT_PURPLE + "     ║");
+        System.out.println("║                                     │                                     ║");
+        System.out.println("║  " + BRIGHT_WHITE + "3️⃣  👥  " + BRIGHT_BLUE + "MEMBER MANAGEMENT" + BRIGHT_PURPLE + "      │  " + BRIGHT_WHITE + "0️⃣  ⬅️  " + BRIGHT_WHITE + "BACK TO COUNCIL" + BRIGHT_PURPLE + "        ║");
+        System.out.println("║      " + BRIGHT_BLACK + "Invite and manage members" + BRIGHT_PURPLE + "     │      " + BRIGHT_BLACK + "Return to main menu" + BRIGHT_PURPLE + "        ║");
+        System.out.println("║                                     │                                     ║");
+        System.out.println("╚═══════════════════════════════════════════════════════════════════════════════════╝");
+        System.out.print(BRIGHT_WHITE + "🏛️  " + YELLOW + "Choose your guild action: " + RESET);
+    }
+    
+    /**
+     * Creates a shadow guilds menu with mysterious theme
+     */
+    public static void printShadowGuildsMenu() {
+        System.out.println(BRIGHT_BLACK + BOLD);
+        System.out.println("╔═══════════════════════════════════════════════════════════════════════════════════╗");
+        System.out.println("║                           🕯️  SHADOW GUILDS  🕯️                                ║");
+        System.out.println("╠═══════════════════════════════════════════════════════════════════════════════════╣");
+        System.out.println("║                     " + BRIGHT_RED + "⚠️  Enter the realm of shadows ⚠️" + BRIGHT_BLACK + "                      ║");
+        System.out.println("║                                                                                   ║");
+        System.out.println("║  " + BRIGHT_WHITE + "1️⃣  ⚔️  " + BRIGHT_PURPLE + "CREATE/JOIN GUILD" + BRIGHT_BLACK + "       │  " + BRIGHT_WHITE + "4️⃣  🗺️  " + BRIGHT_RED + "TERRITORIES" + BRIGHT_BLACK + "            ║");
+        System.out.println("║      " + BRIGHT_BLACK + "Form shadow alliances" + BRIGHT_BLACK + "          │      " + BRIGHT_BLACK + "Conquer shadow domains" + BRIGHT_BLACK + "      ║");
+        System.out.println("║                                     │                                     ║");
+        System.out.println("║  " + BRIGHT_WHITE + "2️⃣  💰  " + BRIGHT_YELLOW + "GUILD STATUS & VAULT" + BRIGHT_BLACK + "    │  " + BRIGHT_WHITE + "5️⃣  🗡️  " + BRIGHT_RED + "ESPIONAGE/BLACK MARKET" + BRIGHT_BLACK + " ║");
+        System.out.println("║      " + BRIGHT_BLACK + "Check coffers and power" + BRIGHT_BLACK + "      │      " + BRIGHT_BLACK + "Dark dealings and secrets" + BRIGHT_BLACK + "    ║");
+        System.out.println("║                                     │                                     ║");
+        System.out.println("║  " + BRIGHT_WHITE + "3️⃣  🎯  " + BRIGHT_GREEN + "MISSIONS" + BRIGHT_BLACK + "               │  " + BRIGHT_WHITE + "0️⃣  🌙  " + BRIGHT_BLUE + "RETURN TO LIGHT" + BRIGHT_BLACK + "        ║");
+        System.out.println("║      " + BRIGHT_BLACK + "Shadow operations" + BRIGHT_BLACK + "            │      " + BRIGHT_BLACK + "Back to Council Chamber" + BRIGHT_BLACK + "     ║");
+        System.out.println("║                                     │                                     ║");
+        System.out.println("╚═══════════════════════════════════════════════════════════════════════════════════╝");
+        System.out.print(BRIGHT_WHITE + "🕯️  " + YELLOW + "Choose your shadow action: " + RESET);
     }
     
     /**
@@ -205,11 +253,11 @@ public class ConsoleDisplayUtils {
      * Prints an info message with medieval styling
      */
     public static void printInfoMessage(String message) {
-        System.out.println(BRIGHT_BLUE + BOLD + "ℹ️  " + message + RESET);
+        System.out.println(BRIGHT_BLUE + BOLD + "ℹ️ " + message + RESET);
     }
     
     /**
-     * Creates a wait prompt
+     * Prints a wait prompt for user interaction
      */
     public static void printWaitPrompt() {
         System.out.print(BRIGHT_WHITE + "\n⏳ Press Enter to continue your journey..." + RESET);
@@ -246,6 +294,21 @@ public class ConsoleDisplayUtils {
      */
     public static void printResourceFooter() {
         System.out.println(BRIGHT_CYAN + BOLD);
+        System.out.println("╚═══════════════════════════════════════════════════════════════════════════════════╝");
+        System.out.println(RESET);
+    }
+    
+    /**
+     * Displays a medieval-themed loading message for async operations
+     */
+    public static void printShadowLoadingMessage() {
+        System.out.println(BRIGHT_BLACK + BOLD);
+        System.out.println("╔═══════════════════════════════════════════════════════════════════════════════════╗");
+        System.out.println("║                                                                                   ║");
+        System.out.println("║                      " + BRIGHT_YELLOW + "🕯️  Scribes are recording shadows...🕯️" + BRIGHT_BLACK + "                      ║");
+        System.out.println("║                                                                                   ║");
+        System.out.println("║                        " + BRIGHT_WHITE + "⏳ Please await the outcome ⏳" + BRIGHT_BLACK + "                         ║");
+        System.out.println("║                                                                                   ║");
         System.out.println("╚═══════════════════════════════════════════════════════════════════════════════════╝");
         System.out.println(RESET);
     }

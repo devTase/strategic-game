@@ -53,4 +53,61 @@ public enum EraAge {
         }
         return this;
     }
+
+    /**
+     * Gets the mission generation multiplier for this era
+     * Higher eras have access to more complex and rewarding missions
+     * @return Mission generation multiplier
+     */
+    public double getMissionGenerationMultiplier() {
+        return switch (this) {
+            case STONE_AGE -> 1.0;
+            case BRONZE_AGE -> 1.2;
+            case IRON_AGE -> 1.5;
+            case MEDIEVAL_AGE -> 1.8;
+            case RENAISSANCE -> 2.1;
+            case INDUSTRIAL_AGE -> 2.5;
+            case MODERN_AGE -> 3.0;
+            case INFORMATION_AGE -> 3.5;
+            case FUTURE_AGE -> 4.0;
+        };
+    }
+
+    /**
+     * Gets the mission difficulty modifier for this era
+     * More advanced eras face more challenging missions
+     * @return Difficulty modifier (higher = more difficult)
+     */
+    public double getMissionDifficultyModifier() {
+        return switch (this) {
+            case STONE_AGE -> 0.8;
+            case BRONZE_AGE -> 0.9;
+            case IRON_AGE -> 1.0;
+            case MEDIEVAL_AGE -> 1.1;
+            case RENAISSANCE -> 1.2;
+            case INDUSTRIAL_AGE -> 1.3;
+            case MODERN_AGE -> 1.4;
+            case INFORMATION_AGE -> 1.5;
+            case FUTURE_AGE -> 1.6;
+        };
+    }
+
+    /**
+     * Gets the mission duration modifier for this era
+     * More advanced eras have longer, more complex missions
+     * @return Duration modifier
+     */
+    public double getMissionDurationModifier() {
+        return switch (this) {
+            case STONE_AGE -> 0.7;
+            case BRONZE_AGE -> 0.8;
+            case IRON_AGE -> 1.0;
+            case MEDIEVAL_AGE -> 1.1;
+            case RENAISSANCE -> 1.2;
+            case INDUSTRIAL_AGE -> 1.3;
+            case MODERN_AGE -> 1.4;
+            case INFORMATION_AGE -> 1.5;
+            case FUTURE_AGE -> 1.7;
+        };
+    }
 }

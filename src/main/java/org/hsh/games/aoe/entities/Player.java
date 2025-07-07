@@ -4,6 +4,7 @@ public class Player {
 
     private String farmName;
     private EraAge eraAge;
+    private String guildId; // Optional guild reference
     private static final int MIN_NAME_LENGTH = 3;
 
     public Player(String farmName) {
@@ -36,5 +37,17 @@ public class Player {
 
     public EraAge getEraAge() {
         return eraAge;
+    }
+
+    public String getGuildId() {
+        return guildId;
+    }
+
+    public void setGuildId(String guildId) {
+        this.guildId = guildId;
+    }
+
+    public boolean isInGuild() {
+        return guildId != null && !guildId.isBlank();
     }
 }

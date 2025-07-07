@@ -2,6 +2,7 @@ package org.hsh.games.aoe;
 
 import org.hsh.games.aoe.entities.*;
 import org.hsh.games.aoe.threads.ResourceConsumptionThread;
+import org.hsh.games.aoe.services.GuildService;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -348,6 +349,77 @@ public class PlayerService {
         rewards.forEach(this::addResourceFromReward);
         System.out.println("Recompensa diária coletada!");
         rewards.forEach(reward -> System.out.printf("%s: +%d\n", reward.getResource().getDescription(), reward.getAmount()));
+    }
+    
+    /**
+     * Claims daily reward with option to deposit directly to guild vault.
+     * 
+     * @param depositToGuild true to deposit to guild vault, false to add to player inventory
+     */
+    public void claimDailyRewardWithGuildOption(boolean depositToGuild) {
+        List<ResourceAmount> rewards;
+        
+        try {
+            if (depositToGuild && dailyRewardService.isGuildVaultDepositAvailable()) {
+                rewards = dailyRewardService.claimDailyRewardWithGuildOption(
+                    player.getFarmName(), player.getEraAge(), true);
+                
+                // If rewards list is empty, they were deposited to guild vault
+                if (rewards.isEmpty()) {
+                    System.out.println("✅ Recompensa diária depositada na arca da guilda!");
+                    
+                    // Show what rewards were given to the guild
+                    int currentStreak = dailyRewardService.getCurrentStreak(player.getFarmName());
+                    if (currentStreak > 0) {
+                        // Get the current day reward that was just claimed
+                        DailyReward claimedReward = dailyRewardService.getNextReward(player.getFarmName());
+                        // We need to get the previous reward since getNextReward returns the next one
+                        // For now, we'll create a temporary service to calculate the rewards
+                        DailyRewardService tempService = new DailyRewardService();
+                        List<ResourceAmount> guildDeposits = tempService.claimDailyReward(
+                            "temp_calc", player.getEraAge());
+                        
+                        // The first reward (day 1) is what we just deposited
+                        if (currentStreak == 1) {
+                            System.out.println("Recursos depositados na guilda:");
+                            guildDeposits.forEach(reward -> 
+                                System.out.printf("🏦 %s: +%d (depositado na arca da guilda)\n", 
+                                                reward.getResource().getDescription(), reward.getAmount()));
+                        }
+                    }
+                    return;
+                }
+            } else {
+                rewards = dailyRewardService.claimDailyRewardWithGuildOption(
+                    player.getFarmName(), player.getEraAge(), false);
+            }
+            
+            // Add rewards to player inventory (normal behavior)
+            rewards.forEach(this::addResourceFromReward);
+            System.out.println("💰 Recompensa diária coletada para o inventário!");
+            rewards.forEach(reward -> 
+                System.out.printf("%s: +%d\n", reward.getResource().getDescription(), reward.getAmount()));
+                
+        } catch (IllegalArgumentException e) {
+            // Handle cases where guild vault deposit isn't possible
+            System.err.println("❌ Erro ao depositar na guilda: " + e.getMessage());
+            System.out.println("🔄 Depositando no inventário do jogador...");
+            
+            // Fallback to player inventory
+            claimDailyReward();
+        } catch (IllegalStateException e) {
+            // Handle service or vault capacity issues
+            System.err.println("❌ " + e.getMessage());
+        }
+    }
+    
+    /**
+     * Sets guild service for daily reward service to enable guild vault deposits.
+     * 
+     * @param guildService The guild service to use
+     */
+    public void setGuildService(GuildService guildService) {
+        this.dailyRewardService.setGuildService(guildService);
     }
 
     public DailyRewardService getDailyRewardService() {

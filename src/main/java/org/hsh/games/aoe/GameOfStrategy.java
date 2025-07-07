@@ -4,14 +4,27 @@ import org.hsh.games.aoe.entities.BuildingAndResourceAvailabilityPerLevel;
 import org.hsh.games.aoe.entities.ConstructionType;
 import org.hsh.games.aoe.entities.Player;
 import org.hsh.games.aoe.entities.ResourceType;
+import org.hsh.games.aoe.entities.guild.*;
+import org.hsh.games.aoe.services.*;
 import org.hsh.games.aoe.ui.ConsoleDisplayUtils;
 
 import javax.security.auth.Subject;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 
 public class GameOfStrategy {
     private static final Scanner scanner = new Scanner(System.in);
     private PlayerService playerService;
+    private GuildService guildService;
+    private GuildMissionService guildMissionService;
+    private ShadowTerritoryService shadowTerritoryService;
+
+    public GameOfStrategy() {
+        // Initialize guild services with constructor injection
+        this.guildService = new GuildService();
+        this.guildMissionService = new GuildMissionService(guildService);
+        this.shadowTerritoryService = new ShadowTerritoryService(guildService);
+    }
 
     public PlayerService getPlayerService() {
         return playerService;
@@ -72,10 +85,16 @@ public class GameOfStrategy {
                     displayBuildingTypes(playerService);
                     break;
                 case 3:
-                    handleDailyRewards(playerService);
+                    handleGuildManagement(playerService);
                     break;
                 case 4:
+                    handleDailyRewards(playerService);
+                    break;
+                case 5:
                     displayPlayerStatus(playerService);
+                    break;
+                case 6:
+                    handleShadowGuilds(playerService);
                     break;
                 case 0:
                     ConsoleDisplayUtils.printInfoMessage(ApplicationConstants.MESSAGE_FAREWELL);
@@ -270,5 +289,413 @@ public class GameOfStrategy {
         ConsoleDisplayUtils.printMenuFooter();
         ConsoleDisplayUtils.printWaitPrompt();
         scanner.nextLine();
+    }
+    
+    private void handleGuildManagement(PlayerService playerService) {
+        while (true) {
+            ConsoleUtils.clearConsole();
+            playerService.showResourcesHeader();
+            ConsoleDisplayUtils.printGuildMenu();
+            
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+            
+            ConsoleUtils.clearConsole();
+            playerService.showResourcesHeader();
+            
+            switch (choice) {
+                case 1:
+                    handleCreateGuild(playerService);
+                    break;
+                case 2:
+                    handleGuildInfo(playerService);
+                    break;
+                case 3:
+                    handleMemberManagement(playerService);
+                    break;
+                case 4:
+                    handleGuildMissions(playerService);
+                    break;
+                case 5:
+                    handleTerritories(playerService);
+                    break;
+                case 0:
+                    return; // Back to main menu
+                default:
+                    ConsoleDisplayUtils.printErrorMessage(ApplicationConstants.MESSAGE_WRONG_OPTION_TRY_AGAIN);
+            }
+            
+            if (choice != 0) {
+                ConsoleDisplayUtils.printWaitPrompt();
+                scanner.nextLine();
+            }
+        }
+    }
+    
+    private void handleCreateGuild(PlayerService playerService) {
+        String playerId = playerService.getPlayer().getFarmName();
+        
+        if (guildService.isPlayerInGuild(playerId)) {
+            ConsoleDisplayUtils.printWarningMessage("You are already a member of a guild!");
+            return;
+        }
+        
+        System.out.print("🏛️ Enter guild name: ");
+        String guildName = scanner.nextLine();
+        
+        if (guildName.trim().isEmpty()) {
+            ConsoleDisplayUtils.printErrorMessage("Guild name cannot be empty!");
+            return;
+        }
+        
+        try {
+            Guild guild = guildService.createGuild(guildName, playerId, 1000);
+            ConsoleDisplayUtils.printSuccessMessage("Guild '" + guild.name() + "' created successfully!");
+            ConsoleDisplayUtils.printInfoMessage("You are now the leader of this guild.");
+        } catch (Exception e) {
+            ConsoleDisplayUtils.printErrorMessage("Failed to create guild: " + e.getMessage());
+        }
+    }
+    
+    private void handleGuildInfo(PlayerService playerService) {
+        String playerId = playerService.getPlayer().getFarmName();
+        Guild guild = guildService.getPlayerGuild(playerId);
+        
+        if (guild == null) {
+            ConsoleDisplayUtils.printWarningMessage("You are not a member of any guild.");
+            ConsoleDisplayUtils.printInfoMessage("Create a guild or ask to be invited to one!");
+            return;
+        }
+        
+        System.out.println(guild.getFormattedInfo());
+        System.out.println();
+        
+        // Show recent events
+        var recentEvents = guild.getRecentEvents(5);
+        if (!recentEvents.isEmpty()) {
+            ConsoleDisplayUtils.printInfoMessage("📰 Recent Guild Events:");
+            for (var event : recentEvents) {
+                System.out.println("  • " + event.getSummary());
+            }
+        }
+    }
+    
+    private void handleMemberManagement(PlayerService playerService) {
+        String playerId = playerService.getPlayer().getFarmName();
+        Guild guild = guildService.getPlayerGuild(playerId);
+        
+        if (guild == null) {
+            ConsoleDisplayUtils.printWarningMessage("You must be in a guild to manage members.");
+            return;
+        }
+        
+        GuildMember member = guild.getMember(playerId);
+        if (!member.hasAdminPrivileges()) {
+            ConsoleDisplayUtils.printWarningMessage("Only officers and leaders can manage members.");
+            return;
+        }
+        
+        System.out.println("👥 Guild Members:");
+        for (var guildMember : guild.getMembersCopy()) {
+            System.out.println("  " + guildMember.getFormattedInfo());
+        }
+        
+        System.out.println();
+        System.out.println("1. Invite Player");
+        System.out.println("2. Change Player Rank");
+        System.out.println("3. Remove Player");
+        System.out.print("Choose action: ");
+        
+        int action = scanner.nextInt();
+        scanner.nextLine();
+        
+        switch (action) {
+            case 1:
+                System.out.print("Enter player ID to invite: ");
+                String invitePlayerId = scanner.nextLine();
+                try {
+                    guildService.invitePlayer(guild.id(), invitePlayerId, playerId, GuildRank.RECRUIT);
+                    ConsoleDisplayUtils.printSuccessMessage("Player invited successfully!");
+                } catch (Exception e) {
+                    ConsoleDisplayUtils.printErrorMessage("Failed to invite player: " + e.getMessage());
+                }
+                break;
+            case 2:
+                System.out.print("Enter player ID to promote: ");
+                String promotePlayerId = scanner.nextLine();
+                System.out.println("Available ranks: MEMBER, OFFICER, SPY");
+                System.out.print("Enter new rank: ");
+                String rankStr = scanner.nextLine();
+                try {
+                    GuildRank newRank = GuildRank.valueOf(rankStr.toUpperCase());
+                    guildService.changeRank(guild.id(), promotePlayerId, newRank, playerId);
+                    ConsoleDisplayUtils.printSuccessMessage("Player rank changed successfully!");
+                } catch (Exception e) {
+                    ConsoleDisplayUtils.printErrorMessage("Failed to change rank: " + e.getMessage());
+                }
+                break;
+            case 3:
+                System.out.print("Enter player ID to remove: ");
+                String removePlayerId = scanner.nextLine();
+                try {
+                    guildService.removePlayerFromGuild(removePlayerId, playerId);
+                    ConsoleDisplayUtils.printSuccessMessage("Player removed successfully!");
+                } catch (Exception e) {
+                    ConsoleDisplayUtils.printErrorMessage("Failed to remove player: " + e.getMessage());
+                }
+                break;
+        }
+    }
+    
+    private void handleGuildMissions(PlayerService playerService) {
+        String playerId = playerService.getPlayer().getFarmName();
+        Guild guild = guildService.getPlayerGuild(playerId);
+        
+        if (guild == null) {
+            ConsoleDisplayUtils.printWarningMessage("You must be in a guild to access missions.");
+            return;
+        }
+        
+        var missions = guildMissionService.getGuildMissions(guild.id());
+        
+        if (missions.isEmpty()) {
+            ConsoleDisplayUtils.printInfoMessage("No active missions available.");
+            System.out.println();
+            System.out.println("1. Generate New Missions");
+            System.out.print("Choose action: ");
+            
+            int action = scanner.nextInt();
+            scanner.nextLine();
+            
+            if (action == 1) {
+                var newMissions = guildMissionService.generateMissionsPerEra(playerService.getPlayer().getEraAge(), 3);
+                ConsoleDisplayUtils.printSuccessMessage("Generated " + newMissions.size() + " new missions!");
+                
+                for (var mission : newMissions) {
+                    System.out.println("📋 " + mission.getSummary());
+                }
+            }
+        } else {
+            System.out.println("🎯 Available Guild Missions:");
+            for (int i = 0; i < missions.size(); i++) {
+                var mission = missions.get(i);
+                System.out.printf("%d. %s\n", i + 1, mission.getFormattedInfo());
+            }
+            
+            System.out.println();
+            System.out.print("Select mission to manage (0 to cancel): ");
+            int missionChoice = scanner.nextInt();
+            scanner.nextLine();
+            
+            if (missionChoice > 0 && missionChoice <= missions.size()) {
+                var selectedMission = missions.get(missionChoice - 1);
+                handleMissionManagement(guild, selectedMission, playerId);
+            }
+        }
+    }
+    
+    private void handleMissionManagement(Guild guild, GuildMission mission, String playerId) {
+        GuildMember member = guild.getMember(playerId);
+        
+        System.out.println("📋 Mission: " + mission.type().getDisplayName());
+        System.out.println("Status: " + mission.status().getDisplayNameWithEmoji());
+        System.out.println("Participants: " + mission.getParticipantCount());
+        System.out.println();
+        
+        if (member.hasAdminPrivileges()) {
+            System.out.println("1. Assign Participants");
+            System.out.println("2. Start Mission");
+            System.out.println("3. Cancel Mission");
+            System.out.print("Choose action: ");
+            
+            int action = scanner.nextInt();
+            scanner.nextLine();
+            
+            switch (action) {
+                case 1:
+                    System.out.print("Enter participant player IDs (comma separated): ");
+                    String participantsStr = scanner.nextLine();
+                    Set<String> participants = new HashSet<>(Arrays.asList(participantsStr.split(",")));
+                    
+                    try {
+                        guildMissionService.assignParticipants(mission.id(), guild.id(), participants, playerId);
+                        ConsoleDisplayUtils.printSuccessMessage("Participants assigned successfully!");
+                    } catch (Exception e) {
+                        ConsoleDisplayUtils.printErrorMessage("Failed to assign participants: " + e.getMessage());
+                    }
+                    break;
+                case 2:
+                    try {
+                        ConsoleDisplayUtils.printInfoMessage("🚀 Starting mission...");
+                        var future = guildMissionService.resolveMission(mission.id(), guild.id());
+                        var result = future.get(); // Wait for mission completion
+                        
+                        if (result.status() == MissionStatus.COMPLETED) {
+                            ConsoleDisplayUtils.printSuccessMessage("Mission completed successfully!");
+                        } else {
+                            ConsoleDisplayUtils.printWarningMessage("Mission failed.");
+                        }
+                    } catch (InterruptedException | ExecutionException e) {
+                        ConsoleDisplayUtils.printErrorMessage("Mission execution failed: " + e.getMessage());
+                    }
+                    break;
+                case 3:
+                    try {
+                        guildMissionService.cancelMission(mission.id(), guild.id(), playerId);
+                        ConsoleDisplayUtils.printSuccessMessage("Mission cancelled.");
+                    } catch (Exception e) {
+                        ConsoleDisplayUtils.printErrorMessage("Failed to cancel mission: " + e.getMessage());
+                    }
+                    break;
+            }
+        } else {
+            ConsoleDisplayUtils.printWarningMessage("Only officers and leaders can manage missions.");
+        }
+    }
+    
+    private void handleTerritories(PlayerService playerService) {
+        String playerId = playerService.getPlayer().getFarmName();
+        Guild guild = guildService.getPlayerGuild(playerId);
+        
+        if (guild == null) {
+            ConsoleDisplayUtils.printWarningMessage("You must be in a guild to access territories.");
+            return;
+        }
+        
+        var territories = shadowTerritoryService.listTerritories();
+        
+        if (territories.isEmpty()) {
+            ConsoleDisplayUtils.printInfoMessage("No territories available for conquest.");
+            ConsoleDisplayUtils.printInfoMessage("🗺️ The shadow realm awaits brave adventurers...");
+        } else {
+            System.out.println("🗺️ Shadow Territories:");
+            for (var territory : territories) {
+                System.out.println("  " + territory.getFormattedInfo());
+            }
+        }
+        
+        System.out.println();
+        ConsoleDisplayUtils.printInfoMessage("🏰 Your guild controls " + guild.getTerritoryCount() + " territories.");
+        
+        if (!guild.territories().isEmpty()) {
+            System.out.println("Controlled territories:");
+            for (String territoryId : guild.territories()) {
+                var territory = shadowTerritoryService.getTerritoryById(territoryId);
+                if (territory != null) {
+                    System.out.println("  " + territory.getFormattedInfo());
+                }
+            }
+        }
+    }
+    
+    private void handleShadowGuilds(PlayerService playerService) {
+        while (true) {
+            ConsoleUtils.clearConsole();
+            playerService.showResourcesHeader();
+            ConsoleDisplayUtils.printShadowGuildsMenu();
+            
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+            
+            ConsoleUtils.clearConsole();
+            playerService.showResourcesHeader();
+            
+            switch (choice) {
+                case 1:
+                    handleShadowCreateJoinGuild(playerService);
+                    break;
+                case 2:
+                    handleShadowGuildStatusVault(playerService);
+                    break;
+                case 3:
+                    handleShadowMissions(playerService);
+                    break;
+                case 4:
+                    handleShadowTerritories(playerService);
+                    break;
+                case 5:
+                    handleEspionageBlackMarket(playerService);
+                    break;
+                case 0:
+                    return; // Back to main menu
+                default:
+                    ConsoleDisplayUtils.printErrorMessage(ApplicationConstants.MESSAGE_WRONG_OPTION_TRY_AGAIN);
+            }
+            
+            if (choice != 0) {
+                ConsoleDisplayUtils.printWaitPrompt();
+                scanner.nextLine();
+            }
+        }
+    }
+    
+    private void handleShadowCreateJoinGuild(PlayerService playerService) {
+        ConsoleDisplayUtils.printInfoMessage("🕯️ Shadow Guild Creation/Joining");
+        ConsoleDisplayUtils.printShadowLoadingMessage();
+        
+        try {
+            Thread.sleep(2000); // Simulate async operation
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+        
+        ConsoleDisplayUtils.printWarningMessage("Shadow guild functionality is still shrouded in mystery...");
+        ConsoleDisplayUtils.printInfoMessage("The shadow realm requires further exploration by our scribes.");
+    }
+    
+    private void handleShadowGuildStatusVault(PlayerService playerService) {
+        ConsoleDisplayUtils.printInfoMessage("💰 Shadow Guild Status & Vault");
+        ConsoleDisplayUtils.printShadowLoadingMessage();
+        
+        try {
+            Thread.sleep(1500); // Simulate async operation
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+        
+        ConsoleDisplayUtils.printWarningMessage("The shadow vault remains sealed...");
+        ConsoleDisplayUtils.printInfoMessage("Your shadow guild's status is hidden in the darkness.");
+    }
+    
+    private void handleShadowMissions(PlayerService playerService) {
+        ConsoleDisplayUtils.printInfoMessage("🎯 Shadow Operations");
+        ConsoleDisplayUtils.printShadowLoadingMessage();
+        
+        try {
+            Thread.sleep(2500); // Simulate async operation
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+        
+        ConsoleDisplayUtils.printWarningMessage("Shadow missions are whispered only in the darkest corners...");
+        ConsoleDisplayUtils.printInfoMessage("The shadow operatives are still gathering intelligence.");
+    }
+    
+    private void handleShadowTerritories(PlayerService playerService) {
+        ConsoleDisplayUtils.printInfoMessage("🗺️ Shadow Territory Conquest");
+        ConsoleDisplayUtils.printShadowLoadingMessage();
+        
+        try {
+            Thread.sleep(2000); // Simulate async operation
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+        
+        ConsoleDisplayUtils.printWarningMessage("The shadow territories shift and change with the twilight...");
+        ConsoleDisplayUtils.printInfoMessage("Territory maps are being drawn by shadow cartographers.");
+    }
+    
+    private void handleEspionageBlackMarket(PlayerService playerService) {
+        ConsoleDisplayUtils.printInfoMessage("🗡️ Espionage & Black Market");
+        ConsoleDisplayUtils.printShadowLoadingMessage();
+        
+        try {
+            Thread.sleep(3000); // Simulate async operation
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+        
+        ConsoleDisplayUtils.printWarningMessage("The black market deals are conducted in absolute secrecy...");
+        ConsoleDisplayUtils.printInfoMessage("Our spies are infiltrating the underground networks.");
     }
 }

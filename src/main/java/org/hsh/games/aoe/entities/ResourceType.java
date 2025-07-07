@@ -88,6 +88,12 @@ public enum ResourceType {
         this.pricePerUnit = pricePerUnit;
     }
 
+    /**
+     * Gets resources available in the given era level.
+     * This method is exposed for use by GuildMissionService and other services.
+     * @param currentEraLevel The era level to get resources for
+     * @return List of resource types available in the era
+     */
     public static List<ResourceType> getResourcesPackBasedOnCurrentEra(int currentEraLevel) {
         EraAge currentEra = EraAge.getByLevel(currentEraLevel);
         return switch (Objects.requireNonNull(currentEra)) {
@@ -98,6 +104,44 @@ public enum ResourceType {
             case INDUSTRIAL_AGE -> List.of(GOLD);
             case MODERN_AGE -> List.of(FAVOR);
             default -> List.of();
+        };
+    }
+
+    /**
+     * Validates that a resource transfer to guild vault is valid
+     * @param resourceType Type of resource being transferred
+     * @param amount Amount to transfer
+     * @throws IllegalArgumentException if transfer is invalid
+     */
+    public static void validateGuildVaultTransfer(ResourceType resourceType, int amount) {
+        if (resourceType == null) {
+            throw new IllegalArgumentException("Resource type cannot be null");
+        }
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Transfer amount must be positive");
+        }
+    }
+
+    /**
+     * Checks if this resource type can be stored in guild vaults
+     * @return true if the resource can be stored in guild vaults
+     */
+    public boolean isGuildVaultStorable() {
+        // Most resources can be stored, but some special resources might not be
+        // For now, all resources are storable in guild vaults
+        return true;
+    }
+
+    /**
+     * Gets the guild vault transfer multiplier for this resource type
+     * Some resources might have different transfer rates to/from guild vaults
+     * @return Transfer multiplier (1.0 = no change)
+     */
+    public double getGuildVaultTransferMultiplier() {
+        return switch (this) {
+            case FAVOR -> 0.5; // Favor transfers at 50% rate (divine blessing is personal)
+            case POPULATION -> 0.8; // Population transfers at 80% rate (some prefer to stay)
+            default -> 1.0; // All other resources transfer at full rate
         };
     }
 }
