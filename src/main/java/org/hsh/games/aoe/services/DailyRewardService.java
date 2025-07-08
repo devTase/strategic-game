@@ -2,9 +2,8 @@ package org.hsh.games.aoe.services;
 
 import org.hsh.games.aoe.entities.ResourceAmount;
 import org.hsh.games.aoe.entities.DailyReward;
-import org.hsh.games.aoe.entities.EraAge;
+import org.hsh.games.aoe.entities.TechPhase;
 import org.hsh.games.aoe.entities.ResourceType;
-import org.hsh.games.aoe.entities.guild.Guild;
 import java.util.*;
 
 public class DailyRewardService {
@@ -26,82 +25,82 @@ public class DailyRewardService {
     private void initializeRewards() {
         // Day 1: Basic resources
         rewards.add(new DailyReward(1, List.of(
-            new ResourceAmount(ResourceType.WOOD, 50),
-            new ResourceAmount(ResourceType.FOOD, 50)
-        ), false, "Madeira e Comida"));
+            new ResourceAmount(ResourceType.ENERGY, 50),
+            new ResourceAmount(ResourceType.DATA, 50)
+        ), false, "Energia e Dados"));
 
-        // Day 2: Water and stone
+        // Day 2: Energy and Components
         rewards.add(new DailyReward(2, List.of(
-            new ResourceAmount(ResourceType.WATER, 100),
-            new ResourceAmount(ResourceType.STONE, 25)
-        ), false, "Água e Pedra"));
+            new ResourceAmount(ResourceType.ENERGY, 100),
+            new ResourceAmount(ResourceType.COMPONENTS, 25)
+        ), false, "Energia e Dados"));
 
         // Day 3: More food and wood
         rewards.add(new DailyReward(3, List.of(
-            new ResourceAmount(ResourceType.FOOD, 75),
-            new ResourceAmount(ResourceType.WOOD, 75)
+            new ResourceAmount(ResourceType.DATA, 75),
+            new ResourceAmount(ResourceType.ENERGY, 75)
         ), false, "Mais Recursos Básicos"));
 
         // Day 4: Population boost
         rewards.add(new DailyReward(4, List.of(
-            new ResourceAmount(ResourceType.POPULATION, 1),
-            new ResourceAmount(ResourceType.WATER, 50)
+            new ResourceAmount(ResourceType.DATA, 1),
+            new ResourceAmount(ResourceType.ENERGY, 50)
         ), false, "População e Água"));
 
         // Day 5: Balanced resources
         rewards.add(new DailyReward(5, List.of(
-            new ResourceAmount(ResourceType.WOOD, 60),
-            new ResourceAmount(ResourceType.FOOD, 60),
-            new ResourceAmount(ResourceType.STONE, 30)
+            new ResourceAmount(ResourceType.ENERGY, 60),
+            new ResourceAmount(ResourceType.DATA, 60),
+            new ResourceAmount(ResourceType.COMPONENTS, 30)
         ), false, "Recursos Equilibrados"));
 
         // Day 6: Preparation for special reward
         rewards.add(new DailyReward(6, List.of(
-            new ResourceAmount(ResourceType.IRON, 20),
-            new ResourceAmount(ResourceType.FOOD, 100)
+            new ResourceAmount(ResourceType.CIRCUITS, 20),
+            new ResourceAmount(ResourceType.DATA, 100)
         ), false, "Ferro e Comida"));
 
         // Day 7: Special weekly reward
         rewards.add(new DailyReward(7, List.of(
-            new ResourceAmount(ResourceType.GOLD, 10),
-            new ResourceAmount(ResourceType.POPULATION, 2)
+            new ResourceAmount(ResourceType.QUANTUM_ENERGY, 10),
+            new ResourceAmount(ResourceType.DATA, 2)
         ), true, "🎁 Recompensa Semanal: Ouro e População!"));
 
         // Day 8-13: Progressive rewards
         rewards.add(new DailyReward(8, List.of(
-            new ResourceAmount(ResourceType.SILVER, 15),
-            new ResourceAmount(ResourceType.WOOD, 80)
+            new ResourceAmount(ResourceType.NANOMATERIALS, 15),
+            new ResourceAmount(ResourceType.ENERGY, 80)
         ), false, "Prata e Madeira"));
 
         rewards.add(new DailyReward(9, List.of(
-            new ResourceAmount(ResourceType.GRAPES, 25),
-            new ResourceAmount(ResourceType.STONE, 40)
+            new ResourceAmount(ResourceType.COMPONENTS, 25),
+            new ResourceAmount(ResourceType.COMPONENTS, 40)
         ), false, "Uvas e Pedra"));
 
         rewards.add(new DailyReward(10, List.of(
-            new ResourceAmount(ResourceType.FOOD, 120),
-            new ResourceAmount(ResourceType.IRON, 25)
+            new ResourceAmount(ResourceType.DATA, 120),
+            new ResourceAmount(ResourceType.CIRCUITS, 25)
         ), false, "Comida e Ferro"));
 
         rewards.add(new DailyReward(11, List.of(
-            new ResourceAmount(ResourceType.WATER, 150),
-            new ResourceAmount(ResourceType.SILVER, 20)
+            new ResourceAmount(ResourceType.ENERGY, 150),
+            new ResourceAmount(ResourceType.NANOMATERIALS, 20)
         ), false, "Água e Prata"));
 
         rewards.add(new DailyReward(12, List.of(
-            new ResourceAmount(ResourceType.WOOD, 100),
-            new ResourceAmount(ResourceType.GRAPES, 30)
+            new ResourceAmount(ResourceType.ENERGY, 100),
+            new ResourceAmount(ResourceType.COMPONENTS, 30)
         ), false, "Madeira e Uvas"));
 
         rewards.add(new DailyReward(13, List.of(
-            new ResourceAmount(ResourceType.POPULATION, 1),
-            new ResourceAmount(ResourceType.GOLD, 5)
+            new ResourceAmount(ResourceType.DATA, 1),
+            new ResourceAmount(ResourceType.QUANTUM_ENERGY, 5)
         ), false, "População e Ouro"));
 
         // Day 14: Special bi-weekly reward
         rewards.add(new DailyReward(14, List.of(
-            new ResourceAmount(ResourceType.GOLD, 25),
-            new ResourceAmount(ResourceType.FAVOR, 5)
+            new ResourceAmount(ResourceType.QUANTUM_ENERGY, 25),
+            new ResourceAmount(ResourceType.CRYPTO, 5)
         ), true, "🌟 Recompensa Quinzenal: Ouro e Favor dos Deuses!"));
 
         // Day 15-29: Higher tier rewards
@@ -112,9 +111,9 @@ public class DailyRewardService {
 
         // Day 30: Special monthly reward
         rewards.add(new DailyReward(30, List.of(
-            new ResourceAmount(ResourceType.GOLD, 50),
-            new ResourceAmount(ResourceType.FAVOR, 15),
-            new ResourceAmount(ResourceType.POPULATION, 3)
+            new ResourceAmount(ResourceType.QUANTUM_ENERGY, 50),
+            new ResourceAmount(ResourceType.CRYPTO, 15),
+            new ResourceAmount(ResourceType.DATA, 3)
         ), true, "👑 RECOMPENSA MENSAL: Tesouro Real!"));
     }
 
@@ -124,21 +123,21 @@ public class DailyRewardService {
         
         return switch (day % 3) {
             case 0 -> List.of(
-                new ResourceAmount(ResourceType.GOLD, baseAmount / 10),
-                new ResourceAmount(ResourceType.WOOD, baseAmount)
+                new ResourceAmount(ResourceType.QUANTUM_ENERGY, baseAmount / 10),
+                new ResourceAmount(ResourceType.ENERGY, baseAmount)
             );
             case 1 -> List.of(
-                new ResourceAmount(ResourceType.SILVER, baseAmount / 5),
-                new ResourceAmount(ResourceType.FOOD, baseAmount)
+                new ResourceAmount(ResourceType.NANOMATERIALS, baseAmount / 5),
+                new ResourceAmount(ResourceType.DATA, baseAmount)
             );
             default -> List.of(
-                new ResourceAmount(ResourceType.IRON, baseAmount / 4),
-                new ResourceAmount(ResourceType.STONE, baseAmount / 2)
+                new ResourceAmount(ResourceType.CIRCUITS, baseAmount / 4),
+                new ResourceAmount(ResourceType.COMPONENTS, baseAmount / 2)
             );
         };
     }
 
-    public List<ResourceAmount> claimDailyReward(String playerId, EraAge era) {
+    public List<ResourceAmount> claimDailyReward(String playerId, TechPhase phase) {
         if (hasClaimedToday(playerId)) {
             throw new IllegalStateException("Já coletaste a recompensa de hoje! Volta amanhã.");
         }
@@ -151,21 +150,22 @@ public class DailyRewardService {
         playerStreaks.put(playerId, streak);
         lastClaimDate.put(playerId, getTodayDateString());
 
-        return rewards.get(streak - 1).getAdjustedRewards(era);
+        return rewards.get(streak - 1).getAdjustedRewards(phase);
     }
+
     
     /**
      * Claims daily reward and deposits it directly to player's guild vault if they choose.
      * Streak logic remains untouched.
      * 
      * @param playerId ID of the player claiming the reward
-     * @param era Current era of the player
+     * @param phase Current tech phase of the player
      * @param depositToGuild true to deposit to guild vault, false to return rewards for player inventory
      * @return List of resources if depositToGuild is false, empty list if deposited to guild
      * @throws IllegalStateException if already claimed today
      * @throws IllegalArgumentException if player is not in a guild when trying to deposit to guild
      */
-    public List<ResourceAmount> claimDailyRewardWithGuildOption(String playerId, EraAge era, boolean depositToGuild) {
+    public List<ResourceAmount> claimDailyRewardWithGuildOption(String playerId, TechPhase phase, boolean depositToGuild) {
         if (hasClaimedToday(playerId)) {
             throw new IllegalStateException("Já coletaste a recompensa de hoje! Volta amanhã.");
         }
@@ -180,15 +180,15 @@ public class DailyRewardService {
         playerStreaks.put(playerId, streak);
         lastClaimDate.put(playerId, getTodayDateString());
 
-        // Get the adjusted rewards for the player's era
-        List<ResourceAmount> rewardAmounts = rewards.get(streak - 1).getAdjustedRewards(era);
+        // Get the adjusted rewards for the player's tech phase
+        List<ResourceAmount> rewardAmounts = rewards.get(streak - 1).getAdjustedRewards(phase);
         
         if (depositToGuild) {
             if (guildService == null) {
                 throw new IllegalStateException("Guild service not available. Cannot deposit to guild vault.");
             }
             
-            Guild playerGuild = guildService.getPlayerGuild(playerId);
+            org.hsh.games.aoe.entities.rebelcell.Guild playerGuild = guildService.getPlayerGuild(playerId);
             if (playerGuild == null) {
                 throw new IllegalArgumentException("Player is not in a guild. Cannot deposit rewards to guild vault.");
             }
@@ -222,6 +222,7 @@ public class DailyRewardService {
             return rewardAmounts;
         }
     }
+
 
     public boolean hasClaimedToday(String playerId) {
         String lastDate = lastClaimDate.getOrDefault(playerId, "");

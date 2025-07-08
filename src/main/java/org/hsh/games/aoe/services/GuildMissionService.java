@@ -1,8 +1,9 @@
 package org.hsh.games.aoe.services;
 
-import org.hsh.games.aoe.entities.guild.*;
+import org.hsh.games.aoe.entities.rebelcell.*;
 import org.hsh.games.aoe.entities.ResourceType;
 import org.hsh.games.aoe.entities.EraAge;
+import org.hsh.games.aoe.entities.TechPhase;
 import org.hsh.games.aoe.utils.ThreadUtils;
 import org.hsh.games.aoe.services.PlayerService;
 
@@ -37,13 +38,13 @@ public class GuildMissionService {
     }
     
     /**
-     * Generates missions for the current era based on difficulty and available guilds
-     * @param era Current era of the game
+     * Generates missions for the current tech phase based on difficulty and available guilds
+     * @param phase Current tech phase of the game
      * @param numberOfMissions Number of missions to generate
      * @return List of generated missions
      */
-    public List<GuildMission> generateMissionsPerEra(EraAge era, int numberOfMissions) {
-        Objects.requireNonNull(era, "Era cannot be null");
+    public List<GuildMission> generateMissionsPerPhase(TechPhase phase, int numberOfMissions) {
+        Objects.requireNonNull(phase, "Tech phase cannot be null");
         
         if (numberOfMissions <= 0) {
             throw new IllegalArgumentException("Number of missions must be positive");
@@ -54,10 +55,10 @@ public class GuildMissionService {
         
         for (int i = 0; i < numberOfMissions; i++) {
             MissionType missionType = getRandomMissionType(random);
-            String missionId = generateMissionId(era, missionType);
+            String missionId = generateMissionId(phase, missionType);
             
-            Map<ResourceType, Integer> rewards = calculateEraRewards(era, missionType, random);
-            int durationHours = calculateMissionDuration(missionType, era);
+            Map<ResourceType, Integer> rewards = calculatePhaseRewards(phase, missionType, random);
+            int durationHours = calculateMissionDuration(missionType, phase);
             
             GuildMission mission = GuildMission.createNew(
                 missionId, 
@@ -71,6 +72,13 @@ public class GuildMissionService {
         }
         
         return generatedMissions;
+    }
+
+    // Backward compatibility method
+    @Deprecated(since = "2.0", forRemoval = true)
+    public List<GuildMission> generateMissionsPerEra(EraAge era, int numberOfMissions) {
+        TechPhase phase = TechPhase.getByLevel(era.getLevel());
+        return generateMissionsPerPhase(phase, numberOfMissions);
     }
     
     /**
@@ -120,7 +128,7 @@ public class GuildMissionService {
             boolean hasSpies = participantIds.stream()
                     .anyMatch(playerId -> {
                         GuildMember member = guild.getMember(playerId);
-                        return member != null && member.isSpy();
+                        return member != null && member.isInfiltrator();
                     });
             
             if (!hasSpies) {
@@ -234,11 +242,14 @@ public class GuildMissionService {
     public List<GuildMission> getGuildMissions(String guildId) {
         Set<String> missionIds = guildMissions.getOrDefault(guildId, Collections.emptySet());
         
-        return missionIds.stream()
-                .map(this::getMissionById)
-                .filter(Objects::nonNull)
-                .filter(mission -> mission.status().isActive() || mission.status().canBeStarted())
-                .collect(Collectors.toList());
+        List<GuildMission> result = new ArrayList<>();
+        for (String missionId : missionIds) {
+            GuildMission mission = getMissionById(missionId);
+            if (mission != null && (mission.getStatus().isActive() || mission.getStatus().canBeStarted())) {
+                result.add(mission);
+            }
+        }
+        return result;
     }
     
     /**
@@ -312,6 +323,7 @@ public class GuildMissionService {
             case TERRITORY_CONQUEST -> 10; // 10 minutes
             case ESPIONAGE -> 3; // 3 minutes
             case VAULT_DEFENSE -> 8; // 8 minutes
+            default -> 5; // Default to 5 minutes
         };
         
         // Reduce time based on number of participants (max 50% reduction)
@@ -337,6 +349,7 @@ public class GuildMissionService {
             case TERRITORY_CONQUEST -> -0.2; // -20% (harder)
             case ESPIONAGE -> 0.0; // no modifier
             case VAULT_DEFENSE -> 0.15; // +15% (defending own territory)
+            default -> 0.0; // No modifier for other types
         };
         
         // Participant count bonus (more people = higher success chance)
@@ -463,93 +476,108 @@ public class GuildMissionService {
     }
     
     /**
-     * Calculates rewards based on era and mission type
-     * Uses EraAge multipliers and ResourceType utilities for enhanced reward calculation
-     * @param era Current era
+     * Calculates rewards based on tech phase and mission type
+     * Uses TechPhase multipliers and ResourceType utilities for enhanced reward calculation
+     * @param phase Current tech phase
      * @param missionType Type of mission
      * @param random Random generator
      * @return Map of resource rewards
      */
-    private Map<ResourceType, Integer> calculateEraRewards(EraAge era, MissionType missionType, Random random) {
+    private Map<ResourceType, Integer> calculatePhaseRewards(TechPhase phase, MissionType missionType, Random random) {
         Map<ResourceType, Integer> rewards = new HashMap<>();
         
-        // Use era's mission generation multiplier for more sophisticated scaling
-        double eraMultiplier = era.getMissionGenerationMultiplier();
+        // Use phase's mission generation multiplier for more sophisticated scaling
+        double phaseMultiplier = phase.getMissionGenerationMultiplier();
         
-        // Base rewards scaled by era multiplier
+        // Base rewards scaled by phase multiplier
         switch (missionType) {
             case RESOURCE_RUN -> {
-                // Include era-appropriate resources using ResourceType utility
-                List<ResourceType> eraResources = ResourceType.getResourcesPackBasedOnCurrentEra(era.getLevel());
+                // Include phase-appropriate resources using ResourceType utility
+                List<ResourceType> phaseResources = ResourceType.getResourcesPackBasedOnCurrentEra(phase.getLevel());
                 
                 // Add basic resources for resource runs
-                rewards.put(ResourceType.WOOD, (int)((50 + random.nextInt(50)) * eraMultiplier));
-                rewards.put(ResourceType.STONE, (int)((30 + random.nextInt(30)) * eraMultiplier));
-                rewards.put(ResourceType.FOOD, (int)((40 + random.nextInt(40)) * eraMultiplier));
+                rewards.put(ResourceType.ENERGY, (int)((50 + random.nextInt(50)) * phaseMultiplier));
+                rewards.put(ResourceType.COMPONENTS, (int)((30 + random.nextInt(30)) * phaseMultiplier));
+                rewards.put(ResourceType.DATA, (int)((40 + random.nextInt(40)) * phaseMultiplier));
                 
-                // Add era-specific resource bonus
-                if (!eraResources.isEmpty()) {
-                    ResourceType eraSpecificResource = eraResources.get(random.nextInt(eraResources.size()));
-                    int bonusAmount = (int)((20 + random.nextInt(30)) * eraMultiplier);
-                    rewards.put(eraSpecificResource, bonusAmount);
+                // Add phase-specific resource bonus
+                if (!phaseResources.isEmpty()) {
+                    ResourceType phaseSpecificResource = phaseResources.get(random.nextInt(phaseResources.size()));
+                    int bonusAmount = (int)((20 + random.nextInt(30)) * phaseMultiplier);
+                    rewards.put(phaseSpecificResource, bonusAmount);
                 }
             }
             case TERRITORY_CONQUEST -> {
-                rewards.put(ResourceType.GOLD, (int)((100 + random.nextInt(100)) * eraMultiplier));
-                rewards.put(ResourceType.FAVOR, (int)((20 + random.nextInt(20)) * eraMultiplier));
+                rewards.put(ResourceType.QUANTUM_ENERGY, (int)((100 + random.nextInt(100)) * phaseMultiplier));
+                rewards.put(ResourceType.CRYPTO, (int)((20 + random.nextInt(20)) * phaseMultiplier));
                 
-                // Higher eras get additional advanced resources
-                if (era.getLevel() >= 4) { // Medieval age and above
-                    List<ResourceType> advancedResources = ResourceType.getResourcesPackBasedOnCurrentEra(era.getLevel());
+                // Higher phases get additional advanced resources
+                if (phase.getLevel() >= 4) { // Drone Dominion and above
+                    List<ResourceType> advancedResources = ResourceType.getResourcesPackBasedOnCurrentEra(phase.getLevel());
                     if (!advancedResources.isEmpty()) {
                         ResourceType advancedResource = advancedResources.get(0);
-                        rewards.put(advancedResource, (int)((15 + random.nextInt(25)) * eraMultiplier));
+                        rewards.put(advancedResource, (int)((15 + random.nextInt(25)) * phaseMultiplier));
                     }
                 }
             }
             case ESPIONAGE -> {
-                rewards.put(ResourceType.FAVOR, (int)((30 + random.nextInt(30)) * eraMultiplier));
-                rewards.put(ResourceType.GOLD, (int)((50 + random.nextInt(50)) * eraMultiplier));
+                rewards.put(ResourceType.CRYPTO, (int)((30 + random.nextInt(30)) * phaseMultiplier));
+                rewards.put(ResourceType.QUANTUM_ENERGY, (int)((50 + random.nextInt(50)) * phaseMultiplier));
                 
-                // Espionage missions in advanced eras yield intelligence bonuses
-                if (era.getLevel() >= 6) { // Industrial age and above
-                    rewards.put(ResourceType.FAVOR, rewards.get(ResourceType.FAVOR) + (int)(10 * eraMultiplier));
+                // Espionage missions in advanced phases yield intelligence bonuses
+                if (phase.getLevel() >= 6) { // Singularity Prep and above
+                    rewards.put(ResourceType.CRYPTO, rewards.get(ResourceType.CRYPTO) + (int)(10 * phaseMultiplier));
                 }
             }
             case VAULT_DEFENSE -> {
-                rewards.put(ResourceType.GOLD, (int)((80 + random.nextInt(80)) * eraMultiplier));
-                rewards.put(ResourceType.IRON, (int)((25 + random.nextInt(25)) * eraMultiplier));
+                rewards.put(ResourceType.QUANTUM_ENERGY, (int)((80 + random.nextInt(80)) * phaseMultiplier));
+                rewards.put(ResourceType.CIRCUITS, (int)((25 + random.nextInt(25)) * phaseMultiplier));
                 
-                // Vault defense gets defensive resources based on era
-                List<ResourceType> availableResources = ResourceType.getResourcesPackBasedOnCurrentEra(era.getLevel());
-                if (availableResources.contains(ResourceType.STONE)) {
-                    rewards.put(ResourceType.STONE, (int)((30 + random.nextInt(30)) * eraMultiplier));
+                // Vault defense gets defensive resources based on phase
+                List<ResourceType> availableResources = ResourceType.getResourcesPackBasedOnCurrentEra(phase.getLevel());
+                if (availableResources.contains(ResourceType.COMPONENTS)) {
+                    rewards.put(ResourceType.COMPONENTS, (int)((30 + random.nextInt(30)) * phaseMultiplier));
                 }
             }
         }
         
         return rewards;
     }
+
+    // Backward compatibility method
+    @Deprecated(since = "2.0", forRemoval = true)
+    private Map<ResourceType, Integer> calculateEraRewards(EraAge era, MissionType missionType, Random random) {
+        TechPhase phase = TechPhase.getByLevel(era.getLevel());
+        return calculatePhaseRewards(phase, missionType, random);
+    }
     
     /**
-     * Calculates mission duration based on type and era
-     * Uses EraAge duration modifier for more sophisticated scaling
+     * Calculates mission duration based on type and tech phase
+     * Uses TechPhase duration modifier for more sophisticated scaling
      * @param missionType Type of mission
-     * @param era Current era
+     * @param phase Current tech phase
      * @return Duration in hours
      */
-    private int calculateMissionDuration(MissionType missionType, EraAge era) {
+    private int calculateMissionDuration(MissionType missionType, TechPhase phase) {
         int baseDuration = switch (missionType) {
             case RESOURCE_RUN -> 2;
             case TERRITORY_CONQUEST -> 4;
             case ESPIONAGE -> 1;
             case VAULT_DEFENSE -> 3;
+            default -> 2; // Default to 2 hours
         };
         
-        // Use era's mission duration modifier for more sophisticated scaling
-        double eraModifier = era.getMissionDurationModifier();
+        // Use phase's mission duration modifier for more sophisticated scaling
+        double phaseModifier = phase.getMissionDurationModifier();
         
-        return Math.max(1, (int)(baseDuration * eraModifier));
+        return Math.max(1, (int)(baseDuration * phaseModifier));
+    }
+
+    // Backward compatibility method
+    @Deprecated(since = "2.0", forRemoval = true)
+    private int calculateMissionDuration(MissionType missionType, EraAge era) {
+        TechPhase phase = TechPhase.getByLevel(era.getLevel());
+        return calculateMissionDuration(missionType, phase);
     }
     
     /**
@@ -564,14 +592,21 @@ public class GuildMissionService {
     
     /**
      * Generates a unique mission ID
-     * @param era Current era
+     * @param phase Current tech phase
      * @param missionType Type of mission
      * @return Generated mission ID
      */
-    private String generateMissionId(EraAge era, MissionType missionType) {
+    private String generateMissionId(TechPhase phase, MissionType missionType) {
         return String.format("mission_%s_%s_%d", 
-            era.name().toLowerCase(), 
+            phase.name().toLowerCase(), 
             missionType.name().toLowerCase(), 
             System.currentTimeMillis());
+    }
+
+    // Backward compatibility method
+    @Deprecated(since = "2.0", forRemoval = true)
+    private String generateMissionId(EraAge era, MissionType missionType) {
+        TechPhase phase = TechPhase.getByLevel(era.getLevel());
+        return generateMissionId(phase, missionType);
     }
 }

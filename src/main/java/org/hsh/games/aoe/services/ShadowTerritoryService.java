@@ -1,6 +1,6 @@
 package org.hsh.games.aoe.services;
 
-import org.hsh.games.aoe.entities.guild.*;
+import org.hsh.games.aoe.entities.rebelcell.*;
 
 import java.util.Map;
 import java.util.Set;
@@ -100,6 +100,7 @@ public class ShadowTerritoryService {
             case NEUTRAL -> territory.liberate();
             case UNDER_SIEGE -> territory.putUnderSiege();
             case CLAIMED_BY_GUILD -> territory.claimByGuild(territory.owningGuildId());
+            default -> territory.withStatus(status);
         };
 
         territories.put(territoryId, updatedTerritory);

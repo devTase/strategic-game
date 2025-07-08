@@ -82,9 +82,9 @@ public class SkillService {
             throw new IllegalArgumentException("Skill type cannot be null");
         }
         
-        // Validation 1: Check if Academy is built
+        // Validation 1: Check if Training Facility is built
         if (!isAcademyBuilt(playerService)) {
-            throw new IllegalStateException("Academy must be built before upgrading skills");
+            throw new IllegalStateException("Training Facility must be built before upgrading skills");
         }
         
         // Validation 2: Check if another upgrade is running
@@ -121,10 +121,10 @@ public class SkillService {
                                           formatResourceRequirements(requiredResources));
         }
         
-        // Validation 5: Check if worker is available
-        Worker availableWorker = playerService.getWorkerAvailable();
-        if (availableWorker == null) {
-            throw new IllegalStateException("No available workers for skill upgrade");
+        // Validation 5: Check if cyber operative is available
+        CyberOperative availableOperative = playerService.getCyberOperativeAvailable();
+        if (availableOperative == null) {
+            throw new IllegalStateException("No available cyber operatives for skill upgrade");
         }
         
         // All validations passed - proceed with upgrade
@@ -145,15 +145,15 @@ public class SkillService {
         // Set upgrade process in player skills
         playerSkills.setCurrentUpgradeProcess(upgradeProcess);
         
-        // Occupy worker
-        availableWorker.setOccupied(true);
+        // Occupy cyber operative
+        availableOperative.setOccupied(true);
         
         // Start upgrade thread
         SkillUpgradeThread upgradeThread = new SkillUpgradeThread(upgradeProcess, playerService);
         upgradeThread.setOnUpgradeCompleteListener(() -> {
-            // Free worker when upgrade completes
-            availableWorker.setOccupied(false);
-            System.out.println("Worker " + availableWorker.getName() + " is now available");
+            // Free cyber operative when upgrade completes
+            availableOperative.setOccupied(false);
+            System.out.println("Cyber operative " + availableOperative.getName() + " is now available");
         });
         
         upgradeThread.start();
@@ -161,18 +161,18 @@ public class SkillService {
         System.out.println("🎓 Started upgrading " + skillType.getDisplayName() + 
                          " from level " + currentSkill.getLevel() + " to level " + newLevel);
         System.out.println("⏱️ Upgrade will complete in " + (upgradeDuration / 1000) + " seconds");
-        System.out.println("👷 Worker " + availableWorker.getName() + " is now working on the upgrade");
+        System.out.println("👷 Cyber operative " + availableOperative.getName() + " is now working on the upgrade");
     }
     
     /**
-     * Checks if the Academy building is built and available.
+     * Checks if the Training Facility building is built and available.
      * @param playerService The player service
-     * @return true if Academy is built, false otherwise
+     * @return true if Training Facility is built, false otherwise
      */
     private boolean isAcademyBuilt(PlayerService playerService) {
         return playerService.getBuildingList().stream()
             .anyMatch(building -> 
-                ConstructionType.ACADEMY.getName().equals(building.getConstructionTypeName()) && 
+                ConstructionType.TRAINING_FACILITY.getName().equals(building.getConstructionTypeName()) && 
                 building.getBuilded()
             );
     }
@@ -187,9 +187,9 @@ public class SkillService {
         int multiplier = level * level;
         
         return List.of(
-            new ResourceAmount(ResourceType.WOOD, BASE_WOOD_COST * multiplier),
-            new ResourceAmount(ResourceType.FOOD, BASE_FOOD_COST * multiplier),
-            new ResourceAmount(ResourceType.STONE, BASE_STONE_COST * multiplier)
+            new ResourceAmount(ResourceType.ENERGY, BASE_WOOD_COST * multiplier),
+            new ResourceAmount(ResourceType.DATA, BASE_FOOD_COST * multiplier),
+            new ResourceAmount(ResourceType.COMPONENTS, BASE_STONE_COST * multiplier)
         );
     }
     

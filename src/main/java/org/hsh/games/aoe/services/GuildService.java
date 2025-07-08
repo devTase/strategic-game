@@ -1,6 +1,6 @@
 package org.hsh.games.aoe.services;
 
-import org.hsh.games.aoe.entities.guild.*;
+import org.hsh.games.aoe.entities.rebelcell.*;
 import org.hsh.games.aoe.entities.ResourceType;
 
 import java.util.Set;
@@ -213,7 +213,7 @@ public class GuildService {
      * @return Updated Guild with the new member
      * @throws IllegalArgumentException if invitation is invalid
      */
-    public Guild invitePlayer(String guildId, String playerId, String inviterPlayerId, GuildRank rank) {
+    public Guild invitePlayer(String guildId, String playerId, String inviterPlayerId, RebelCellRank rank) {
         Objects.requireNonNull(guildId, "Guild ID cannot be null");
         Objects.requireNonNull(playerId, "Player ID cannot be null");
         Objects.requireNonNull(inviterPlayerId, "Inviter player ID cannot be null");
@@ -257,7 +257,7 @@ public class GuildService {
      * @return Updated Guild with the changed rank
      * @throws IllegalArgumentException if rank change is invalid
      */
-    public Guild changeRank(String guildId, String playerId, GuildRank newRank, String authorityPlayerId) {
+    public Guild changeRank(String guildId, String playerId, RebelCellRank newRank, String authorityPlayerId) {
         Objects.requireNonNull(guildId, "Guild ID cannot be null");
         Objects.requireNonNull(playerId, "Player ID cannot be null");
         Objects.requireNonNull(newRank, "New rank cannot be null");
