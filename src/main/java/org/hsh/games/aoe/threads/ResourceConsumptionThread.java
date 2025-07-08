@@ -30,7 +30,7 @@ public class ResourceConsumptionThread<T extends Consumer> extends Thread {
                                     throw new IllegalStateException("Recursos Insuficientes!");
                                 } else {
                                     resource.setAmount(resourceLeft);
-                                    System.out.printf("\nTrabalhador consumiu %d de %s%n", consumptionType.getAmount(), consumptionType.getResource().getDescription());
+                                    System.out.printf("\nOperativo cyber consumiu %d de %s%n", consumptionType.getAmount(), consumptionType.getResource().getDescription());
                                 }
                             }
                         }
