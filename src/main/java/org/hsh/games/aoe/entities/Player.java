@@ -3,14 +3,14 @@ package org.hsh.games.aoe.entities;
 public class Player {
 
     private String farmName;
-    private EraAge eraAge;
+    private TechPhase techPhase;
     private String guildId; // Optional guild reference
     private static final int MIN_NAME_LENGTH = 3;
 
     public Player(String farmName) {
         validateFarmName(farmName);
         this.farmName = farmName;
-        this.eraAge = EraAge.getByLevel(1);
+        this.techPhase = TechPhase.getByLevel(1);
     }
 
     private void validateFarmName(String farmName) {
@@ -31,12 +31,25 @@ public class Player {
         this.farmName = farmName;
     }
 
-    public void setEraAge(EraAge eraAge) {
-        this.eraAge = eraAge;
+    public void setTechPhase(TechPhase techPhase) {
+        this.techPhase = techPhase;
     }
 
+    public TechPhase getTechPhase() {
+        return techPhase;
+    }
+
+    // Deprecated methods for backward compatibility - will be removed in future versions
+    @Deprecated(since = "2.0", forRemoval = true)
+    public void setEraAge(EraAge eraAge) {
+        // Convert EraAge to TechPhase for backward compatibility
+        this.techPhase = TechPhase.getByLevel(eraAge.getLevel());
+    }
+
+    @Deprecated(since = "2.0", forRemoval = true) 
     public EraAge getEraAge() {
-        return eraAge;
+        // Convert TechPhase to EraAge for backward compatibility
+        return EraAge.getByLevel(techPhase.getLevel());
     }
 
     public String getGuildId() {

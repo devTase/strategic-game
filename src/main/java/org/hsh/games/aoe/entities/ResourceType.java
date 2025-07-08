@@ -3,19 +3,31 @@ package org.hsh.games.aoe.entities;
 import org.hsh.games.aoe.utils.ThreadUtils;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public enum ResourceType {
-    WOOD("Madeira", 100, Difficulty.EASY, ThreadUtils.toMilliseconds(5), 100, 2),
-    POPULATION("População", 3, Difficulty.HARD, ThreadUtils.toMilliseconds(30), 2,0),
-    WATER("Água", 200, Difficulty.EASY, ThreadUtils.toMilliseconds(3), 100,1),
-    FOOD("Comida", 100, Difficulty.EASY, ThreadUtils.toMilliseconds(7), 100,3),
-    STONE("Pedra", 10, Difficulty.EASY, ThreadUtils.toMilliseconds(10), 70,4),
-    IRON("Ferro", 0, Difficulty.MEDIUM, ThreadUtils.toMilliseconds(15), 62,10),
-    SILVER("Prata", 0, Difficulty.MEDIUM, ThreadUtils.toMilliseconds(20), 43,8),
-    GRAPES("Uvas", 0, Difficulty.MEDIUM, ThreadUtils.toMilliseconds(15), 32,7),
-    GOLD("Ouro", 0, Difficulty.EXTREME, ThreadUtils.toMilliseconds(30), 8, 50),
-    FAVOR("Favor aos Deuses", 0, Difficulty.EXTREME, ThreadUtils.toMilliseconds(30), 8,0);
+    ENERGY("Energy Cells", 250, Difficulty.EASY, ThreadUtils.toMilliseconds(8), 150, 5),
+    DATA("Data Streams", 180, Difficulty.EASY, ThreadUtils.toMilliseconds(6), 120, 3),
+    COMPONENTS("Tech Components", 120, Difficulty.MEDIUM, ThreadUtils.toMilliseconds(12), 80, 8),
+    CIRCUITS("Neural Circuits", 60, Difficulty.MEDIUM, ThreadUtils.toMilliseconds(18), 50, 15),
+    NANOMATERIALS("Nanomaterials", 30, Difficulty.HARD, ThreadUtils.toMilliseconds(25), 35, 25),
+    QUANTUM_ENERGY("Quantum Energy", 15, Difficulty.EXTREME, ThreadUtils.toMilliseconds(35), 20, 50),
+    CRYPTO("Crypto Tokens", 8, Difficulty.EXTREME, ThreadUtils.toMilliseconds(40), 12, 100);
+
+    // Legacy resource mapping for transition period
+    private static final Map<String, ResourceType> LEGACY_MAPPING = Map.of(
+        "WOOD", ENERGY,
+        "POPULATION", DATA,
+        "WATER", ENERGY,
+        "FOOD", DATA,
+        "STONE", COMPONENTS,
+        "IRON", CIRCUITS,
+        "SILVER", NANOMATERIALS,
+        "GRAPES", COMPONENTS,
+        "GOLD", QUANTUM_ENERGY,
+        "FAVOR", CRYPTO
+    );
 
     String description;
     Difficulty hardToGet;
@@ -89,22 +101,35 @@ public enum ResourceType {
     }
 
     /**
-     * Gets resources available in the given era level.
+     * Gets resources available in the given phase level.
      * This method is exposed for use by GuildMissionService and other services.
-     * @param currentEraLevel The era level to get resources for
-     * @return List of resource types available in the era
+     * @param currentPhaseLevel The phase level to get resources for
+     * @return List of resource types available in the phase
      */
-    public static List<ResourceType> getResourcesPackBasedOnCurrentEra(int currentEraLevel) {
-        EraAge currentEra = EraAge.getByLevel(currentEraLevel);
-        return switch (Objects.requireNonNull(currentEra)) {
-            case STONE_AGE -> List.of(POPULATION, FOOD, WATER, WOOD, STONE);
-            case BRONZE_AGE -> List.of(IRON);
-            case IRON_AGE -> List.of(SILVER);
-            case MEDIEVAL_AGE -> List.of(GRAPES);
-            case INDUSTRIAL_AGE -> List.of(GOLD);
-            case MODERN_AGE -> List.of(FAVOR);
+    public static List<ResourceType> getResourcesPackBasedOnCurrentPhase(int currentPhaseLevel) {
+        Phase currentPhase = Phase.getByLevel(currentPhaseLevel);
+        return switch (Objects.requireNonNull(currentPhase)) {
+            case EARLY_DIGITAL -> List.of(ENERGY, DATA);
+            case NEURAL_NETWORK -> List.of(COMPONENTS);
+            case CYBERNETIC -> List.of(CIRCUITS);
+            case NANO_TECH -> List.of(NANOMATERIALS);
+            case QUANTUM_COMPUTING -> List.of(QUANTUM_ENERGY);
+            case FUSION_TECH -> List.of(CRYPTO);
+            case SINGULARITY -> List.of(ENERGY, DATA, COMPONENTS);
+            case POST_HUMAN -> List.of(CIRCUITS, NANOMATERIALS);
+            case TRANSCENDENCE -> List.of(QUANTUM_ENERGY, CRYPTO);
             default -> List.of();
         };
+    }
+
+    /**
+     * Legacy method to maintain backward compatibility with EraAge.
+     * @deprecated Use getResourcesPackBasedOnCurrentPhase instead
+     */
+    @Deprecated
+    public static List<ResourceType> getResourcesPackBasedOnCurrentEra(int currentEraLevel) {
+        // Map legacy era levels to new phase system
+        return getResourcesPackBasedOnCurrentPhase(currentEraLevel);
     }
 
     /**
@@ -139,9 +164,44 @@ public enum ResourceType {
      */
     public double getGuildVaultTransferMultiplier() {
         return switch (this) {
-            case FAVOR -> 0.5; // Favor transfers at 50% rate (divine blessing is personal)
-            case POPULATION -> 0.8; // Population transfers at 80% rate (some prefer to stay)
+            case CRYPTO -> 0.6; // Crypto tokens have network fees
+            case QUANTUM_ENERGY -> 0.7; // Quantum energy degrades during transfer
+            case DATA -> 0.9; // Data streams have minor compression loss
             default -> 1.0; // All other resources transfer at full rate
         };
+    }
+
+    /**
+     * Gets the modern ResourceType from a legacy resource name
+     * Used during transition period to maintain compatibility
+     * @param legacyName The legacy resource name (e.g., "WOOD", "GOLD")
+     * @return The corresponding modern ResourceType
+     * @throws IllegalArgumentException if legacy name is not recognized
+     */
+    public static ResourceType fromLegacyName(String legacyName) {
+        ResourceType mapped = LEGACY_MAPPING.get(legacyName.toUpperCase());
+        if (mapped == null) {
+            throw new IllegalArgumentException("Unknown legacy resource: " + legacyName);
+        }
+        return mapped;
+    }
+
+    /**
+     * Gets all legacy resource names that map to this modern resource
+     * @return List of legacy names that convert to this resource
+     */
+    public List<String> getLegacyNames() {
+        return LEGACY_MAPPING.entrySet().stream()
+                .filter(entry -> entry.getValue() == this)
+                .map(Map.Entry::getKey)
+                .toList();
+    }
+
+    /**
+     * Gets the conversion map for all legacy resources
+     * @return Map of legacy resource names to modern ResourceType
+     */
+    public static Map<String, ResourceType> getLegacyConversionMap() {
+        return Map.copyOf(LEGACY_MAPPING);
     }
 }

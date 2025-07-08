@@ -42,7 +42,7 @@ public class Building {
         return timeBetweenProductions;
     }
 
-    public void build(List<ResourceAmount> playerResources, List<Worker> playerWorkersList, PlayerService playerService) {
+    public void build(List<ResourceAmount> playerResources, List<CyberOperative> playerOperativesList, PlayerService playerService) {
         if(amountConstructionsAllowed > 0) {
             System.out.println("A retirar recursos necessários do teu inventário...");
             
@@ -58,7 +58,7 @@ public class Building {
             deductResourcesWithSkillModifier(playerResources, playerService.getConstructionCostMultiplier());
             
             increaseResourceCost();
-            startThreadForProductions(playerResources, playerWorkersList);
+            startThreadForProductions(playerResources, playerOperativesList);
         } else {
             System.out.println("Já construiste o máximo deste tipo de edificio");
         }
@@ -99,7 +99,7 @@ public class Building {
      * @deprecated Use build(List, List, PlayerService) instead for skill integration
      */
     @Deprecated
-    public void build(List<ResourceAmount> playerResources, List<Worker> playerWorkersList) {
+    public void build(List<ResourceAmount> playerResources, List<CyberOperative> playerOperativesList) {
         if(amountConstructionsAllowed > 0) {
             System.out.println("A retirar recursos necessários do teu inventário...");
             sleep(getConstructionTimeInMils());
@@ -107,7 +107,7 @@ public class Building {
             isBuilt = true;
             amountConstructionsAllowed--;
             increaseResourceCost();
-            startThreadForProductions(playerResources, playerWorkersList);
+            startThreadForProductions(playerResources, playerOperativesList);
         } else {
             System.out.println("Já construiste o máximo deste tipo de edificio");
         }
@@ -127,10 +127,10 @@ public class Building {
         }
     }
 
-    public void startThreadForProductions(List<ResourceAmount> playerResources, List<Worker> playerWorkersList) {
+    public void startThreadForProductions(List<ResourceAmount> playerResources, List<CyberOperative> playerOperativesList) {
         boolean hasConstructionProductions = timeBetweenProductions > 0;
         if(hasConstructionProductions) {
-            new ResourceGeneratorThread(this, playerResources, playerWorkersList).start();
+            new ResourceGeneratorThread(this, playerResources, playerOperativesList).start();
         }
     }
 

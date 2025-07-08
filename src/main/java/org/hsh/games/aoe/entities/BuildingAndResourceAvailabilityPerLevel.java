@@ -6,46 +6,46 @@ import java.util.ArrayList;
 
 public enum BuildingAndResourceAvailabilityPerLevel {
     LEVEL_1(1, List.of(
-                    ConstructionType.TOWN_CENTER,
-                    ConstructionType.HOUSE,
-                    ConstructionType.LUMBER_CAMP,
-                    ConstructionType.MILL,
-                    ConstructionType.ACADEMY
+                    ConstructionType.COMMAND_CENTER,
+                    ConstructionType.OP_BASE,
+                    ConstructionType.RESOURCE_DEPOT,
+                    ConstructionType.PROCESSING_PLANT,
+                    ConstructionType.TACTICAL_CENTER
             ), ResourceType.getResourcesPackBasedOnCurrentEra(1)
     ),
     LEVEL_2(2,
             List.of(
-                    ConstructionType.BARRACKS,
-                    ConstructionType.ARCHERY_RANGE
+                    ConstructionType.TRAINING_FACILITY,
+                    ConstructionType.WEAPONS_RANGE
             ), ResourceType.getResourcesPackBasedOnCurrentEra(2)
     ),
     LEVEL_3(3,
             List.of(
-                    ConstructionType.STABLE,
-                    ConstructionType.MARKET
+                    ConstructionType.VEHICLE_BAY,
+                    ConstructionType.TRADE_HUB
             ), ResourceType.getResourcesPackBasedOnCurrentEra(3)
     ),
     LEVEL_4(4,
             List.of(
-                    ConstructionType.BLACKSMITH,
-                    ConstructionType.FARM
+                    ConstructionType.TECH_FOUNDRY,
+                    ConstructionType.SUPPLY_STATION
             ), ResourceType.getResourcesPackBasedOnCurrentEra(4)
     ),
     LEVEL_5(5,
             List.of(
-                    ConstructionType.WINERY,
-                    ConstructionType.DOCK
+                    ConstructionType.CRYPTO_MINE,
+                    ConstructionType.LAUNCH_PAD
             ), ResourceType.getResourcesPackBasedOnCurrentEra(5)
     ),
     LEVEL_6(6,
             List.of(
-                    ConstructionType.MONASTERY,
-                    ConstructionType.TEMPLE
+                    ConstructionType.COMM_RELAY,
+                    ConstructionType.NEURAL_NEXUS
             ), ResourceType.getResourcesPackBasedOnCurrentEra(6)
     ),
     LEVEL_7(7,
             List.of(
-                    ConstructionType.UNIVERSITY
+                    ConstructionType.RESEARCH_LAB
             ), ResourceType.getResourcesPackBasedOnCurrentEra(7)
     ),
     LEVEL_8(8, new ArrayList<>(), ResourceType.getResourcesPackBasedOnCurrentEra(8)),

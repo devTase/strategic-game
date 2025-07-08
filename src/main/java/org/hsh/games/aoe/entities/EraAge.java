@@ -4,15 +4,15 @@ import java.util.Arrays;
 import java.util.Map;
 
 public enum EraAge {
-    STONE_AGE("Idade da Pedra", 1, Map.of(ConstructionType.TOWN_CENTER, 1, ConstructionType.HOUSE, 1, ConstructionType.ACADEMY, 1)),
-    BRONZE_AGE("Idade do Bronze", 2, Map.of(ConstructionType.TOWN_CENTER, 2, ConstructionType.HOUSE, 2, ConstructionType.LUMBER_CAMP, 2)),
-    IRON_AGE("Idade do Ferro", 3, Map.of(ConstructionType.TOWN_CENTER, 3, ConstructionType.HOUSE, 3, ConstructionType.LUMBER_CAMP, 3, ConstructionType.MILL, 3)),
-    MEDIEVAL_AGE("Idade Medával", 4, Map.of(ConstructionType.TOWN_CENTER, 4, ConstructionType.HOUSE, 4, ConstructionType.LUMBER_CAMP, 4, ConstructionType.MILL, 4, ConstructionType.BARRACKS, 4)),
-    RENAISSANCE("Idade do Renascimento", 5, Map.of(ConstructionType.TOWN_CENTER, 5, ConstructionType.HOUSE, 5, ConstructionType.LUMBER_CAMP, 5, ConstructionType.MILL, 5, ConstructionType.BARRACKS, 5, ConstructionType.ARCHERY_RANGE, 5)),
-    INDUSTRIAL_AGE("Idade Industrial", 6, Map.of(ConstructionType.TOWN_CENTER, 6, ConstructionType.HOUSE, 6)),
-    MODERN_AGE("Idade Moderna", 7, Map.of(ConstructionType.TOWN_CENTER, 7, ConstructionType.HOUSE, 7)),
-    INFORMATION_AGE("Idade da Informação", 8, Map.of(ConstructionType.TOWN_CENTER, 8, ConstructionType.HOUSE, 8)),
-    FUTURE_AGE("Idade Futura", 9, Map.of(ConstructionType.TOWN_CENTER, 9, ConstructionType.HOUSE, 9));
+    STONE_AGE("Idade da Pedra", 1, createEraRequirements(1)),
+    BRONZE_AGE("Idade do Bronze", 2, createEraRequirements(2)),
+    IRON_AGE("Idade do Ferro", 3, createEraRequirements(3)),
+    MEDIEVAL_AGE("Idade Medával", 4, createEraRequirements(4)),
+    RENAISSANCE("Idade do Renascimento", 5, createEraRequirements(5)),
+    INDUSTRIAL_AGE("Idade Industrial", 6, createEraRequirements(6)),
+    MODERN_AGE("Idade Moderna", 7, createEraRequirements(7)),
+    INFORMATION_AGE("Idade da Informação", 8, createEraRequirements(8)),
+    FUTURE_AGE("Idade Futura", 9, createEraRequirements(9));
 
     private final String eraName;
     private final int level;
@@ -22,6 +22,42 @@ public enum EraAge {
         this.eraName = eraName;
         this.level = level;
         this.requirementsForNextLevel = requirementsForNextLevel;
+    }
+    
+    private static Map<ConstructionType, Integer> createEraRequirements(int level) {
+        Map<ConstructionType, Integer> requirements = new java.util.HashMap<>();
+        
+        // Base requirements for all eras
+        requirements.put(ConstructionType.COMMAND_CENTER, level);
+        requirements.put(ConstructionType.OP_BASE, level);
+        
+        // Progressive requirements based on level
+        if (level >= 2) {
+            requirements.put(ConstructionType.RESOURCE_DEPOT, level);
+        }
+        if (level >= 3) {
+            requirements.put(ConstructionType.PROCESSING_PLANT, level);
+        }
+        if (level >= 4) {
+            requirements.put(ConstructionType.TRAINING_FACILITY, level);
+        }
+        if (level >= 5) {
+            requirements.put(ConstructionType.WEAPONS_RANGE, level);
+        }
+        if (level >= 6) {
+            requirements.put(ConstructionType.VEHICLE_BAY, level);
+        }
+        if (level >= 7) {
+            requirements.put(ConstructionType.TRADE_HUB, level);
+        }
+        if (level >= 8) {
+            requirements.put(ConstructionType.RESEARCH_LAB, level);
+        }
+        if (level >= 9) {
+            requirements.put(ConstructionType.NEURAL_NEXUS, level);
+        }
+        
+        return requirements;
     }
 
     public static EraAge getByLevel(int level) {

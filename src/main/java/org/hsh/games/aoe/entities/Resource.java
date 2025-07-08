@@ -30,7 +30,7 @@ public class Resource {
         if(amountMax < 2) amountMax = 3;
         int lowestAmountToBeFound = random.nextInt(1, amountMax);
 
-        System.out.printf("O trabalhador começou a tarefa de %s\nTermina dentro de %d minutos.\n", currentMission, ThreadUtils.toMinutes(totalSearchTime));
+        System.out.printf("O operativo cyber começou a tarefa de %s\nTermina dentro de %d minutos.\n", currentMission, ThreadUtils.toMinutes(totalSearchTime));
 
         try {
 
@@ -41,9 +41,9 @@ public class Resource {
             Thread.sleep(totalSearchTime-splittedTime);
             ResourceAmount resourceFound = new ResourceAmount(type, random.nextInt(lowestAmountToBeFound, amountMaxToBeFound));
             addToPlayerResources(playerResources, resourceFound);
-            System.out.printf("\nO trabalhador voltou para casa com %d de %s\n", resourceFound.getAmount(), resourceFound.getResource().getDescription());
+            System.out.printf("\nO operativo cyber voltou para base com %d de %s\n", resourceFound.getAmount(), resourceFound.getResource().getDescription());
         } catch (java.lang.InterruptedException e) {
-            System.out.println("O trabalhador aleijou-se enquanto procurava resources!!");
+            System.out.println("O operativo cyber foi comprometido enquanto procurava resources!!");
         }
     }
 
@@ -53,7 +53,7 @@ public class Resource {
             Random random = new Random();
             int killed = random.nextInt(1, 100);
             if(killed > 80) {
-                System.out.println("O trabalhador foi atacado por um animal selvagem e foi morto");
+                System.out.println("O operativo cyber foi atacado por defensas do sistema e foi eliminado");
                 return true;
             }
             return false;
@@ -63,7 +63,7 @@ public class Resource {
             Random random = new Random();
             int killed = random.nextInt(1, 100);
             if(killed > 70) {
-                System.out.println("O trabalhador foi atacado por um animal selvagem e foi morto");
+                System.out.println("O operativo cyber foi atacado por defensas do sistema e foi eliminado");
                 return true;
             }
             return false;
@@ -77,7 +77,7 @@ public class Resource {
             Random random = new Random();
             int injured = random.nextInt(1, 100);
             if(injured > 80) {
-                System.out.println("\nO trabalhador foi atacado por um animal selvagem e voltou para casa com menos recursos");
+                System.out.println("\nO operativo cyber foi atacado por defensas do sistema e voltou para base com menos recursos");
             }
             return;
         }
@@ -85,14 +85,14 @@ public class Resource {
             Random random = new Random();
             int injured = random.nextInt(1, 100);
             if(injured > 60) {
-                System.out.println("\nO trabalhador foi atacado por um animal selvagem e voltou para casa com menos recursos");
+                System.out.println("\nO operativo cyber foi atacado por defensas do sistema e voltou para base com menos recursos");
             }
             return;
         }
         Random random = new Random();
         int injured = random.nextInt(1, 100);
         if(injured > 50) {
-            System.out.println("\nO trabalhador foi atacado por um animal selvagem e voltou para casa com menos recursos");
+            System.out.println("\nO operativo cyber foi atacado por defensas do sistema e voltou para base com menos recursos");
         }
     }
 
