@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="org.hsh.games.aoe.services.SkillServiceTest" time="36.274" tests="12" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="org.hsh.games.aoe.services.SkillServiceTest" time="36.227" tests="12" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="24"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -13,7 +13,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="PT"/>
     <property name="sun.boot.library.path" value="/opt/homebrew/Cellar/openjdk/24.0.1/libexec/openjdk.jdk/Contents/Home/lib"/>
-    <property name="sun.java.command" value="org.apache.maven.surefire.booter.ForkedBooter /Users/tiagoesteves/Desktop/Repos/github/strategic-game/target/surefire 2025-07-07T22-54-01_188-jvmRun1 surefire-20250707225401300_1tmp surefire_0-20250707225401300_2tmp"/>
+    <property name="sun.java.command" value="org.apache.maven.surefire.booter.ForkedBooter /Users/tiagoesteves/Desktop/Repos/github/strategic-game/target/surefire 2025-07-08T22-59-25_047-jvmRun1 surefire-20250708225925209_1tmp surefire_0-20250708225925209_2tmp"/>
     <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/Users/tiagoesteves/Desktop/Repos/github/strategic-game/target/test-classes:/Users/tiagoesteves/.m2/repository/org/openjfx/javafx-controls/21/javafx-controls-21.jar:/Users/tiagoesteves/.m2/repository/org/openjfx/javafx-graphics/21/javafx-graphics-21.jar:/Users/tiagoesteves/.m2/repository/org/openjfx/javafx-base/21/javafx-base-21.jar:/Users/tiagoesteves/.m2/repository/org/openjfx/javafx-fxml/21/javafx-fxml-21.jar:/Users/tiagoesteves/.m2/repository/org/openjfx/javafx-media/21/javafx-media-21.jar:/Users/tiagoesteves/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-common/1.8.10/kotlin-stdlib-common-1.8.10.jar:/Users/tiagoesteves/.m2/repository/org/jetbrains/annotations/13.0/annotations-13.0.jar:/Users/tiagoesteves/.m2/repository/junit/junit/4.13.1/junit-4.13.1.jar:/Users/tiagoesteves/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:/Users/tiagoesteves/.m2/repository/org/junit/jupiter/junit-jupiter/5.8.1/junit-jupiter-5.8.1.jar:/Users/tiagoesteves/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.8.1/junit-jupiter-api-5.8.1.jar:/Users/tiagoesteves/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar:/Users/tiagoesteves/.m2/repository/org/junit/platform/junit-platform-commons/1.8.1/junit-platform-commons-1.8.1.jar:/Users/tiagoesteves/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/tiagoesteves/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.8.1/junit-jupiter-params-5.8.1.jar:/Users/tiagoesteves/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.8.1/junit-jupiter-engine-5.8.1.jar:/Users/tiagoesteves/.m2/repository/org/junit/platform/junit-platform-engine/1.8.1/junit-platform-engine-1.8.1.jar:/Users/tiagoesteves/.m2/repository/org/mockito/mockito-core/3.12.4/mockito-core-3.12.4.jar:/Users/tiagoesteves/.m2/repository/net/bytebuddy/byte-buddy/1.11.13/byte-buddy-1.11.13.jar:/Users/tiagoesteves/.m2/repository/net/bytebuddy/byte-buddy-agent/1.11.13/byte-buddy-agent-1.11.13.jar:/Users/tiagoesteves/.m2/repository/org/objenesis/objenesis/3.2/objenesis-3.2.jar:"/>
@@ -60,153 +60,159 @@
     <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.class.version" value="68.0"/>
   </properties>
-  <testcase name="testStartUpgrade_ValidRequest_StartsUpgrade" classname="org.hsh.games.aoe.services.SkillServiceTest" time="3.139">
-    <system-out><![CDATA[Descoberta Uma Nova ERA! A Era da Idade da Pedra
+  <testcase name="testStartUpgrade_ValidRequest_StartsUpgrade" classname="org.hsh.games.aoe.services.SkillServiceTest" time="3.12">
+    <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
 
-Trabalhador consumiu 5 de Água
+Operativo cyber consumiu 5 de Energy Cells
 
-Trabalhador consumiu 5 de Água
+Operativo cyber consumiu 5 de Energy Cells
 
-Trabalhador consumiu 5 de Água
-💰 Deducted 400 Madeira
-💰 Deducted 320 Comida
-💰 Deducted 200 Pedra
+Operativo cyber consumiu 5 de Energy Cells
+💰 Deducted 400 Energy Cells
+💰 Deducted 320 Data Streams
+💰 Deducted 200 Tech Components
 🎓 Started upgrading Construction Speed from level 1 to level 2
 ⏱️ Upgrade will complete in 60 seconds
-👷 Worker worker1 is now working on the upgrade
+👷 Cyber operative operative1 is now working on the upgrade
 ]]></system-out>
   </testcase>
-  <testcase name="testStartUpgrade_AnotherUpgradeRunning_ThrowsException" classname="org.hsh.games.aoe.services.SkillServiceTest" time="3.009">
-    <system-out><![CDATA[Descoberta Uma Nova ERA! A Era da Idade da Pedra
+  <testcase name="testStartUpgrade_AnotherUpgradeRunning_ThrowsException" classname="org.hsh.games.aoe.services.SkillServiceTest" time="3.01">
+    <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
 
-Trabalhador consumiu 5 de Água
+Operativo cyber consumiu 5 de Energy Cells
 
-Trabalhador consumiu 5 de Água
+Operativo cyber consumiu 5 de Energy Cells
 
-Trabalhador consumiu 5 de Água
-💰 Deducted 400 Madeira
-💰 Deducted 320 Comida
-💰 Deducted 200 Pedra
+Operativo cyber consumiu 5 de Energy Cells
+💰 Deducted 400 Energy Cells
+💰 Deducted 320 Data Streams
+💰 Deducted 200 Tech Components
 🎓 Started upgrading Construction Speed from level 1 to level 2
 ⏱️ Upgrade will complete in 60 seconds
-👷 Worker worker1 is now working on the upgrade
+👷 Cyber operative operative1 is now working on the upgrade
 ]]></system-out>
   </testcase>
-  <testcase name="testGetCurrentUpgrade_NoUpgrade_ReturnsNull" classname="org.hsh.games.aoe.services.SkillServiceTest" time="3.004">
-    <system-out><![CDATA[Descoberta Uma Nova ERA! A Era da Idade da Pedra
+  <testcase name="testGetCurrentUpgrade_NoUpgrade_ReturnsNull" classname="org.hsh.games.aoe.services.SkillServiceTest" time="3.007">
+    <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
 
-Trabalhador consumiu 5 de Água
+Operativo cyber consumiu 5 de Energy Cells
 
-Trabalhador consumiu 5 de Água
+Operativo cyber consumiu 5 de Energy Cells
 
-Trabalhador consumiu 5 de Água
+Operativo cyber consumiu 5 de Energy Cells
 ]]></system-out>
   </testcase>
-  <testcase name="testStartUpgrade_MaxLevel_ThrowsException" classname="org.hsh.games.aoe.services.SkillServiceTest" time="3.009">
-    <system-out><![CDATA[Descoberta Uma Nova ERA! A Era da Idade da Pedra
+  <testcase name="testStartUpgrade_MaxLevel_ThrowsException" classname="org.hsh.games.aoe.services.SkillServiceTest" time="3.008">
+    <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
 
-Trabalhador consumiu 5 de Água
+Operativo cyber consumiu 5 de Energy Cells
 
-Trabalhador consumiu 5 de Água
+Operativo cyber consumiu 5 de Energy Cells
 
-Trabalhador consumiu 5 de Água
-
-O trabalhador terminou a tarefa: A iniciar produção de recursos...
-Construção de Edifício: Casa
+Operativo cyber consumiu 5 de Energy Cells
 ]]></system-out>
   </testcase>
-  <testcase name="testGetInstance_ReturnsSameInstance" classname="org.hsh.games.aoe.services.SkillServiceTest" time="3.012">
-    <system-out><![CDATA[Descoberta Uma Nova ERA! A Era da Idade da Pedra
-&amp#27;[H&amp#27;[2J
-Trabalhador consumiu 5 de Água
+  <testcase name="testGetInstance_ReturnsSameInstance" classname="org.hsh.games.aoe.services.SkillServiceTest" time="3.011">
+    <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
 
-Trabalhador consumiu 5 de Água
+Operativo cyber consumiu 5 de Energy Cells
 
-Trabalhador consumiu 5 de Água
+Operativo cyber consumiu 5 de Energy Cells
+
+Operativo cyber consumiu 5 de Energy Cells
 ]]></system-out>
   </testcase>
-  <testcase name="testStartUpgrade_NullArguments_ThrowsException" classname="org.hsh.games.aoe.services.SkillServiceTest" time="3.007">
-    <system-out><![CDATA[Descoberta Uma Nova ERA! A Era da Idade da Pedra
+  <testcase name="testStartUpgrade_NullArguments_ThrowsException" classname="org.hsh.games.aoe.services.SkillServiceTest" time="3.012">
+    <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
 
-Trabalhador consumiu 5 de Água
+Operativo cyber consumiu 5 de Energy Cells
 
-Trabalhador consumiu 5 de Água
+Operativo cyber consumiu 5 de Energy Cells
 
-Trabalhador consumiu 5 de Água
+Operativo cyber consumiu 5 de Energy Cells
 ]]></system-out>
   </testcase>
-  <testcase name="testStartUpgrade_NoAcademy_ThrowsException" classname="org.hsh.games.aoe.services.SkillServiceTest" time="3.008">
-    <system-out><![CDATA[Descoberta Uma Nova ERA! A Era da Idade da Pedra
+  <testcase name="testStartUpgrade_NoAcademy_ThrowsException" classname="org.hsh.games.aoe.services.SkillServiceTest" time="3.005">
+    <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
 
-Trabalhador consumiu 5 de Água
+Operativo cyber consumiu 5 de Energy Cells
 
-Trabalhador consumiu 5 de Água
+Operativo cyber consumiu 5 de Energy Cells
 
-Trabalhador consumiu 5 de Água
+Operativo cyber consumiu 5 de Energy Cells
+
+O operativo cyber terminou a tarefa: Construção de Edifício: Operations Base
+A iniciar produção de recursos...
 ]]></system-out>
   </testcase>
-  <testcase name="testStartUpgrade_NoWorkerAvailable_ThrowsException" classname="org.hsh.games.aoe.services.SkillServiceTest" time="3.013">
-    <system-out><![CDATA[Descoberta Uma Nova ERA! A Era da Idade da Pedra
+  <testcase name="testStartUpgrade_InsufficientResources_ThrowsException" classname="org.hsh.games.aoe.services.SkillServiceTest" time="3.007">
+    <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
 
-Trabalhador consumiu 5 de Água
+Operativo cyber consumiu 5 de Energy Cells
 
-Trabalhador consumiu 5 de Água
+Operativo cyber consumiu 5 de Energy Cells
 
-Trabalhador consumiu 5 de Água
-Todos os seus trabalhadores estão ocupados com tarefas!
-Crie mais trabalhadores.
+Operativo cyber consumiu 5 de Energy Cells
+
+Operativo cyber consumiu 5 de Energy Cells
+
+Operativo cyber consumiu 5 de Energy Cells
+
+Operativo cyber consumiu 5 de Energy Cells
+&amp#27;[H&amp#27;[2J]]></system-out>
+  </testcase>
+  <testcase name="testListSkills_NullPlayerService_ThrowsException" classname="org.hsh.games.aoe.services.SkillServiceTest" time="3.006">
+    <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
+
+Operativo cyber consumiu 5 de Energy Cells
+
+Operativo cyber consumiu 5 de Energy Cells
+
+Operativo cyber consumiu 5 de Energy Cells
+
+Operativo cyber consumiu 5 de Energy Cells
+
+Operativo cyber consumiu 5 de Energy Cells
+
+Operativo cyber consumiu 5 de Energy Cells
 ]]></system-out>
   </testcase>
-  <testcase name="testStartUpgrade_InsufficientResources_ThrowsException" classname="org.hsh.games.aoe.services.SkillServiceTest" time="3.009">
-    <system-out><![CDATA[Descoberta Uma Nova ERA! A Era da Idade da Pedra
+  <testcase name="testStartUpgrade_NoCyberOperativeAvailable_ThrowsException" classname="org.hsh.games.aoe.services.SkillServiceTest" time="3.009">
+    <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
 
-Trabalhador consumiu 5 de Água
+Operativo cyber consumiu 5 de Energy Cells
 
-Trabalhador consumiu 5 de Água
+Operativo cyber consumiu 5 de Energy Cells
 
-Trabalhador consumiu 5 de Água
+Operativo cyber consumiu 5 de Energy Cells
+Todos os seus operativos cyber estão ocupados com tarefas!
+Crie mais operativos cyber.
 ]]></system-out>
   </testcase>
-  <testcase name="testListSkills_NullPlayerService_ThrowsException" classname="org.hsh.games.aoe.services.SkillServiceTest" time="3.014">
-    <system-out><![CDATA[Descoberta Uma Nova ERA! A Era da Idade da Pedra
+  <testcase name="testGetCurrentUpgrade_NullPlayerService_ThrowsException" classname="org.hsh.games.aoe.services.SkillServiceTest" time="3.008">
+    <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
 
-Trabalhador consumiu 5 de Água
+Operativo cyber consumiu 5 de Energy Cells
 
-Trabalhador consumiu 5 de Água
+Operativo cyber consumiu 5 de Energy Cells
 
-Trabalhador consumiu 5 de Água
+Operativo cyber consumiu 5 de Energy Cells
+
+Operativo cyber consumiu 5 de Energy Cells
+
+Operativo cyber consumiu 5 de Energy Cells
+
+Operativo cyber consumiu 5 de Energy Cells
 ]]></system-out>
   </testcase>
-  <testcase name="testGetCurrentUpgrade_NullPlayerService_ThrowsException" classname="org.hsh.games.aoe.services.SkillServiceTest" time="3.015">
-    <system-out><![CDATA[Descoberta Uma Nova ERA! A Era da Idade da Pedra
+  <testcase name="testListSkills_ReturnsAllSkills" classname="org.hsh.games.aoe.services.SkillServiceTest" time="3.005">
+    <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
 
-Trabalhador consumiu 5 de Água
+Operativo cyber consumiu 5 de Energy Cells
 
-Trabalhador consumiu 5 de Água
+Operativo cyber consumiu 5 de Energy Cells
 
-Trabalhador consumiu 5 de Água
-
-Trabalhador consumiu 5 de Água
-
-Trabalhador consumiu 5 de Água
-
-Trabalhador consumiu 5 de Água
-]]></system-out>
-  </testcase>
-  <testcase name="testListSkills_ReturnsAllSkills" classname="org.hsh.games.aoe.services.SkillServiceTest" time="3.006">
-    <system-out><![CDATA[Descoberta Uma Nova ERA! A Era da Idade da Pedra
-
-Trabalhador consumiu 5 de Água
-
-Trabalhador consumiu 5 de Água
-
-Trabalhador consumiu 5 de Água
-
-Trabalhador consumiu 5 de Água
-
-Trabalhador consumiu 5 de Água
-
-Trabalhador consumiu 5 de Água
+Operativo cyber consumiu 5 de Energy Cells
 ]]></system-out>
   </testcase>
 </testsuite>

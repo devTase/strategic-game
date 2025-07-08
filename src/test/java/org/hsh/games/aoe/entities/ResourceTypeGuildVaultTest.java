@@ -1,5 +1,6 @@
 package org.hsh.games.aoe.entities;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -10,33 +11,38 @@ import java.util.List;
  * 
  * @author devTASE
  */
+@DisplayName("ResourceType Guild Vault Tests")
 public class ResourceTypeGuildVaultTest {
 
     @Test
+    @DisplayName("Should return correct resource packs for different phases")
     public void testGetResourcesPackBasedOnCurrentEraIsPublic() {
-        // Given - Era levels
-        int stoneAge = 1;
-        int bronzeAge = 2;
-        int modernAge = 7;
+        // Given - Phase levels
+        int earlyDigital = 1;
+        int neuralNetwork = 2;
+        int singularity = 7;
         
-        // When - Get resources for different eras
-        List<ResourceType> stoneAgeResources = ResourceType.getResourcesPackBasedOnCurrentEra(stoneAge);
-        List<ResourceType> bronzeAgeResources = ResourceType.getResourcesPackBasedOnCurrentEra(bronzeAge);
-        List<ResourceType> modernAgeResources = ResourceType.getResourcesPackBasedOnCurrentEra(modernAge);
+        // When - Get resources for different phases
+        List<ResourceType> earlyDigitalResources = ResourceType.getResourcesPackBasedOnCurrentEra(earlyDigital);
+        List<ResourceType> neuralNetworkResources = ResourceType.getResourcesPackBasedOnCurrentEra(neuralNetwork);
+        List<ResourceType> singularityResources = ResourceType.getResourcesPackBasedOnCurrentEra(singularity);
         
         // Then - Verify expected resources
-        assertEquals(2, stoneAgeResources.size());
-        assertTrue(stoneAgeResources.contains(ResourceType.ENERGY));
-        assertTrue(stoneAgeResources.contains(ResourceType.DATA));
+        assertEquals(2, earlyDigitalResources.size());
+        assertTrue(earlyDigitalResources.contains(ResourceType.ENERGY));
+        assertTrue(earlyDigitalResources.contains(ResourceType.DATA));
         
-        assertEquals(1, bronzeAgeResources.size());
-        assertTrue(bronzeAgeResources.contains(ResourceType.COMPONENTS));
+        assertEquals(1, neuralNetworkResources.size());
+        assertTrue(neuralNetworkResources.contains(ResourceType.COMPONENTS));
         
-        assertEquals(1, modernAgeResources.size());
-        assertTrue(modernAgeResources.contains(ResourceType.CRYPTO));
+        assertEquals(3, singularityResources.size());
+        assertTrue(singularityResources.contains(ResourceType.ENERGY));
+        assertTrue(singularityResources.contains(ResourceType.DATA));
+        assertTrue(singularityResources.contains(ResourceType.COMPONENTS));
     }
 
     @Test
+    @DisplayName("Should validate guild vault transfer parameters")
     public void testGuildVaultTransferValidation() {
         // When/Then - Valid transfers should not throw
         assertDoesNotThrow(() -> ResourceType.validateGuildVaultTransfer(ResourceType.ENERGY, 100));
@@ -52,6 +58,7 @@ public class ResourceTypeGuildVaultTest {
     }
 
     @Test
+    @DisplayName("Should confirm all resource types are storable in guild vaults")
     public void testResourceTypeGuildVaultStorability() {
         // When/Then - All resource types should be storable in guild vaults
         for (ResourceType resource : ResourceType.values()) {
@@ -61,6 +68,7 @@ public class ResourceTypeGuildVaultTest {
     }
 
     @Test
+    @DisplayName("Should have correct transfer multipliers for different resource types")
     public void testResourceTypeTransferMultipliers() {
         // When/Then - Check specific multipliers
         assertEquals(0.6, ResourceType.CRYPTO.getGuildVaultTransferMultiplier(), 0.001);
@@ -79,6 +87,7 @@ public class ResourceTypeGuildVaultTest {
     }
 
     @Test
+    @DisplayName("Should apply transfer multipliers correctly for different resources")
     public void testTransferMultiplierLogic() {
         // Given
         int originalAmount = 100;

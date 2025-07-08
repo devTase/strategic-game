@@ -1,5 +1,6 @@
 package org.hsh.games.aoe.entities.rebelcell;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -8,9 +9,11 @@ import static org.junit.jupiter.api.Assertions.*;
  * 
  * @author devTASE
  */
+@DisplayName("RebelCellRank Tests")
 class RebelCellRankTest {
 
     @Test
+    @DisplayName("Should return correct display names for all ranks")
     void testRankDisplayName() {
         assertEquals("Rebel Hacker", RebelCellRank.HACKER.getDisplayName());
         assertEquals("Rebel Operator", RebelCellRank.OPERATOR.getDisplayName());
@@ -19,14 +22,16 @@ class RebelCellRankTest {
     }
 
     @Test
+    @DisplayName("Should return correct emojis for all ranks")
     void testRankEmoji() {
-        assertEquals("\uD83D\uDCBB", RebelCellRank.HACKER.getEmoji()); // 💻
-        assertEquals("\uD83D\uDCE1", RebelCellRank.OPERATOR.getEmoji()); // 📡
-        assertEquals("\uD83D\uDC82\u200D♂️", RebelCellRank.CELL_LEADER.getEmoji()); // 👨‍✈️
-        assertEquals("\uD83E\uDD77", RebelCellRank.INFILTRATOR.getEmoji()); // 🥷
+        assertEquals("💻", RebelCellRank.HACKER.getEmoji()); // 💻
+        assertEquals("📡", RebelCellRank.OPERATOR.getEmoji()); // 📡
+        assertEquals("👨‍✈️", RebelCellRank.CELL_LEADER.getEmoji()); // 👨‍✈️
+        assertEquals("🥷", RebelCellRank.INFILTRATOR.getEmoji()); // 🥷
     }
 
     @Test
+    @DisplayName("Should correctly identify which ranks have leadership privileges")
     void testRankLeadershipPrivileges() {
         assertFalse(RebelCellRank.HACKER.hasLeadershipPrivileges());
         assertFalse(RebelCellRank.OPERATOR.hasLeadershipPrivileges());
@@ -35,6 +40,7 @@ class RebelCellRankTest {
     }
 
     @Test
+    @DisplayName("Should correctly identify which ranks can infiltrate")
     void testRankInfiltrationAbility() {
         assertFalse(RebelCellRank.HACKER.canInfiltrate());
         assertFalse(RebelCellRank.OPERATOR.canInfiltrate());
@@ -43,6 +49,7 @@ class RebelCellRankTest {
     }
 
     @Test
+    @DisplayName("Should find rank by exact display name")
     void testGetByDisplayName() {
         assertEquals(RebelCellRank.HACKER, RebelCellRank.getByDisplayName("Rebel Hacker"));
         assertEquals(RebelCellRank.OPERATOR, RebelCellRank.getByDisplayName("Rebel Operator"));
@@ -51,6 +58,7 @@ class RebelCellRankTest {
     }
 
     @Test
+    @DisplayName("Should find rank by display name ignoring case")
     void testGetByDisplayNameIgnoresCase() {
         assertEquals(RebelCellRank.HACKER, RebelCellRank.getByDisplayName("rebel hacker"));
         assertEquals(RebelCellRank.OPERATOR, RebelCellRank.getByDisplayName("REBEL OPERATOR"));
@@ -58,6 +66,7 @@ class RebelCellRankTest {
     }
 
     @Test
+    @DisplayName("Should return null for invalid display names")
     void testGetByDisplayNameReturnsNullForInvalidName() {
         assertNull(RebelCellRank.getByDisplayName("Invalid Rank"));
         assertNull(RebelCellRank.getByDisplayName(""));
@@ -65,6 +74,7 @@ class RebelCellRankTest {
     }
 
     @Test
+    @DisplayName("Should return display name with emoji prefix")
     void testGetDisplayNameWithEmoji() {
         assertEquals("💻 Rebel Hacker", RebelCellRank.HACKER.getDisplayNameWithEmoji());
         assertEquals("📡 Rebel Operator", RebelCellRank.OPERATOR.getDisplayNameWithEmoji());
@@ -73,6 +83,7 @@ class RebelCellRankTest {
     }
 
     @Test
+    @DisplayName("Should have meaningful descriptions for all ranks")
     void testRankDescriptions() {
         assertNotNull(RebelCellRank.HACKER.getDescription());
         assertNotNull(RebelCellRank.OPERATOR.getDescription());
@@ -86,6 +97,7 @@ class RebelCellRankTest {
     }
 
     @Test
+    @DisplayName("Should have all ranks with unique properties")
     void testAllRanksAreDifferent() {
         RebelCellRank[] ranks = RebelCellRank.values();
         assertEquals(4, ranks.length);
