@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class PlayerService {
     private Player player;
     private List<ResourceAmount> playerResources = new ArrayList<>();
-    private List<Worker> workers = new ArrayList<>();
+    private List<CyberOperative> cyberOperatives = new ArrayList<>();
     private List<Building> buildingList = new ArrayList<>();
     private DailyRewardService dailyRewardService = new DailyRewardService();
     private PlayerSkills playerSkills;
@@ -23,17 +23,17 @@ public class PlayerService {
         this.player = player;
         this.playerSkills = new PlayerSkills(player);
         this.setLevel(1);
-        addWorker(new Worker("worker1"));
-        addWorker(new Worker("worker2"));
-        addWorker(new Worker("worker3"));
+        addCyberOperative(new CyberOperative("operative1"));
+        addCyberOperative(new CyberOperative("operative2"));
+        addCyberOperative(new CyberOperative("operative3"));
     }
 
     public Player getPlayer() {
         return player;
     }
 
-    public List<Worker> getWorkers() {
-        return workers;
+    public List<CyberOperative> getCyberOperatives() {
+        return cyberOperatives;
     }
 
     public List<ResourceAmount> getPlayerResources() {
@@ -44,29 +44,29 @@ public class PlayerService {
         this.playerResources = playerResources;
     }
 
-    public void addWorker(Worker worker) {
+    public void addCyberOperative(CyberOperative operative) {
         for(ResourceAmount playerResource : playerResources) {
-            if(playerResource.getResource() == ResourceType.POPULATION) {
-                if(workers.size() < playerResource.getAmount()) {
-                    workers.add(worker);
-                    startConsumptionThread(worker);
+            if(playerResource.getResource() == ResourceType.DATA) {
+                if(cyberOperatives.size() < playerResource.getAmount()) {
+                    cyberOperatives.add(operative);
+                    startConsumptionThread(operative);
                 } else {
-                    System.out.println("Chegaste ao limite de trabalhadores!");
+                    System.out.println("Chegaste ao limite de operativos cyber!");
                 }
             }
         }
     }
 
-    public void startConsumptionThread(Worker worker) {
-        ResourceConsumptionThread consumptionThread = new ResourceConsumptionThread(worker, playerResources);
+    public void startConsumptionThread(CyberOperative operative) {
+        ResourceConsumptionThread consumptionThread = new ResourceConsumptionThread(operative, playerResources);
         consumptionThread.start();
-        consumptionThread.setOnThreadInterruptedListener(() -> removeWorker(worker));
+        consumptionThread.setOnThreadInterruptedListener(() -> removeCyberOperative(operative));
     }
 
-    private void removeWorker(Worker worker) {
-        workers.remove(worker);
+    private void removeCyberOperative(CyberOperative operative) {
+        cyberOperatives.remove(operative);
         Optional<ResourceAmount> populationResource = playerResources.stream()
-                .filter(resource -> resource.getResource() == ResourceType.POPULATION)
+                .filter(resource -> resource.getResource() == ResourceType.DATA)
                 .findFirst();
         populationResource.ifPresent(resource -> {
             int populationAmount = resource.getAmount();
@@ -74,7 +74,7 @@ public class PlayerService {
                 resource.setAmount(populationAmount - 1);
             }
         });
-        System.out.println("Trabalhador " + worker.getName() + " morreu por falta de recursos.");
+        System.out.println("Operative cyber " + operative.getName() + " morreu por falta de recursos.");
     }
 
     public void showResourcesHeader() {
@@ -88,8 +88,8 @@ public class PlayerService {
         System.out.println("╠══════════════════════════════════════════════════════════════════════════════════════════════╣");
         
         // Village Info
-        System.out.printf("║ 🏘️  Aldeia: %-25s │ %s Era: %-25s ║%n", 
-            player.getFarmName(), getEraIcon(), player.getEraAge().getEraName());
+        System.out.printf("║ 🏘️  Aldeia: %-25s │ %s Fase: %-25s ║%n", 
+            player.getFarmName(), getPhaseIcon(), player.getTechPhase().getPhaseName());
         
         System.out.println("╠══════════════════════════════════════════════════════════════════════════════════════════════╣");
         
@@ -116,12 +116,12 @@ public class PlayerService {
             
             if (i < basicResources.size()) {
                 ResourceAmount resource = basicResources.get(i);
-                if (resource.getResource() == ResourceType.POPULATION) {
-                    long availableWorkers = workers.stream().filter(worker -> !worker.isOccupied()).count();
+                if (resource.getResource() == ResourceType.DATA) {
+                    long availableOperatives = cyberOperatives.stream().filter(operative -> !operative.isOccupied()).count();
                     leftSide = String.format("║ %s %-12s: %d/%d disponíveis", 
                         getResourceIcon(resource.getResource()), 
                         resource.getResource().getDescription(),
-                        availableWorkers, workers.size());
+                        availableOperatives, cyberOperatives.size());
                 } else {
                     leftSide = String.format("║ %s %-12s: %-8d", 
                         getResourceIcon(resource.getResource()), 
@@ -151,7 +151,7 @@ public class PlayerService {
         System.out.println("║                                      ⚡ STATUS RÁPIDO ⚡                                       ║");
         System.out.println("╠══════════════════════════════════════════════════════════════════════════════════════════════╣");
         
-        long busyWorkers = workers.stream().filter(Worker::isOccupied).count();
+        long busyOperatives = cyberOperatives.stream().filter(CyberOperative::isOccupied).count();
         int totalBuildings = buildingList.size();
         long completedBuildings = buildingList.stream().filter(Building::getBuilded).count();
         
@@ -161,8 +161,8 @@ public class PlayerService {
             "✅ Coletada" : "🎁 Disponível";
         int currentStreak = dailyRewardService.getCurrentStreak(playerId);
         
-        System.out.printf("║ 👷 Trabalhadores Ocupados: %-8d │ 🏗️  Edifícios: %d/%d concluídos        ║%n", 
-            busyWorkers, completedBuildings, totalBuildings);
+        System.out.printf("║ 🤖 Operativos Cyber Ocupados: %-8d │ 🏢️  Edifícios: %d/%d concluídos        ║%n", 
+            busyOperatives, completedBuildings, totalBuildings);
         System.out.printf("║ 🎁 Recompensa Diária: %-14s     │ 🔥 Streak: %-3d dias consecutivos      ║%n",
             dailyStatus, currentStreak);
         
@@ -170,58 +170,59 @@ public class PlayerService {
         System.out.println();
     }
     
-    private String getEraIcon() {
-        return switch (player.getEraAge()) {
-            case STONE_AGE -> "🗿";
-            case BRONZE_AGE -> "🥉";
-            case IRON_AGE -> "⚔️";
-            case MEDIEVAL_AGE -> "🏰";
-            case RENAISSANCE -> "🎨";
-            case INDUSTRIAL_AGE -> "🏭";
-            case MODERN_AGE -> "🌆";
-            case INFORMATION_AGE -> "💻";
-            case FUTURE_AGE -> "🚀";
+    private String getPhaseIcon() {
+        return switch (player.getTechPhase()) {
+            case UPRISING -> "⚡";
+            case AUGMENTED_STREETS -> "🤖";
+            case NEURAL_NEXUS -> "🧠";
+            case DRONE_DOMINION -> "🚁";
+            case QUANTUM_DAWN -> "⚛️";
+            case SINGULARITY_PREP -> "🔮";
+            case POST_SINGULARITY -> "🌌";
+            case HYPER_MESH -> "🕸️";
+            case EXO_REALITY -> "👁️";
         };
     }
     
     private String getResourceIcon(ResourceType resourceType) {
         return switch (resourceType) {
-            case WOOD -> "🪵";
-            case WATER -> "💧";
-            case FOOD -> "🍞";
-            case STONE -> "🪨";
-            case POPULATION -> "👥";
-            case IRON -> "⚙️";
-            case SILVER -> "🥈";
-            case GRAPES -> "🍇";
-            case GOLD -> "🏅";
-            case FAVOR -> "⭐";
+            case ENERGY -> "⚡";
+            case DATA -> "💾";
+            case COMPONENTS -> "🔧";
+            case CIRCUITS -> "🖲️";
+            case NANOMATERIALS -> "⚛️";
+            case QUANTUM_ENERGY -> "🌟";
+            case CRYPTO -> "💰";
         };
     }
     
     private boolean isBasicResource(ResourceType resourceType) {
-        return resourceType == ResourceType.WOOD || 
-               resourceType == ResourceType.WATER || 
-               resourceType == ResourceType.FOOD || 
-               resourceType == ResourceType.STONE || 
-               resourceType == ResourceType.POPULATION;
+        return resourceType == ResourceType.ENERGY || 
+               resourceType == ResourceType.DATA || 
+               resourceType == ResourceType.COMPONENTS;
     }
 
     /**
-     * Check if the player is eligible for a new era
-     * @return true if the player is eligible for a new era
-     * @return false if the player is not eligible for a new era
+     * Check if the player is eligible for a new tech phase
+     * @return true if the player is eligible for a new tech phase
+     * @return false if the player is not eligible for a new tech phase
      */
-    public boolean isPlayerEligibleForNewEra() {
+    public boolean isPlayerEligibleForNewPhase() {
         return buildingList.stream().allMatch(building ->
-                player.getEraAge()
+                player.getTechPhase()
                         .getRequirementsForNextLevel()
                         .get(ConstructionType.getEnumFromConstant(building.getConstructionTypeName())) <= building.getLevel());
     }
 
+    // Deprecated method for backward compatibility
+    @Deprecated(since = "2.0", forRemoval = true)
+    public boolean isPlayerEligibleForNewEra() {
+        return isPlayerEligibleForNewPhase();
+    }
+
     public void setLevel(int level) {
-        player.setEraAge(EraAge.getByLevel(level));
-        System.out.println("Descoberta Uma Nova ERA! A Era da " + player.getEraAge().getEraName());
+        player.setTechPhase(TechPhase.getByLevel(level));
+        System.out.println("Descoberta Uma Nova FASE TECNOLÓGICA! A Fase " + player.getTechPhase().getPhaseName());
 
         try {
             Thread.sleep(ApplicationConstants.TIME_TO_SHOW_MESSAGE);
@@ -230,7 +231,7 @@ public class PlayerService {
         }
 
         BuildingAndResourceAvailabilityPerLevel availability = BuildingAndResourceAvailabilityPerLevel
-                .getByLevel(player.getEraAge().getLevel());
+                .getByLevel(player.getTechPhase().getLevel());
         
         List<ConstructionType> availableConstructions = availability.getAvailableConstructions();
         List<ResourceType> availableResourceTypes = availability.getAvailableResources();
@@ -298,13 +299,13 @@ public class PlayerService {
         return building.getLevel() >= building.getMaxLevel();
     }
 
-    public void sendWorkersToConstructionJob(ConstructionProcess process, Building construction) {
+    public void sendCyberOperativesToConstructionJob(ConstructionProcess process, Building construction) {
         prepareNeededResources(construction);
-        getWorkerAvailable().makeConstruction(process, construction, playerResources, workers);
+        getCyberOperativeAvailable().makeConstruction(process, construction, playerResources, cyberOperatives);
     }
 
-    public void sendWorkersToSearchJob(ResourceType resourcesToSearch) {
-        getWorkerAvailable().searchResources(resourcesToSearch, playerResources);
+    public void sendCyberOperativesToSearchJob(ResourceType resourcesToSearch) {
+        getCyberOperativeAvailable().searchResources(resourcesToSearch, playerResources);
     }
 
     private void prepareNeededResources(Building construction) {
@@ -319,22 +320,28 @@ public class PlayerService {
         }
     }
 
-    public Worker getWorkerAvailable() {
-        Optional<Worker> worker = workers.stream().filter(x -> !x.isOccupied()).findFirst();
-        if(worker.isPresent()) {
-            return worker.get();
+    public CyberOperative getCyberOperativeAvailable() {
+        Optional<CyberOperative> operative = cyberOperatives.stream().filter(x -> !x.isOccupied()).findFirst();
+        if(operative.isPresent()) {
+            return operative.get();
         } else {
-            System.out.println("Todos os seus trabalhadores estão ocupados com tarefas!");
-            System.out.println("Crie mais trabalhadores.");
+            System.out.println("Todos os seus operativos cyber estão ocupados com tarefas!");
+            System.out.println("Crie mais operativos cyber.");
             return null;
         }
     }
 
-    public void checkForNewEraConditions() {
-        if(isPlayerEligibleForNewEra()) {
-            int nextLevel = player.getEraAge().getNextLevel().getLevel();
+    public void checkForNewPhaseConditions() {
+        if(isPlayerEligibleForNewPhase()) {
+            int nextLevel = player.getTechPhase().getNextPhase().getLevel();
             setLevel(nextLevel);
         }
+    }
+
+    // Deprecated method for backward compatibility
+    @Deprecated(since = "2.0", forRemoval = true)
+    public void checkForNewEraConditions() {
+        checkForNewPhaseConditions();
     }
 
     public Set<String> getAvailableConstructionTypes() {
@@ -351,7 +358,7 @@ public class PlayerService {
     }
 
     public void claimDailyReward() {
-        List<ResourceAmount> rewards = dailyRewardService.claimDailyReward(player.getFarmName(), player.getEraAge());
+        List<ResourceAmount> rewards = dailyRewardService.claimDailyReward(player.getFarmName(), player.getTechPhase());
         rewards.forEach(this::addResourceFromReward);
         System.out.println("Recompensa diária coletada!");
         rewards.forEach(reward -> System.out.printf("%s: +%d\n", reward.getResource().getDescription(), reward.getAmount()));
@@ -368,7 +375,7 @@ public class PlayerService {
         try {
             if (depositToGuild && dailyRewardService.isGuildVaultDepositAvailable()) {
                 rewards = dailyRewardService.claimDailyRewardWithGuildOption(
-                    player.getFarmName(), player.getEraAge(), true);
+                    player.getFarmName(), player.getTechPhase(), true);
                 
                 // If rewards list is empty, they were deposited to guild vault
                 if (rewards.isEmpty()) {
@@ -383,7 +390,7 @@ public class PlayerService {
                         // For now, we'll create a temporary service to calculate the rewards
                         DailyRewardService tempService = new DailyRewardService();
                         List<ResourceAmount> guildDeposits = tempService.claimDailyReward(
-                            "temp_calc", player.getEraAge());
+                            "temp_calc", player.getTechPhase());
                         
                         // The first reward (day 1) is what we just deposited
                         if (currentStreak == 1) {
@@ -397,7 +404,7 @@ public class PlayerService {
                 }
             } else {
                 rewards = dailyRewardService.claimDailyRewardWithGuildOption(
-                    player.getFarmName(), player.getEraAge(), false);
+                    player.getFarmName(), player.getTechPhase(), false);
             }
             
             // Add rewards to player inventory (normal behavior)
@@ -445,13 +452,13 @@ public class PlayerService {
     }
 
     /**
-     * Validates if all mandatory buildings for the current era are built and meet level requirements.
-     * Mandatory buildings are defined in the EraAge requirements map.
+     * Validates if all mandatory buildings for the current tech phase are built and meet level requirements.
+     * Mandatory buildings are defined in the TechPhase requirements map.
      * 
      * @return true if all mandatory buildings are met, false otherwise
      */
     public boolean validateMandatoryBuildings() {
-        Map<ConstructionType, Integer> requiredBuildings = player.getEraAge().getRequirementsForNextLevel();
+        Map<ConstructionType, Integer> requiredBuildings = player.getTechPhase().getRequirementsForNextLevel();
         
         for (Map.Entry<ConstructionType, Integer> entry : requiredBuildings.entrySet()) {
             ConstructionType requiredType = entry.getKey();
@@ -473,12 +480,12 @@ public class PlayerService {
     }
 
     /**
-     * Gets a list of missing mandatory buildings for the current era.
+     * Gets a list of missing mandatory buildings for the current tech phase.
      * 
      * @return List of construction types that are missing or don't meet level requirements
      */
     public List<ConstructionType> getMissingMandatoryBuildings() {
-        Map<ConstructionType, Integer> requiredBuildings = player.getEraAge().getRequirementsForNextLevel();
+        Map<ConstructionType, Integer> requiredBuildings = player.getTechPhase().getRequirementsForNextLevel();
         List<ConstructionType> missingBuildings = new ArrayList<>();
         
         for (Map.Entry<ConstructionType, Integer> entry : requiredBuildings.entrySet()) {

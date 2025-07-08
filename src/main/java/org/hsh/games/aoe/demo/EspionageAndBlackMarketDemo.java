@@ -1,9 +1,9 @@
 package org.hsh.games.aoe.demo;
 
 import org.hsh.games.aoe.entities.ResourceType;
-import org.hsh.games.aoe.entities.guild.Guild;
-import org.hsh.games.aoe.entities.guild.GuildRank;
-import org.hsh.games.aoe.entities.guild.SpyReport;
+import org.hsh.games.aoe.entities.rebelcell.Guild;
+import org.hsh.games.aoe.entities.rebelcell.RebelCellRank;
+import org.hsh.games.aoe.entities.rebelcell.SpyReport;
 import org.hsh.games.aoe.services.GuildService;
 
 import java.util.concurrent.CompletableFuture;
@@ -28,12 +28,12 @@ public class EspionageAndBlackMarketDemo {
         Guild guild2 = guildService.createGuild("Iron Merchants", "trader_boss", 800);
         
         // Add some members to make it more realistic
-        guildService.invitePlayer(guild1.id(), "agent_007", "spy_master", GuildRank.OFFICER);
-        guildService.invitePlayer(guild2.id(), "merchant_joe", "trader_boss", GuildRank.MEMBER);
+        guildService.invitePlayer(guild1.id(), "agent_007", "spy_master", RebelCellRank.OPERATOR);
+        guildService.invitePlayer(guild2.id(), "merchant_joe", "trader_boss", RebelCellRank.HACKER);
         
         // Add resources to guild2 for trading
-        guildService.depositToVault(guild2.id(), ResourceType.GOLD, 100, "trader_boss");
-        guildService.depositToVault(guild2.id(), ResourceType.IRON, 200, "trader_boss");
+        guildService.depositToVault(guild2.id(), ResourceType.QUANTUM_ENERGY, 100, "trader_boss");
+        guildService.depositToVault(guild2.id(), ResourceType.CIRCUITS, 200, "trader_boss");
         
         System.out.println("🏰 Created two guilds:");
         System.out.println("   • " + guild1.name() + " (Led by " + guild1.leaderPlayerId() + ")");
@@ -58,10 +58,10 @@ public class EspionageAndBlackMarketDemo {
         System.out.println("\n💸 BLACK MARKET DEMONSTRATION");
         System.out.println("-----------------------------");
         System.out.println("Attempting black market trade for " + guild2.name() + "...");
-        System.out.println("Offering: IRON, Demanding: WOOD");
+        System.out.println("Offering: CIRCUITS, Demanding: ENERGY");
         
         try {
-            Guild updatedGuild = guildService.startBlackMarketTrade(guild2.id(), ResourceType.IRON, ResourceType.WOOD);
+            Guild updatedGuild = guildService.startBlackMarketTrade(guild2.id(), ResourceType.CIRCUITS, ResourceType.ENERGY);
             System.out.println("✅ Trade completed successfully!");
             System.out.println("Guild now has " + updatedGuild.members().size() + " members");
         } catch (Exception e) {
@@ -71,10 +71,10 @@ public class EspionageAndBlackMarketDemo {
         System.out.println("\n🎯 TRYING A RISKY TRADE");
         System.out.println("-----------------------");
         System.out.println("Attempting another black market trade...");
-        System.out.println("Offering: GOLD, Demanding: SILVER");
+        System.out.println("Offering: QUANTUM_ENERGY, Demanding: NANOMATERIALS");
         
         try {
-            Guild updatedGuild = guildService.startBlackMarketTrade(guild2.id(), ResourceType.GOLD, ResourceType.SILVER);
+            Guild updatedGuild = guildService.startBlackMarketTrade(guild2.id(), ResourceType.QUANTUM_ENERGY, ResourceType.NANOMATERIALS);
             System.out.println("✅ Second trade completed!");
         } catch (Exception e) {
             System.out.println("❌ Second trade failed: " + e.getMessage());
@@ -92,7 +92,7 @@ public class EspionageAndBlackMarketDemo {
         
         // Test trade with same resource type (should fail)
         try {
-            guildService.startBlackMarketTrade(guild1.id(), ResourceType.WOOD, ResourceType.WOOD);
+            guildService.startBlackMarketTrade(guild1.id(), ResourceType.ENERGY, ResourceType.ENERGY);
         } catch (Exception e) {
             System.out.println("🛡️  Security check passed: Cannot trade same resource types");
         }

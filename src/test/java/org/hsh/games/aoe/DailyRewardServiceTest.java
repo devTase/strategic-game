@@ -1,15 +1,17 @@
 package org.hsh.games.aoe;
 
 import org.hsh.games.aoe.entities.*;
-import org.hsh.games.aoe.entities.guild.*;
+import org.hsh.games.aoe.entities.rebelcell.*;
 import org.hsh.games.aoe.services.DailyRewardService;
 import org.hsh.games.aoe.services.GuildService;
 import org.hsh.games.aoe.services.PlayerService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
+@DisplayName("Daily Reward Service Tests")
 class DailyRewardServiceTest {
     private DailyRewardService dailyRewardService;
     private PlayerService playerService;
@@ -28,18 +30,21 @@ class DailyRewardServiceTest {
     }
 
     @Test
+    @DisplayName("Should start new streak when claiming daily reward")
     void claimDailyRewardStartsNewStreak() {
         playerService.claimDailyReward();
         assertEquals(1, dailyRewardService.getCurrentStreak(playerService.getPlayer().getFarmName()));
     }
 
     @Test
+    @DisplayName("Should mark player as claimed today after claiming reward")
     void claimDailyRewardIncreasesStreak() {
         playerService.claimDailyReward(); // Day 1
         assertTrue(dailyRewardService.hasClaimedToday(playerService.getPlayer().getFarmName()));
     }
 
     @Test
+    @DisplayName("Should properly manage streak on missed days")
     void claimDailyRewardResetsOnMissedDayValidation() {
         // Test verifies that the service has proper streak management
         String playerId = playerService.getPlayer().getFarmName();
@@ -56,40 +61,44 @@ class DailyRewardServiceTest {
     }
 
     @Test
+    @DisplayName("Should throw exception when trying to claim reward twice in same day")
     void claimDailyRewardThrowsIfAlreadyClaimedToday() {
         playerService.claimDailyReward(); // Day 1
         assertThrows(IllegalStateException.class, playerService::claimDailyReward);
     }
 
     @Test
+    @DisplayName("Should return correct next reward after claiming current one")
     void getNextRewardReturnsCorrectRewardAfterReset() {
         playerService.claimDailyReward();
-        assertEquals("Dia 2: Água e Pedra", dailyRewardService.getNextReward(playerService.getPlayer().getFarmName()).toString());
+        assertEquals("Dia 2: Energia e Dados", dailyRewardService.getNextReward(playerService.getPlayer().getFarmName()).toString());
     }
 
     @Test
-    void calculateEraMultiplierAppliesCorrectly() {
-        Player bronzePlayer = new Player("storyteller");
-        bronzePlayer.setEraAge(EraAge.BRONZE_AGE);
+    @DisplayName("Should apply tech phase multiplier correctly to daily rewards")
+    void calculateTechPhaseMultiplierAppliesCorrectly() {
+        Player augmentedPlayer = new Player("storyteller");
+        augmentedPlayer.setTechPhase(TechPhase.AUGMENTED_STREETS);
 
-        DailyReward day1Reward = dailyRewardService.getNextReward(bronzePlayer.getFarmName());
-        List<ResourceAmount> adjustedRewards = day1Reward.getAdjustedRewards(EraAge.BRONZE_AGE);
+        DailyReward day1Reward = dailyRewardService.getNextReward(augmentedPlayer.getFarmName());
+        List<ResourceAmount> adjustedRewards = day1Reward.getAdjustedRewards(TechPhase.AUGMENTED_STREETS);
 
-        // Verify that the rewards are correctly adjusted for BRONZE_AGE
-        int expectedWood = (int)Math.round(1.2 * 50); // day 1 reward is 50 wood
-        int expectedFood = (int)Math.round(1.2 * 50); // day 1 reward is 50 food
+        // Verify that the rewards are correctly adjusted for AUGMENTED_STREETS
+        int expectedEnergy = (int)Math.round(1.3 * 50); // day 1 reward is 50 energy
+        int expectedData = (int)Math.round(1.3 * 50); // day 1 reward is 50 data
 
-        assertEquals(expectedWood, adjustedRewards.get(0).getAmount());
-        assertEquals(expectedFood, adjustedRewards.get(1).getAmount());
+        assertEquals(expectedEnergy, adjustedRewards.get(0).getAmount());
+        assertEquals(expectedData, adjustedRewards.get(1).getAmount());
     }
     
     @Test
+    @DisplayName("Should deposit daily reward to guild vault when option is enabled")
     void claimDailyRewardWithGuildOptionDepositsToVault() {
         String playerId = "devTASE";
         
         // Claim reward with guild vault option
         List<ResourceAmount> rewards = dailyRewardService.claimDailyRewardWithGuildOption(
-            playerId, EraAge.STONE_AGE, true);
+            playerId, TechPhase.UPRISING, true);
         
         // Should return empty list when deposited to guild
         assertTrue(rewards.isEmpty());
@@ -107,16 +116,17 @@ class DailyRewardServiceTest {
     }
     
     @Test
+    @DisplayName("Should return rewards to player inventory when guild vault option is disabled")
     void claimDailyRewardWithGuildOptionFallsBackToPlayerInventory() {
         String playerId = "devTASE";
         
         // Claim reward without guild vault option
         List<ResourceAmount> rewards = dailyRewardService.claimDailyRewardWithGuildOption(
-            playerId, EraAge.STONE_AGE, false);
+            playerId, TechPhase.UPRISING, false);
         
         // Should return rewards for player inventory
         assertFalse(rewards.isEmpty());
-        assertEquals(2, rewards.size()); // Day 1 has wood and food
+        assertEquals(2, rewards.size()); // Day 1 has energy and data
         
         // Verify streak was updated correctly
         assertEquals(1, dailyRewardService.getCurrentStreak(playerId));
@@ -126,17 +136,19 @@ class DailyRewardServiceTest {
     }
     
     @Test
+    @DisplayName("Should throw exception when player not in guild tries to use guild vault")
     void claimDailyRewardWithGuildOptionThrowsWhenPlayerNotInGuild() {
         String playerNotInGuild = "outsider";
         
         // Should throw exception when player is not in a guild
         assertThrows(IllegalArgumentException.class, () -> {
             dailyRewardService.claimDailyRewardWithGuildOption(
-                playerNotInGuild, EraAge.STONE_AGE, true);
+                playerNotInGuild, TechPhase.UPRISING, true);
         });
     }
     
     @Test
+    @DisplayName("Should throw exception when guild service not available for guild vault")
     void claimDailyRewardWithGuildOptionThrowsWhenGuildServiceNotAvailable() {
         String playerId = "devTASE";
         
@@ -146,21 +158,22 @@ class DailyRewardServiceTest {
         // Should throw exception when guild service is not available
         assertThrows(IllegalStateException.class, () -> {
             serviceWithoutGuild.claimDailyRewardWithGuildOption(
-                playerId, EraAge.STONE_AGE, true);
+                playerId, TechPhase.UPRISING, true);
         });
     }
     
     @Test
+    @DisplayName("Should maintain streak logic when using guild vault option")
     void streakLogicUntouchedWithGuildVaultOption() {
         String playerId = "devTASE";
         
         // Claim first reward to guild vault
-        dailyRewardService.claimDailyRewardWithGuildOption(playerId, EraAge.STONE_AGE, true);
+        dailyRewardService.claimDailyRewardWithGuildOption(playerId, TechPhase.UPRISING, true);
         assertEquals(1, dailyRewardService.getCurrentStreak(playerId));
         
         // Try to claim again same day - should throw exception
         assertThrows(IllegalStateException.class, () -> {
-            dailyRewardService.claimDailyRewardWithGuildOption(playerId, EraAge.STONE_AGE, true);
+            dailyRewardService.claimDailyRewardWithGuildOption(playerId, TechPhase.UPRISING, true);
         });
         
         // Streak should still be 1
@@ -168,10 +181,11 @@ class DailyRewardServiceTest {
         
         // Next reward should be day 2
         DailyReward nextReward = dailyRewardService.getNextReward(playerId);
-        assertEquals("Dia 2: Água e Pedra", nextReward.toString());
+        assertEquals("Dia 2: Energia e Dados", nextReward.toString());
     }
     
     @Test
+    @DisplayName("Should correctly check guild vault deposit availability")
     void guildVaultDepositAvailabilityCheck() {
         // Service with guild service should have vault deposit available
         assertTrue(dailyRewardService.isGuildVaultDepositAvailable());

@@ -1,6 +1,6 @@
 package org.hsh.games.aoe.services;
 
-import org.hsh.games.aoe.entities.guild.*;
+import org.hsh.games.aoe.entities.rebelcell.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -10,7 +10,7 @@ class PlayerTest {
         String validName = "devTASE";
         Player player = new Player(validName);
         assertEquals(validName, player.getFarmName());
-        assertEquals(EraAge.STONE_AGE, player.getEraAge());
+        assertEquals(TechPhase.UPRISING, player.getTechPhase());
     }
 
     @Test

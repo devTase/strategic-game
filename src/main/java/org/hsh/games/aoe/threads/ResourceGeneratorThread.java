@@ -3,20 +3,20 @@ package org.hsh.games.aoe.threads;
 import org.hsh.games.aoe.entities.Building;
 import org.hsh.games.aoe.entities.ResourceAmount;
 import org.hsh.games.aoe.entities.ResourceType;
-import org.hsh.games.aoe.entities.Worker;
+import org.hsh.games.aoe.entities.CyberOperative;
 import java.util.List;
 
 public class ResourceGeneratorThread extends Thread {
     private final Building building;
     private final List<ResourceAmount> playerResources;
     private long sleepDuration;
-    private final List<Worker> playerWorkersList;
+    private final List<CyberOperative> playerOperativesList;
 
-    public ResourceGeneratorThread(Building building, List<ResourceAmount> playerResources, List<Worker> playerWorkersList) {
+    public ResourceGeneratorThread(Building building, List<ResourceAmount> playerResources, List<CyberOperative> playerOperativesList) {
         this.building = building;
         this.sleepDuration = building.getTimeBetweenProductions();
         this.playerResources = playerResources;
-        this.playerWorkersList = playerWorkersList;
+        this.playerOperativesList = playerOperativesList;
     }
 
     @Override
@@ -45,21 +45,21 @@ public class ResourceGeneratorThread extends Thread {
                     .filter(playerResource -> playerResource.getResource().equals(resourceAmount.getResource()))
                     .forEach(playerResource -> {
                         playerResource.setAmount(playerResource.getAmount() + resourceAmount.getAmount());
-                        if(playerResource.getResource() == ResourceType.POPULATION){
-                            addWorkerToPlayerWorkersList();
+                        if(playerResource.getResource() == ResourceType.DATA){
+                            addCyberOperativeToPlayerOperativesList();
                         }
                         System.out.println("Adicionado +" + resourceAmount.getAmount() + " de " + resourceAmount.getResource().getDescription() + " ao inventário!");
                     });
         });
     }
 
-    private void addWorkerToPlayerWorkersList() {
+    private void addCyberOperativeToPlayerOperativesList() {
         for(ResourceAmount playerResource : playerResources) {
-            if(playerResource.getResource() == ResourceType.POPULATION) {
-                if(playerWorkersList.size() < playerResource.getAmount()) {
-                    playerWorkersList.add(new Worker("worker_added"));
+            if(playerResource.getResource() == ResourceType.DATA) {
+                if(playerOperativesList.size() < playerResource.getAmount()) {
+                    playerOperativesList.add(new CyberOperative("operative_added"));
                 } else {
-                    System.out.println("Chegaste ao limite de trabalhadores! Atualiza a Town Center!");
+                    System.out.println("Chegaste ao limite de operativos cyber! Atualiza a Central de Comando!");
                     this.interrupt();
                 }
             }

@@ -4,164 +4,205 @@ import org.hsh.games.aoe.utils.ThreadUtils;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Map;
 
 public enum ConstructionType {
-    TOWN_CENTER("Cidade Central", 10, 2, ThreadUtils.toMilliseconds(1),
+    COMMAND_CENTER("Command Center", 10, 2, ThreadUtils.toMilliseconds(1),
             List.of(
-                    new ResourceAmount(ResourceType.FOOD, 100),
-                    new ResourceAmount(ResourceType.WATER, 120),
-                    new ResourceAmount(ResourceType.WOOD, 140)
+                    new ResourceAmount(ResourceType.DATA, 100),
+                    new ResourceAmount(ResourceType.ENERGY, 120),
+                    new ResourceAmount(ResourceType.ENERGY, 140)
             ),
             List.of(
-                    new ResourceAmount(ResourceType.POPULATION, 1)
+                    new ResourceAmount(ResourceType.DATA, 1)
             ), ThreadUtils.toMilliseconds(7)
     ),
-    LUMBER_CAMP("Madeireira", 2, 5, ThreadUtils.toMilliseconds(2),
+    RESOURCE_DEPOT("Resource Depot", 2, 5, ThreadUtils.toMilliseconds(2),
             List.of(
-                    new ResourceAmount(ResourceType.FOOD, 50),
-                    new ResourceAmount(ResourceType.WOOD, 100)
+                    new ResourceAmount(ResourceType.DATA, 50),
+                    new ResourceAmount(ResourceType.ENERGY, 100)
             ),
             List.of(
-                    new ResourceAmount(ResourceType.WOOD, 5)
+                    new ResourceAmount(ResourceType.ENERGY, 5)
             ), ThreadUtils.toMilliseconds(2)
     ),
-    MILL("Moinho", 2,5, ThreadUtils.toMilliseconds(2),
+    PROCESSING_PLANT("Processing Plant", 2,5, ThreadUtils.toMilliseconds(2),
             List.of(
-                    new ResourceAmount(ResourceType.FOOD, 40),
-                    new ResourceAmount(ResourceType.WATER, 150),
-                    new ResourceAmount(ResourceType.WOOD, 80)
+                    new ResourceAmount(ResourceType.DATA, 40),
+                    new ResourceAmount(ResourceType.ENERGY, 150),
+                    new ResourceAmount(ResourceType.ENERGY, 80)
             ),
             List.of(
-                    new ResourceAmount(ResourceType.FOOD, 5)
+                    new ResourceAmount(ResourceType.DATA, 5)
             ), ThreadUtils.toMilliseconds(2)
     ),
-    HOUSE("Casa", 2,10, ThreadUtils.toMilliseconds(1),
+    OP_BASE("Operations Base", 2,10, ThreadUtils.toMilliseconds(1),
             List.of(
-                    new ResourceAmount(ResourceType.FOOD, 30),
-                    new ResourceAmount(ResourceType.WOOD, 60)
+                    new ResourceAmount(ResourceType.DATA, 30),
+                    new ResourceAmount(ResourceType.ENERGY, 60)
             ),
             List.of(
-                    new ResourceAmount(ResourceType.WATER, 5)
+                    new ResourceAmount(ResourceType.ENERGY, 5)
             ), ThreadUtils.toMilliseconds(5)
     ),
-    BARRACKS("Barracas", 2,5, ThreadUtils.toMilliseconds(4),
+    TRAINING_FACILITY("Training Facility", 5, 2, ThreadUtils.toMilliseconds(4),
             List.of(
-                    new ResourceAmount(ResourceType.FOOD, 60),
-                    new ResourceAmount(ResourceType.WATER, 130),
-                    new ResourceAmount(ResourceType.WOOD, 120),
-                    new ResourceAmount(ResourceType.STONE, 180)
+                    new ResourceAmount(ResourceType.DATA, 60),
+                    new ResourceAmount(ResourceType.ENERGY, 130),
+                    new ResourceAmount(ResourceType.ENERGY, 120),
+                    new ResourceAmount(ResourceType.COMPONENTS, 180)
             ),
             Collections.emptyList(),
             ThreadUtils.toMilliseconds(0)
     ),
-    ARCHERY_RANGE("Archery Range", 2,5, ThreadUtils.toMilliseconds(5),
+    WEAPONS_RANGE("Weapons Range", 2,5, ThreadUtils.toMilliseconds(5),
             List.of(
-                    new ResourceAmount(ResourceType.FOOD, 70),
-                    new ResourceAmount(ResourceType.GOLD, 40),
-                    new ResourceAmount(ResourceType.WOOD, 150)
+                    new ResourceAmount(ResourceType.DATA, 70),
+                    new ResourceAmount(ResourceType.QUANTUM_ENERGY, 40),
+                    new ResourceAmount(ResourceType.ENERGY, 150)
             ),
             Collections.emptyList(),
             ThreadUtils.toMilliseconds(0)
     ),
-    STABLE("Stable", 2,3, ThreadUtils.toMilliseconds(7),
+    VEHICLE_BAY("Vehicle Bay", 2,3, ThreadUtils.toMilliseconds(7),
             List.of(
-                    new ResourceAmount(ResourceType.FOOD, 80),
-                    new ResourceAmount(ResourceType.GOLD, 50),
-                    new ResourceAmount(ResourceType.WOOD, 180),
-                    new ResourceAmount(ResourceType.IRON, 20)
+                    new ResourceAmount(ResourceType.DATA, 80),
+                    new ResourceAmount(ResourceType.QUANTUM_ENERGY, 50),
+                    new ResourceAmount(ResourceType.ENERGY, 180),
+                    new ResourceAmount(ResourceType.CIRCUITS, 20)
             ),
             Collections.emptyList(),
             ThreadUtils.toMilliseconds(0)
     ),
-    MARKET("Market", 2,3, ThreadUtils.toMilliseconds(5),
+    TRADE_HUB("Trade Hub", 2,3, ThreadUtils.toMilliseconds(5),
             List.of(
-                    new ResourceAmount(ResourceType.FOOD, 90),
-                    new ResourceAmount(ResourceType.GOLD, 60),
-                    new ResourceAmount(ResourceType.WOOD, 120),
-                    new ResourceAmount(ResourceType.STONE, 30)
+                    new ResourceAmount(ResourceType.DATA, 90),
+                    new ResourceAmount(ResourceType.QUANTUM_ENERGY, 60),
+                    new ResourceAmount(ResourceType.ENERGY, 120),
+                    new ResourceAmount(ResourceType.COMPONENTS, 30)
             ),
             List.of(
-                    new ResourceAmount(ResourceType.FOOD, 0)
+                    new ResourceAmount(ResourceType.DATA, 0)
             ), ThreadUtils.toMilliseconds(0)
     ),
-    BLACKSMITH("Blacksmith", 2,3, ThreadUtils.toMilliseconds(6),
+    TECH_FOUNDRY("Tech Foundry", 2,3, ThreadUtils.toMilliseconds(6),
             List.of(
-                    new ResourceAmount(ResourceType.FOOD, 100),
-                    new ResourceAmount(ResourceType.GOLD, 70),
-                    new ResourceAmount(ResourceType.WOOD, 100),
-                    new ResourceAmount(ResourceType.IRON, 40)
+                    new ResourceAmount(ResourceType.DATA, 100),
+                    new ResourceAmount(ResourceType.QUANTUM_ENERGY, 70),
+                    new ResourceAmount(ResourceType.ENERGY, 100),
+                    new ResourceAmount(ResourceType.CIRCUITS, 40)
             ),
             Collections.emptyList(),
             ThreadUtils.toMilliseconds(0)
     ),
-    MONASTERY("Monastery", 2,1, ThreadUtils.toMilliseconds(8),
+    COMM_RELAY("Communications Relay", 2,1, ThreadUtils.toMilliseconds(8),
             List.of(
-                    new ResourceAmount(ResourceType.FOOD, 120),
-                    new ResourceAmount(ResourceType.GOLD, 80),
-                    new ResourceAmount(ResourceType.WOOD, 150),
-                    new ResourceAmount(ResourceType.STONE, 50)
+                    new ResourceAmount(ResourceType.DATA, 120),
+                    new ResourceAmount(ResourceType.QUANTUM_ENERGY, 80),
+                    new ResourceAmount(ResourceType.ENERGY, 150),
+                    new ResourceAmount(ResourceType.COMPONENTS, 50)
             ),
             Collections.emptyList(),
             ThreadUtils.toMilliseconds(0)
     ),
-    UNIVERSITY("University", 2,1, ThreadUtils.toMilliseconds(10),
+    RESEARCH_LAB("Research Laboratory", 2,1, ThreadUtils.toMilliseconds(10),
             List.of(
-                    new ResourceAmount(ResourceType.FOOD, 150),
-                    new ResourceAmount(ResourceType.GOLD, 100),
-                    new ResourceAmount(ResourceType.WOOD, 200),
-                    new ResourceAmount(ResourceType.STONE, 80),
-                    new ResourceAmount(ResourceType.IRON, 30)
+                    new ResourceAmount(ResourceType.DATA, 150),
+                    new ResourceAmount(ResourceType.QUANTUM_ENERGY, 100),
+                    new ResourceAmount(ResourceType.ENERGY, 200),
+                    new ResourceAmount(ResourceType.COMPONENTS, 80),
+                    new ResourceAmount(ResourceType.CIRCUITS, 30)
             ),
             Collections.emptyList(),
             ThreadUtils.toMilliseconds(0)
     ),
-    FARM("Farm", 2,5, ThreadUtils.toMilliseconds(3),
+    SUPPLY_STATION("Supply Station", 2,5, ThreadUtils.toMilliseconds(3),
             List.of(
-                    new ResourceAmount(ResourceType.FOOD, 40),
-                    new ResourceAmount(ResourceType.GOLD, 0),
-                    new ResourceAmount(ResourceType.WOOD, 60),
-                    new ResourceAmount(ResourceType.WATER, 30)
+                    new ResourceAmount(ResourceType.DATA, 40),
+                    new ResourceAmount(ResourceType.QUANTUM_ENERGY, 0),
+                    new ResourceAmount(ResourceType.ENERGY, 60),
+                    new ResourceAmount(ResourceType.ENERGY, 30)
             ),
             List.of(
-                    new ResourceAmount(ResourceType.FOOD, 5)
+                    new ResourceAmount(ResourceType.DATA, 5)
             ), ThreadUtils.toMilliseconds(0)
     ),
-    WINERY("Vinharia", 2,2, ThreadUtils.toMilliseconds(6),
+    CRYPTO_MINE("Crypto Mining Facility", 2,2, ThreadUtils.toMilliseconds(6),
             List.of(
-                    new ResourceAmount(ResourceType.FOOD, 80),
-                    new ResourceAmount(ResourceType.GOLD, 40),
-                    new ResourceAmount(ResourceType.WOOD, 100),
-                    new ResourceAmount(ResourceType.GRAPES, 50)
+                    new ResourceAmount(ResourceType.DATA, 80),
+                    new ResourceAmount(ResourceType.QUANTUM_ENERGY, 40),
+                    new ResourceAmount(ResourceType.ENERGY, 100),
+                    new ResourceAmount(ResourceType.COMPONENTS, 50)
             ),
             List.of(
-                    new ResourceAmount(ResourceType.GRAPES, 5)
+                    new ResourceAmount(ResourceType.COMPONENTS, 5)
             ), ThreadUtils.toMilliseconds(0)
     ),
-    DOCK("Docas", 2,3, ThreadUtils.toMilliseconds(5),
+    LAUNCH_PAD("Launch Pad", 2,3, ThreadUtils.toMilliseconds(5),
             List.of(
-                    new ResourceAmount(ResourceType.FOOD, 70),
-                    new ResourceAmount(ResourceType.GOLD, 20),
-                    new ResourceAmount(ResourceType.WOOD, 120),
-                    new ResourceAmount(ResourceType.WATER, 80)
+                    new ResourceAmount(ResourceType.DATA, 70),
+                    new ResourceAmount(ResourceType.QUANTUM_ENERGY, 20),
+                    new ResourceAmount(ResourceType.ENERGY, 120),
+                    new ResourceAmount(ResourceType.ENERGY, 80)
             ),
             List.of(
-                    new ResourceAmount(ResourceType.FOOD, 5)
+                    new ResourceAmount(ResourceType.DATA, 5)
             ), ThreadUtils.toMilliseconds(0)
     ),
-    TEMPLE("Templo", 2,1, ThreadUtils.toMilliseconds(9),
+    NEURAL_NEXUS("Neural Nexus", 2,1, ThreadUtils.toMilliseconds(9),
             List.of(
-                    new ResourceAmount(ResourceType.FOOD, 100),
-                    new ResourceAmount(ResourceType.GOLD, 60),
-                    new ResourceAmount(ResourceType.WOOD, 150),
-                    new ResourceAmount(ResourceType.STONE, 40),
-                    new ResourceAmount(ResourceType.FAVOR, 30)
+                    new ResourceAmount(ResourceType.DATA, 100),
+                    new ResourceAmount(ResourceType.QUANTUM_ENERGY, 60),
+                    new ResourceAmount(ResourceType.ENERGY, 150),
+                    new ResourceAmount(ResourceType.COMPONENTS, 40),
+                    new ResourceAmount(ResourceType.CRYPTO, 30)
             ),
             List.of(
-                    new ResourceAmount(ResourceType.FAVOR, 2)
+                    new ResourceAmount(ResourceType.CRYPTO, 2)
             ), ThreadUtils.toMilliseconds(0)
     ),
-    ACADEMY("Academia", 5, 1, ThreadUtils.toMilliseconds(8), Collections.emptyList(), Collections.emptyList(), 0),
+    TACTICAL_CENTER("Tactical Center", 5, 1, ThreadUtils.toMilliseconds(8), Collections.emptyList(), Collections.emptyList(), 0),
     ;
+
+    // Legacy mapping for migration support
+    private static final Map<String, ConstructionType> LEGACY_MAPPING = createLegacyMapping();
+    
+    private static Map<String, ConstructionType> createLegacyMapping() {
+        Map<String, ConstructionType> mapping = new java.util.HashMap<>();
+        mapping.put("TOWN_CENTER", COMMAND_CENTER);
+        mapping.put("Cidade Central", COMMAND_CENTER);
+        mapping.put("LUMBER_CAMP", RESOURCE_DEPOT);
+        mapping.put("Madeireira", RESOURCE_DEPOT);
+        mapping.put("MILL", PROCESSING_PLANT);
+        mapping.put("Moinho", PROCESSING_PLANT);
+        mapping.put("HOUSE", OP_BASE);
+        mapping.put("Casa", OP_BASE);
+        mapping.put("BARRACKS", TRAINING_FACILITY);
+        mapping.put("Barracas", TRAINING_FACILITY);
+        mapping.put("ARCHERY_RANGE", WEAPONS_RANGE);
+        mapping.put("Archery Range", WEAPONS_RANGE);
+        mapping.put("STABLE", VEHICLE_BAY);
+        mapping.put("Stable", VEHICLE_BAY);
+        mapping.put("MARKET", TRADE_HUB);
+        mapping.put("Market", TRADE_HUB);
+        mapping.put("BLACKSMITH", TECH_FOUNDRY);
+        mapping.put("Blacksmith", TECH_FOUNDRY);
+        mapping.put("MONASTERY", COMM_RELAY);
+        mapping.put("Monastery", COMM_RELAY);
+        mapping.put("UNIVERSITY", RESEARCH_LAB);
+        mapping.put("University", RESEARCH_LAB);
+        mapping.put("FARM", SUPPLY_STATION);
+        mapping.put("Farm", SUPPLY_STATION);
+        mapping.put("WINERY", CRYPTO_MINE);
+        mapping.put("Vinharia", CRYPTO_MINE);
+        mapping.put("DOCK", LAUNCH_PAD);
+        mapping.put("Docas", LAUNCH_PAD);
+        mapping.put("TEMPLE", NEURAL_NEXUS);
+        mapping.put("Templo", NEURAL_NEXUS);
+        mapping.put("ACADEMY", TACTICAL_CENTER);
+        mapping.put("Academia", TACTICAL_CENTER);
+        return mapping;
+    }
 
     private String name;
     private int amountConstructionsAllowed;
@@ -234,9 +275,24 @@ public enum ConstructionType {
     }
 
     public static ConstructionType getEnumFromConstant(String name) {
+        // First try to find by current name
         for(ConstructionType x : ConstructionType.values()) {
             if(Objects.equals(x.name, name)) return x;
         }
+        
+        // Then try to find by enum constant name
+        try {
+            return ConstructionType.valueOf(name);
+        } catch (IllegalArgumentException e) {
+            // Continue to legacy mapping
+        }
+        
+        // Finally try legacy mapping for migration support
+        ConstructionType legacyMapping = LEGACY_MAPPING.get(name);
+        if (legacyMapping != null) {
+            return legacyMapping;
+        }
+        
         return null;
     }
 }

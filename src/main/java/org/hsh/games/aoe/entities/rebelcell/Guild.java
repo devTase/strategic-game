@@ -1,4 +1,4 @@
-package org.hsh.games.aoe.entities.guild;
+package org.hsh.games.aoe.entities.rebelcell;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -61,17 +61,17 @@ public record Guild(
         territories = new HashSet<>(territories);
         eventLog = new ArrayList<>(eventLog);
         
-        // Validate that leader is actually a member with LEADER rank
+        // Validate that leader is actually a member with CELL_LEADER rank
         boolean hasLeader = members.stream()
-                .anyMatch(member -> member.playerId().equals(leaderPlayerId) && member.rank() == GuildRank.LEADER);
+                .anyMatch(member -> member.playerId().equals(leaderPlayerId) && member.rank() == RebelCellRank.CELL_LEADER);
         
         if (!members.isEmpty() && !hasLeader) {
-            throw new IllegalArgumentException("Leader must be a member with LEADER rank");
+            throw new IllegalArgumentException("Leader must be a member with CELL_LEADER rank");
         }
         
         // Validate that there's only one leader
         long leaderCount = members.stream()
-                .filter(member -> member.rank() == GuildRank.LEADER)
+                .filter(member -> member.rank() == RebelCellRank.CELL_LEADER)
                 .count();
         
         if (leaderCount > 1) {
@@ -95,7 +95,7 @@ public record Guild(
      * @return A new Guild instance
      */
     public static Guild createNew(String id, String name, String founderPlayerId, int initialVaultCapacity) {
-        GuildMember founder = GuildMember.createNew(founderPlayerId, GuildRank.LEADER);
+        GuildMember founder = GuildMember.createNew(founderPlayerId, RebelCellRank.CELL_LEADER);
         Set<GuildMember> members = new HashSet<>();
         members.add(founder);
         
@@ -114,7 +114,7 @@ public record Guild(
      * @return A new Guild instance with the added member
      * @throws IllegalArgumentException if player is already a member or invalid rank
      */
-    public Guild addMember(String playerId, GuildRank rank) {
+    public Guild addMember(String playerId, RebelCellRank rank) {
         Objects.requireNonNull(playerId, "Player ID cannot be null");
         Objects.requireNonNull(rank, "Rank cannot be null");
         
@@ -122,7 +122,7 @@ public record Guild(
             throw new IllegalArgumentException("Player ID cannot be blank");
         }
         
-        if (rank == GuildRank.LEADER) {
+        if (rank == RebelCellRank.CELL_LEADER) {
             throw new IllegalArgumentException("Cannot add another leader to the guild");
         }
         
@@ -142,12 +142,12 @@ public record Guild(
     }
     
     /**
-     * Adds a new recruit to the guild
-     * @param playerId The player ID to add as recruit
-     * @return A new Guild instance with the added recruit
+     * Adds a new hacker to the guild
+     * @param playerId The player ID to add as hacker
+     * @return A new Guild instance with the added hacker
      */
     public Guild addRecruit(String playerId) {
-        return addMember(playerId, GuildRank.RECRUIT);
+        return addMember(playerId, RebelCellRank.HACKER);
     }
     
     /**
@@ -182,10 +182,10 @@ public record Guild(
      * @return A new Guild instance with the promoted member
      * @throws IllegalArgumentException if invalid promotion
      */
-    public Guild promoteMember(String playerId, GuildRank newRank) {
+    public Guild promoteMember(String playerId, RebelCellRank newRank) {
         Objects.requireNonNull(newRank, "New rank cannot be null");
         
-        if (newRank == GuildRank.LEADER) {
+        if (newRank == RebelCellRank.CELL_LEADER) {
             throw new IllegalArgumentException("Cannot promote to leader rank");
         }
         
@@ -365,7 +365,7 @@ public record Guild(
      * @param rank The rank to filter by
      * @return Set of members with the specified rank
      */
-    public Set<GuildMember> getMembersByRank(GuildRank rank) {
+    public Set<GuildMember> getMembersByRank(RebelCellRank rank) {
         return members.stream()
                 .filter(member -> member.rank() == rank)
                 .collect(Collectors.toSet());

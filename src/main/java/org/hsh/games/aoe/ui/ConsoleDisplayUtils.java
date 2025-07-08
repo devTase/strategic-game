@@ -1,44 +1,45 @@
 package org.hsh.games.aoe.ui;
 
 /**
- * Enhanced console display utilities with medieval theme and modern formatting
+ * Enhanced console display utilities with futuristic neon theme and modern formatting
  * for the Strategic Game console interface.
  * 
  * @author devTASE
  */
 public class ConsoleDisplayUtils {
     
-    // Medieval-themed box drawing characters
-    private static final String TOP_LEFT = "╔";
-    private static final String TOP_RIGHT = "╗";
-    private static final String BOTTOM_LEFT = "╚";
-    private static final String BOTTOM_RIGHT = "╝";
-    private static final String HORIZONTAL = "═";
-    private static final String VERTICAL = "║";
-    private static final String CROSS = "╬";
-    private static final String T_DOWN = "╦";
-    private static final String T_UP = "╩";
-    private static final String T_LEFT = "╣";
-    private static final String T_RIGHT = "╠";
+    // Futuristic-themed box drawing characters
+    private static final String TOP_LEFT = "┏";
+    private static final String TOP_RIGHT = "┓";
+    private static final String BOTTOM_LEFT = "┗";
+    private static final String BOTTOM_RIGHT = "┛";
+    private static final String HORIZONTAL = "━";
+    private static final String VERTICAL = "┃";
+    private static final String CROSS = "╋";
+    private static final String T_DOWN = "┳";
+    private static final String T_UP = "┻";
+    private static final String T_LEFT = "┫";
+    private static final String T_RIGHT = "┣";
     
-    // ANSI Color codes for better visual experience
+    // ANSI Color codes for neon visual experience
     public static final String RESET = "\u001B[0m";
-    public static final String BLACK = "\u001B[30m";
-    public static final String RED = "\u001B[31m";
-    public static final String GREEN = "\u001B[32m";
-    public static final String YELLOW = "\u001B[33m";
-    public static final String BLUE = "\u001B[34m";
-    public static final String PURPLE = "\u001B[35m";
-    public static final String CYAN = "\u001B[36m";
-    public static final String WHITE = "\u001B[37m";
-    public static final String BRIGHT_BLACK = "\u001B[90m";
-    public static final String BRIGHT_RED = "\u001B[91m";
+    public static final String NEON_GREEN = "\u001B[38;5;46m";
+    public static final String NEON_PINK = "\u001B[38;5;200m";
+    public static final String NEON_BLUE = "\u001B[38;5;44m";
+    public static final String NEON_YELLOW = "\u001B[38;5;226m";
+    public static final String NEON_PURPLE = "\u001B[38;5;165m";
+    public static final String NEON_CYAN = "\u001B[38;5;51m";
+    
+    // Legacy color mappings for backward compatibility
+    public static final String BRIGHT_WHITE = "\u001B[97m";
     public static final String BRIGHT_GREEN = "\u001B[92m";
+    public static final String BRIGHT_RED = "\u001B[91m";
     public static final String BRIGHT_YELLOW = "\u001B[93m";
     public static final String BRIGHT_BLUE = "\u001B[94m";
-    public static final String BRIGHT_PURPLE = "\u001B[95m";
-    public static final String BRIGHT_CYAN = "\u001B[96m";
-    public static final String BRIGHT_WHITE = "\u001B[97m";
+    public static final String BRIGHT_PURPLE = NEON_PURPLE;
+    public static final String BRIGHT_CYAN = NEON_CYAN;
+    public static final String BRIGHT_BLACK = "\u001B[90m";
+    public static final String YELLOW = "\u001B[33m";
     
     // Background colors
     public static final String BG_BLACK = "\u001B[40m";
@@ -60,24 +61,23 @@ public class ConsoleDisplayUtils {
      */
     public static void printGameBanner() {
         clearConsole();
-        System.out.println(BRIGHT_YELLOW + BOLD);
+        System.out.println(NEON_YELLOW + BOLD);
         System.out.println("╔═══════════════════════════════════════════════════════════════════════════════════╗");
         System.out.println("║                                                                                   ║");
-        System.out.println("║     🏰 ⚔️  STRATEGIC KINGDOMS - REALM OF CONQUEST  ⚔️ 🏰                         ║");
+        System.out.println("║     🏰 ⚔️  STRATEGIC KINGDOMS - REALM OF POWER  ⚔️ 🏰                         ║");
         System.out.println("║                                                                                   ║");
         System.out.println("║         Build your empire • Gather resources • Forge your destiny                 ║");
         System.out.println("║                                                                                   ║");
         System.out.println("╚═══════════════════════════════════════════════════════════════════════════════════╝");
         System.out.println(RESET);
     }
-    
     /**
      * Creates an enhanced main menu with medieval styling
      */
     public static void printMainMenu() {
-        System.out.println(BRIGHT_CYAN + BOLD);
+        System.out.println(NEON_CYAN + BOLD);
         System.out.println("╔═══════════════════════════════════════════════════════════════════════════════════╗");
-        System.out.println("║                             🏛️  COUNCIL CHAMBER  🏛️                              ║");
+        System.out.println("║                             🏰  COUNCIL CHAMBER  🏰                              ║");
         System.out.println("╠═══════════════════════════════════════════════════════════════════════════════════╣");
         System.out.println("║                                                                                   ║");
         System.out.println("║  " + BRIGHT_WHITE + "1️⃣  🗺️  " + BRIGHT_GREEN + "RESOURCE EXPEDITION" + BRIGHT_CYAN + "     │  " + BRIGHT_WHITE + "4️⃣  🎁  " + BRIGHT_YELLOW + "DAILY TRIBUTE" + BRIGHT_CYAN + "          ║");

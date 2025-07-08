@@ -1,4 +1,4 @@
-package org.hsh.games.aoe.entities.guild;
+package org.hsh.games.aoe.entities.rebelcell;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -15,7 +15,7 @@ import java.util.Objects;
  */
 public record GuildMember(
         String playerId,
-        GuildRank rank,
+        RebelCellRank rank,
         LocalDateTime joinDate
 ) {
     
@@ -38,17 +38,17 @@ public record GuildMember(
      * @param rank The guild rank
      * @return A new GuildMember instance
      */
-    public static GuildMember createNew(String playerId, GuildRank rank) {
+    public static GuildMember createNew(String playerId, RebelCellRank rank) {
         return new GuildMember(playerId, rank, LocalDateTime.now());
     }
     
     /**
-     * Creates a new GuildMember with RECRUIT rank and current timestamp
+     * Creates a new GuildMember with HACKER rank and current timestamp
      * @param playerId The player ID
-     * @return A new GuildMember instance with RECRUIT rank
+     * @return A new GuildMember instance with HACKER rank
      */
     public static GuildMember createNewRecruit(String playerId) {
-        return new GuildMember(playerId, GuildRank.RECRUIT, LocalDateTime.now());
+        return new GuildMember(playerId, RebelCellRank.HACKER, LocalDateTime.now());
     }
     
     /**
@@ -56,7 +56,7 @@ public record GuildMember(
      * @param newRank The new rank to assign
      * @return A new GuildMember instance with the updated rank
      */
-    public GuildMember withRank(GuildRank newRank) {
+    public GuildMember withRank(RebelCellRank newRank) {
         return new GuildMember(playerId, newRank, joinDate);
     }
     
@@ -65,7 +65,7 @@ public record GuildMember(
      * @return true if the member's rank has admin privileges
      */
     public boolean hasAdminPrivileges() {
-        return rank.hasAdminPrivileges();
+        return rank.hasLeadershipPrivileges();
     }
     
     /**
@@ -73,23 +73,23 @@ public record GuildMember(
      * @return true if the member's rank allows recruiting
      */
     public boolean canRecruit() {
-        return rank.canRecruit();
+        return rank.hasLeadershipPrivileges();
     }
     
     /**
      * Checks if this member is a leader
-     * @return true if the member's rank is LEADER
+     * @return true if the member's rank is CELL_LEADER
      */
     public boolean isLeader() {
-        return rank == GuildRank.LEADER;
+        return rank == RebelCellRank.CELL_LEADER;
     }
     
     /**
-     * Checks if this member is a spy
-     * @return true if the member's rank is SPY
+     * Checks if this member is an infiltrator
+     * @return true if the member's rank is INFILTRATOR
      */
-    public boolean isSpy() {
-        return rank == GuildRank.SPY;
+    public boolean isInfiltrator() {
+        return rank == RebelCellRank.INFILTRATOR;
     }
     
     /**

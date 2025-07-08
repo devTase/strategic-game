@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: org.hsh.games.aoe.PlayerServiceTest
 -------------------------------------------------------------------------------
-Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 36.15 s -- in org.hsh.games.aoe.PlayerServiceTest
+Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 36.21 s -- in org.hsh.games.aoe.PlayerServiceTest

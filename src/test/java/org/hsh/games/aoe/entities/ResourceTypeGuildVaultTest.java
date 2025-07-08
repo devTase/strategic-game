@@ -1,5 +1,6 @@
 package org.hsh.games.aoe.entities;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -10,49 +11,54 @@ import java.util.List;
  * 
  * @author devTASE
  */
+@DisplayName("ResourceType Guild Vault Tests")
 public class ResourceTypeGuildVaultTest {
 
     @Test
+    @DisplayName("Should return correct resource packs for different phases")
     public void testGetResourcesPackBasedOnCurrentEraIsPublic() {
-        // Given - Era levels
-        int stoneAge = 1;
-        int bronzeAge = 2;
-        int modernAge = 7;
+        // Given - Phase levels
+        int earlyDigital = 1;
+        int neuralNetwork = 2;
+        int singularity = 7;
         
-        // When - Get resources for different eras
-        List<ResourceType> stoneAgeResources = ResourceType.getResourcesPackBasedOnCurrentEra(stoneAge);
-        List<ResourceType> bronzeAgeResources = ResourceType.getResourcesPackBasedOnCurrentEra(bronzeAge);
-        List<ResourceType> modernAgeResources = ResourceType.getResourcesPackBasedOnCurrentEra(modernAge);
+        // When - Get resources for different phases
+        List<ResourceType> earlyDigitalResources = ResourceType.getResourcesPackBasedOnCurrentEra(earlyDigital);
+        List<ResourceType> neuralNetworkResources = ResourceType.getResourcesPackBasedOnCurrentEra(neuralNetwork);
+        List<ResourceType> singularityResources = ResourceType.getResourcesPackBasedOnCurrentEra(singularity);
         
         // Then - Verify expected resources
-        assertEquals(5, stoneAgeResources.size());
-        assertTrue(stoneAgeResources.contains(ResourceType.WOOD));
-        assertTrue(stoneAgeResources.contains(ResourceType.STONE));
-        assertTrue(stoneAgeResources.contains(ResourceType.FOOD));
+        assertEquals(2, earlyDigitalResources.size());
+        assertTrue(earlyDigitalResources.contains(ResourceType.ENERGY));
+        assertTrue(earlyDigitalResources.contains(ResourceType.DATA));
         
-        assertEquals(1, bronzeAgeResources.size());
-        assertTrue(bronzeAgeResources.contains(ResourceType.IRON));
+        assertEquals(1, neuralNetworkResources.size());
+        assertTrue(neuralNetworkResources.contains(ResourceType.COMPONENTS));
         
-        assertEquals(1, modernAgeResources.size());
-        assertTrue(modernAgeResources.contains(ResourceType.FAVOR));
+        assertEquals(3, singularityResources.size());
+        assertTrue(singularityResources.contains(ResourceType.ENERGY));
+        assertTrue(singularityResources.contains(ResourceType.DATA));
+        assertTrue(singularityResources.contains(ResourceType.COMPONENTS));
     }
 
     @Test
+    @DisplayName("Should validate guild vault transfer parameters")
     public void testGuildVaultTransferValidation() {
         // When/Then - Valid transfers should not throw
-        assertDoesNotThrow(() -> ResourceType.validateGuildVaultTransfer(ResourceType.WOOD, 100));
-        assertDoesNotThrow(() -> ResourceType.validateGuildVaultTransfer(ResourceType.GOLD, 1));
+        assertDoesNotThrow(() -> ResourceType.validateGuildVaultTransfer(ResourceType.ENERGY, 100));
+        assertDoesNotThrow(() -> ResourceType.validateGuildVaultTransfer(ResourceType.QUANTUM_ENERGY, 1));
         
         // When/Then - Invalid transfers should throw
         assertThrows(IllegalArgumentException.class, 
             () -> ResourceType.validateGuildVaultTransfer(null, 100));
         assertThrows(IllegalArgumentException.class, 
-            () -> ResourceType.validateGuildVaultTransfer(ResourceType.WOOD, 0));
+            () -> ResourceType.validateGuildVaultTransfer(ResourceType.ENERGY, 0));
         assertThrows(IllegalArgumentException.class, 
-            () -> ResourceType.validateGuildVaultTransfer(ResourceType.WOOD, -5));
+            () -> ResourceType.validateGuildVaultTransfer(ResourceType.ENERGY, -5));
     }
 
     @Test
+    @DisplayName("Should confirm all resource types are storable in guild vaults")
     public void testResourceTypeGuildVaultStorability() {
         // When/Then - All resource types should be storable in guild vaults
         for (ResourceType resource : ResourceType.values()) {
@@ -62,13 +68,14 @@ public class ResourceTypeGuildVaultTest {
     }
 
     @Test
+    @DisplayName("Should have correct transfer multipliers for different resource types")
     public void testResourceTypeTransferMultipliers() {
         // When/Then - Check specific multipliers
-        assertEquals(0.5, ResourceType.FAVOR.getGuildVaultTransferMultiplier(), 0.001);
-        assertEquals(0.8, ResourceType.POPULATION.getGuildVaultTransferMultiplier(), 0.001);
-        assertEquals(1.0, ResourceType.WOOD.getGuildVaultTransferMultiplier(), 0.001);
-        assertEquals(1.0, ResourceType.GOLD.getGuildVaultTransferMultiplier(), 0.001);
-        assertEquals(1.0, ResourceType.IRON.getGuildVaultTransferMultiplier(), 0.001);
+        assertEquals(0.6, ResourceType.CRYPTO.getGuildVaultTransferMultiplier(), 0.001);
+        assertEquals(0.9, ResourceType.DATA.getGuildVaultTransferMultiplier(), 0.001);
+        assertEquals(1.0, ResourceType.ENERGY.getGuildVaultTransferMultiplier(), 0.001);
+        assertEquals(0.7, ResourceType.QUANTUM_ENERGY.getGuildVaultTransferMultiplier(), 0.001);
+        assertEquals(1.0, ResourceType.CIRCUITS.getGuildVaultTransferMultiplier(), 0.001);
         
         // When/Then - All multipliers should be positive
         for (ResourceType resource : ResourceType.values()) {
@@ -80,29 +87,30 @@ public class ResourceTypeGuildVaultTest {
     }
 
     @Test
+    @DisplayName("Should apply transfer multipliers correctly for different resources")
     public void testTransferMultiplierLogic() {
         // Given
         int originalAmount = 100;
         
-        // When - Apply FAVOR transfer multiplier
-        double favorMultiplier = ResourceType.FAVOR.getGuildVaultTransferMultiplier();
-        int favorTransferAmount = (int)(originalAmount * favorMultiplier);
+        // When - Apply CRYPTO transfer multiplier
+        double cryptoMultiplier = ResourceType.CRYPTO.getGuildVaultTransferMultiplier();
+        int cryptoTransferAmount = (int)(originalAmount * cryptoMultiplier);
         
         // Then
-        assertEquals(50, favorTransferAmount);
+        assertEquals(60, cryptoTransferAmount);
         
-        // When - Apply POPULATION transfer multiplier
-        double populationMultiplier = ResourceType.POPULATION.getGuildVaultTransferMultiplier();
-        int populationTransferAmount = (int)(originalAmount * populationMultiplier);
-        
-        // Then
-        assertEquals(80, populationTransferAmount);
-        
-        // When - Apply WOOD transfer multiplier (should be full amount)
-        double woodMultiplier = ResourceType.WOOD.getGuildVaultTransferMultiplier();
-        int woodTransferAmount = (int)(originalAmount * woodMultiplier);
+        // When - Apply DATA transfer multiplier
+        double dataMultiplier = ResourceType.DATA.getGuildVaultTransferMultiplier();
+        int dataTransferAmount = (int)(originalAmount * dataMultiplier);
         
         // Then
-        assertEquals(100, woodTransferAmount);
+        assertEquals(90, dataTransferAmount);
+        
+        // When - Apply ENERGY transfer multiplier (should be full amount)
+        double energyMultiplier = ResourceType.ENERGY.getGuildVaultTransferMultiplier();
+        int energyTransferAmount = (int)(originalAmount * energyMultiplier);
+        
+        // Then
+        assertEquals(100, energyTransferAmount);
     }
 }

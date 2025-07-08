@@ -1,7 +1,7 @@
 package org.hsh.games.aoe;
 
 import org.hsh.games.aoe.entities.*;
-import org.hsh.games.aoe.entities.guild.*;
+import org.hsh.games.aoe.entities.rebelcell.*;
 import org.hsh.games.aoe.services.*;
 import org.hsh.games.aoe.ui.ConsoleDisplayUtils;
 import org.hsh.games.aoe.utils.ConsoleUtils;
@@ -60,7 +60,7 @@ public class GameOfStrategy {
     }
 
     private void startGame(PlayerService playerService) {
-        while (!playerService.getWorkers().isEmpty()) {
+        while (!playerService.getCyberOperatives().isEmpty()) {
             try {
                 Thread.sleep(ApplicationConstants.TIME_TO_SHOW_QUICK_MESSAGE);
             } catch (InterruptedException e) {
@@ -130,8 +130,8 @@ public class GameOfStrategy {
             ConsoleDisplayUtils.printErrorMessage(ApplicationConstants.MESSAGE_WRONG_OPTION_TRY_AGAIN);
             return;
         }
-        if (playerService.getWorkerAvailable() != null) {
-            playerService.sendWorkersToSearchJob(availableResources.get(input - 1));
+        if (playerService.getCyberOperativeAvailable() != null) {
+            playerService.sendCyberOperativesToSearchJob(availableResources.get(input - 1));
             ConsoleDisplayUtils.printSuccessMessage(ApplicationConstants.MESSAGE_WORKER_SENT_TO_GATHER);
         } else {
             ConsoleDisplayUtils.printWarningMessage(ApplicationConstants.MESSAGE_NO_WORKERS_AVAILABLE);
@@ -227,8 +227,8 @@ public class GameOfStrategy {
         if (playerService.checkIfPlayerHasEnoughResources(building)) {
             ConstructionProcess process = playerService.isFirstTimeBuilding(building) ? ConstructionProcess.CREATION
                 : ConstructionProcess.UPDATE;
-            if (playerService.getWorkerAvailable() != null) {
-                playerService.sendWorkersToConstructionJob(process, building);
+            if (playerService.getCyberOperativeAvailable() != null) {
+                playerService.sendCyberOperativesToConstructionJob(process, building);
                 if(process == ConstructionProcess.UPDATE) playerService.checkForNewEraConditions();
             }
         } else {
@@ -239,7 +239,7 @@ public class GameOfStrategy {
     private void processNewBuilding(PlayerService playerService, Building building) {
         if (playerService.checkIfPlayerHasEnoughResources(building)) {
             playerService.addNewBuilding(building);
-            playerService.sendWorkersToConstructionJob(ConstructionProcess.CREATION, building);
+            playerService.sendCyberOperativesToConstructionJob(ConstructionProcess.CREATION, building);
         } else {
             ConsoleDisplayUtils.printErrorMessage(ApplicationConstants.MESSAGE_NOT_ENOUGH_RESOURCES);
         }
@@ -269,7 +269,7 @@ public class GameOfStrategy {
         
         System.out.println("🏰 Kingdom: " + playerService.getPlayer().getFarmName());
         System.out.println("🎯 Current Era: " + playerService.getPlayer().getEraAge().getEraName());
-        System.out.println("👥 Population: " + playerService.getWorkers().size() + " workers");
+        System.out.println("👥 Population: " + playerService.getCyberOperatives().size() + " cyber operatives");
         System.out.println("🏠 Structures: " + playerService.getBuildingList().size() + " buildings");
         
         ConsoleDisplayUtils.printSeparator();
@@ -411,7 +411,7 @@ public class GameOfStrategy {
                 System.out.print("Enter player ID to invite: ");
                 String invitePlayerId = scanner.nextLine();
                 try {
-                    guildService.invitePlayer(guild.id(), invitePlayerId, playerId, GuildRank.RECRUIT);
+                    guildService.invitePlayer(guild.id(), invitePlayerId, playerId, RebelCellRank.HACKER);
                     ConsoleDisplayUtils.printSuccessMessage("Player invited successfully!");
                 } catch (Exception e) {
                     ConsoleDisplayUtils.printErrorMessage("Failed to invite player: " + e.getMessage());
@@ -420,11 +420,11 @@ public class GameOfStrategy {
             case 2:
                 System.out.print("Enter player ID to promote: ");
                 String promotePlayerId = scanner.nextLine();
-                System.out.println("Available ranks: MEMBER, OFFICER, SPY");
+                System.out.println("Available ranks: HACKER, OPERATOR, CELL_LEADER, INFILTRATOR");
                 System.out.print("Enter new rank: ");
                 String rankStr = scanner.nextLine();
                 try {
-                    GuildRank newRank = GuildRank.valueOf(rankStr.toUpperCase());
+                    RebelCellRank newRank = RebelCellRank.valueOf(rankStr.toUpperCase());
                     guildService.changeRank(guild.id(), promotePlayerId, newRank, playerId);
                     ConsoleDisplayUtils.printSuccessMessage("Player rank changed successfully!");
                 } catch (Exception e) {

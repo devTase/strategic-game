@@ -4,27 +4,27 @@ import org.hsh.games.aoe.ApplicationConstants;
 import org.hsh.games.aoe.utils.ConsoleUtils;
 import org.hsh.games.aoe.entities.Resource;
 import org.hsh.games.aoe.entities.ResourceAmount;
-import org.hsh.games.aoe.entities.Worker;
+import org.hsh.games.aoe.entities.CyberOperative;
 
 import java.util.List;
 
 public class SearchResourcesThread extends Thread {
 
     private Resource resourceToLookFor;
-    private Worker worker;
+    private CyberOperative operative;
     private List<ResourceAmount> playerResources;
 
-    public SearchResourcesThread(Resource resourceToLookFor, List<ResourceAmount> playerResources, Worker worker) {
+    public SearchResourcesThread(Resource resourceToLookFor, List<ResourceAmount> playerResources, CyberOperative operative) {
         this.resourceToLookFor = resourceToLookFor;
-        this.worker = worker;
+        this.operative = operative;
         this.playerResources = playerResources;
     }
 
     @Override
     public void run() {
-        worker.setOccupied(true);
-        resourceToLookFor.search(playerResources, worker.getName(), worker.getCurrentMission());
-        worker.setOccupied(false);
+        operative.setOccupied(true);
+        resourceToLookFor.search(playerResources, operative.getName(), operative.getCurrentMission());
+        operative.setOccupied(false);
 
         try {
             Thread.sleep(ApplicationConstants.TIME_TO_SHOW_MESSAGE);

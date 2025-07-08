@@ -7,22 +7,22 @@ import org.hsh.games.aoe.utils.ThreadUtils;
 
 import java.util.List;
 
-public class Worker extends Consumer<ResourceAmount> {
+public class CyberOperative extends Consumer<ResourceAmount> {
     private String name;
     private boolean isOccupied;
     private ResourceAmount resourceConsumption;
     private String currentMission;
     private final int TIME_BETWEEN_CONSUMPTIONS = ThreadUtils.toMilliseconds(1);
 
-    public Worker(String name) {
+    public CyberOperative(String name) {
         this.name = name;
         this.isOccupied = false;
-        this.resourceConsumption = new ResourceAmount(ResourceType.FOOD, 50);
+        this.resourceConsumption = new ResourceAmount(ResourceType.fromLegacyName("FOOD"), 50);
     }
 
     @Override
     public List<ResourceAmount> getConsumptionType() {
-        return List.of(new ResourceAmount(ResourceType.WATER, 5));
+        return List.of(new ResourceAmount(ResourceType.fromLegacyName("WATER"), 5));
     }
 
     @Override
@@ -59,7 +59,7 @@ public class Worker extends Consumer<ResourceAmount> {
     }
 
     public String getStringWithName() {
-        return String.format("Worker %s", name);
+        return String.format("CyberOperative %s", name);
     }
 
     public void setResourceConsumption(ResourceAmount resourceConsumption) {
@@ -71,10 +71,10 @@ public class Worker extends Consumer<ResourceAmount> {
         new SearchResourcesThread(new Resource(resourceType), playerResources, this).start();
     }
 
-    public void makeConstruction(ConstructionProcess process, Building building, List<ResourceAmount> playerResources, List<Worker> workerList) {
+    public void makeConstruction(ConstructionProcess process, Building building, List<ResourceAmount> playerResources, List<CyberOperative> operativeList) {
         currentMission = process.getProcess() + " de Edifício: " + building.getConstructionTypeName();
         Thread constructionThread = process == ConstructionProcess.CREATION
-                ? new ConstructionBuildingThread(building, this, playerResources, workerList)
+                ? new ConstructionBuildingThread(building, this, playerResources, operativeList)
                 : new ConstructionUpdatingThread(building, this, playerResources);
         constructionThread.start();
     }

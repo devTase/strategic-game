@@ -31,8 +31,8 @@ public class DailyReward {
         return description;
     }
 
-    public List<ResourceAmount> getAdjustedRewards(EraAge currentEra) {
-        double multiplier = calculateEraMultiplier(currentEra);
+    public List<ResourceAmount> getAdjustedRewards(TechPhase currentPhase) {
+        double multiplier = calculatePhaseMultiplier(currentPhase);
         return baseRewards.stream()
                 .map(reward -> new ResourceAmount(
                         reward.getResource(),
@@ -41,17 +41,25 @@ public class DailyReward {
                 .toList();
     }
 
-    private double calculateEraMultiplier(EraAge era) {
-        return switch (era) {
-            case STONE_AGE -> 1.0;
-            case BRONZE_AGE -> 1.2;
-            case IRON_AGE -> 1.4;
-            case MEDIEVAL_AGE -> 1.6;
-            case RENAISSANCE -> 1.8;
-            case INDUSTRIAL_AGE -> 2.0;
-            case MODERN_AGE -> 2.2;
-            case INFORMATION_AGE -> 2.4;
-            case FUTURE_AGE -> 2.6;
+    // Backward compatibility method
+    @Deprecated(since = "2.0", forRemoval = true)
+    public List<ResourceAmount> getAdjustedRewards(EraAge currentEra) {
+        // Convert EraAge to TechPhase for backward compatibility
+        TechPhase phase = TechPhase.getByLevel(currentEra.getLevel());
+        return getAdjustedRewards(phase);
+    }
+
+    private double calculatePhaseMultiplier(TechPhase phase) {
+        return switch (phase) {
+            case UPRISING -> 1.0;
+            case AUGMENTED_STREETS -> 1.3;
+            case NEURAL_NEXUS -> 1.6;
+            case DRONE_DOMINION -> 2.0;
+            case QUANTUM_DAWN -> 2.4;
+            case SINGULARITY_PREP -> 2.9;
+            case POST_SINGULARITY -> 3.5;
+            case HYPER_MESH -> 4.2;
+            case EXO_REALITY -> 5.0;
         };
     }
 
