@@ -2,7 +2,7 @@ package org.hsh.games.aoe.services;
 
 import org.hsh.games.aoe.entities.ResourceType;
 import org.hsh.games.aoe.entities.EraAge;
-import org.hsh.games.aoe.entities.guild.*;
+import org.hsh.games.aoe.entities.rebelcell.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -48,7 +48,7 @@ class GuildMissionServiceTest {
         Guild guild = guildService.createGuild("Test Guild", "leader", 1000);
         Set<String> participants = new HashSet<>();
         participants.add("player1");
-        guildService.invitePlayer(guild.id(), "player1", "leader", GuildRank.SPY); // Use SPY rank for safety
+        guildService.invitePlayer(guild.id(), "player1", "leader", RebelCellRank.INFILTRATOR); // Use INFILTRATOR rank for safety
 
         var missions = missionService.generateMissionsPerEra(EraAge.getByLevel(1), 5);
         
@@ -56,7 +56,7 @@ class GuildMissionServiceTest {
         GuildMission mission = missions.stream()
                 .filter(m -> !m.requiresStealth())
                 .findFirst()
-                .orElse(missions.get(0)); // If all require stealth, use first one (SPY rank will handle it)
+                .orElse(missions.get(0)); // If all require stealth, use first one (INFILTRATOR rank will handle it)
 
         // When
         GuildMission updatedMission = missionService.assignParticipants(
@@ -70,7 +70,7 @@ class GuildMissionServiceTest {
     void resolveMissionReturnsCompletableFuture() {
         // Given
         Guild guild = guildService.createGuild("Test Guild", "leader", 1000);
-        guildService.invitePlayer(guild.id(), "player1", "leader", GuildRank.SPY); // Use SPY rank for safety
+        guildService.invitePlayer(guild.id(), "player1", "leader", RebelCellRank.INFILTRATOR); // Use INFILTRATOR rank for safety
 
         var missions = missionService.generateMissionsPerEra(EraAge.getByLevel(1), 5);
         
@@ -78,7 +78,7 @@ class GuildMissionServiceTest {
         GuildMission mission = missions.stream()
                 .filter(m -> !m.requiresStealth())
                 .findFirst()
-                .orElse(missions.get(0)); // If all require stealth, use first one (SPY rank will handle it)
+                .orElse(missions.get(0)); // If all require stealth, use first one (INFILTRATOR rank will handle it)
                 
         missionService.assignParticipants(mission.id(), guild.id(), Collections.singleton("player1"), "leader");
 

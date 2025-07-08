@@ -1,7 +1,7 @@
 package org.hsh.games.aoe;
 
 import org.hsh.games.aoe.entities.*;
-import org.hsh.games.aoe.entities.guild.*;
+import org.hsh.games.aoe.entities.rebelcell.*;
 import org.hsh.games.aoe.services.DailyRewardService;
 import org.hsh.games.aoe.services.GuildService;
 import org.hsh.games.aoe.services.PlayerService;
@@ -68,19 +68,19 @@ class DailyRewardServiceTest {
     }
 
     @Test
-    void calculateEraMultiplierAppliesCorrectly() {
-        Player bronzePlayer = new Player("storyteller");
-        bronzePlayer.setEraAge(EraAge.BRONZE_AGE);
+    void calculateTechPhaseMultiplierAppliesCorrectly() {
+        Player augmentedPlayer = new Player("storyteller");
+        augmentedPlayer.setTechPhase(TechPhase.AUGMENTED_STREETS);
 
-        DailyReward day1Reward = dailyRewardService.getNextReward(bronzePlayer.getFarmName());
-        List<ResourceAmount> adjustedRewards = day1Reward.getAdjustedRewards(EraAge.BRONZE_AGE);
+        DailyReward day1Reward = dailyRewardService.getNextReward(augmentedPlayer.getFarmName());
+        List<ResourceAmount> adjustedRewards = day1Reward.getAdjustedRewards(TechPhase.AUGMENTED_STREETS);
 
-        // Verify that the rewards are correctly adjusted for BRONZE_AGE
-        int expectedWood = (int)Math.round(1.2 * 50); // day 1 reward is 50 wood
-        int expectedFood = (int)Math.round(1.2 * 50); // day 1 reward is 50 food
+        // Verify that the rewards are correctly adjusted for AUGMENTED_STREETS
+        int expectedEnergy = (int)Math.round(1.3 * 50); // day 1 reward is 50 energy
+        int expectedData = (int)Math.round(1.3 * 50); // day 1 reward is 50 data
 
-        assertEquals(expectedWood, adjustedRewards.get(0).getAmount());
-        assertEquals(expectedFood, adjustedRewards.get(1).getAmount());
+        assertEquals(expectedEnergy, adjustedRewards.get(0).getAmount());
+        assertEquals(expectedData, adjustedRewards.get(1).getAmount());
     }
     
     @Test
@@ -89,7 +89,7 @@ class DailyRewardServiceTest {
         
         // Claim reward with guild vault option
         List<ResourceAmount> rewards = dailyRewardService.claimDailyRewardWithGuildOption(
-            playerId, EraAge.STONE_AGE, true);
+            playerId, TechPhase.UPRISING, true);
         
         // Should return empty list when deposited to guild
         assertTrue(rewards.isEmpty());
@@ -112,11 +112,11 @@ class DailyRewardServiceTest {
         
         // Claim reward without guild vault option
         List<ResourceAmount> rewards = dailyRewardService.claimDailyRewardWithGuildOption(
-            playerId, EraAge.STONE_AGE, false);
+            playerId, TechPhase.UPRISING, false);
         
         // Should return rewards for player inventory
         assertFalse(rewards.isEmpty());
-        assertEquals(2, rewards.size()); // Day 1 has wood and food
+        assertEquals(2, rewards.size()); // Day 1 has energy and data
         
         // Verify streak was updated correctly
         assertEquals(1, dailyRewardService.getCurrentStreak(playerId));
@@ -132,7 +132,7 @@ class DailyRewardServiceTest {
         // Should throw exception when player is not in a guild
         assertThrows(IllegalArgumentException.class, () -> {
             dailyRewardService.claimDailyRewardWithGuildOption(
-                playerNotInGuild, EraAge.STONE_AGE, true);
+                playerNotInGuild, TechPhase.UPRISING, true);
         });
     }
     
@@ -146,7 +146,7 @@ class DailyRewardServiceTest {
         // Should throw exception when guild service is not available
         assertThrows(IllegalStateException.class, () -> {
             serviceWithoutGuild.claimDailyRewardWithGuildOption(
-                playerId, EraAge.STONE_AGE, true);
+                playerId, TechPhase.UPRISING, true);
         });
     }
     
@@ -155,12 +155,12 @@ class DailyRewardServiceTest {
         String playerId = "devTASE";
         
         // Claim first reward to guild vault
-        dailyRewardService.claimDailyRewardWithGuildOption(playerId, EraAge.STONE_AGE, true);
+        dailyRewardService.claimDailyRewardWithGuildOption(playerId, TechPhase.UPRISING, true);
         assertEquals(1, dailyRewardService.getCurrentStreak(playerId));
         
         // Try to claim again same day - should throw exception
         assertThrows(IllegalStateException.class, () -> {
-            dailyRewardService.claimDailyRewardWithGuildOption(playerId, EraAge.STONE_AGE, true);
+            dailyRewardService.claimDailyRewardWithGuildOption(playerId, TechPhase.UPRISING, true);
         });
         
         // Streak should still be 1
@@ -168,7 +168,7 @@ class DailyRewardServiceTest {
         
         // Next reward should be day 2
         DailyReward nextReward = dailyRewardService.getNextReward(playerId);
-        assertEquals("Dia 2: Água e Pedra", nextReward.toString());
+        assertEquals("Dia 2: Energia e Dados", nextReward.toString());
     }
     
     @Test

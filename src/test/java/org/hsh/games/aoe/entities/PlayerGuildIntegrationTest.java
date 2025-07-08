@@ -57,21 +57,21 @@ public class PlayerGuildIntegrationTest {
     }
 
     @Test
-    public void testPlayerEraAgeIntegration() {
+    public void testPlayerTechPhaseIntegration() {
         // Given
         Player player = new Player("TestFarm");
         
-        // When - Check initial era
+        // When - Check initial tech phase
         // Then
-        assertNotNull(player.getEraAge());
-        assertEquals(1, player.getEraAge().getLevel());
-        assertEquals(EraAge.STONE_AGE, player.getEraAge());
+        assertNotNull(player.getTechPhase());
+        assertEquals(1, player.getTechPhase().getLevel());
+        assertEquals(TechPhase.UPRISING, player.getTechPhase());
         
-        // When - Advance to Bronze Age
-        player.setEraAge(EraAge.BRONZE_AGE);
+        // When - Advance to Augmented Streets
+        player.setTechPhase(TechPhase.AUGMENTED_STREETS);
         
         // Then
-        assertEquals(EraAge.BRONZE_AGE, player.getEraAge());
-        assertEquals(2, player.getEraAge().getLevel());
+        assertEquals(TechPhase.AUGMENTED_STREETS, player.getTechPhase());
+        assertEquals(2, player.getTechPhase().getLevel());
     }
 }

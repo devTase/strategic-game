@@ -23,34 +23,34 @@ class PlayerServiceTest {
     void addResourceIncreasesResourceAmount() {
         // setup
         playerService.setPlayerResources(new ArrayList<>());
-        playerService.addResource(ResourceType.WOOD, 10);
+        playerService.addResource(ResourceType.ENERGY, 10);
         assertEquals(10, playerService.getPlayerResources().get(0).getAmount());
     }
 
     @Test
-    void addWorkerWhenPopulationLimitReachedDoesNotAddWorker() {
-        Worker worker1 = new Worker("worker1");
-        Worker worker2 = new Worker("worker2");
-        Worker worker3 = new Worker("worker3");
-        playerService.addWorker(worker1);
-        playerService.addWorker(worker2);
-        playerService.addWorker(worker3);
-        assertEquals(3, playerService.getWorkers().size());
+    void addCyberOperativeWhenPopulationLimitReachedDoesNotAddCyberOperative() {
+        CyberOperative operative1 = new CyberOperative("operative1");
+        CyberOperative operative2 = new CyberOperative("operative2");
+        CyberOperative operative3 = new CyberOperative("operative3");
+        playerService.addCyberOperative(operative1);
+        playerService.addCyberOperative(operative2);
+        playerService.addCyberOperative(operative3);
+        assertEquals(3, playerService.getCyberOperatives().size());
     }
 
     @Test
     void checkIfPlayerHasEnoughResourcesReturnsTrueWhenResourcesAreSufficient() {
         List<ResourceAmount> playerResources = Arrays.asList(
-                new ResourceAmount(ResourceType.WOOD, 100),
-                new ResourceAmount(ResourceType.WATER, 100)
+                new ResourceAmount(ResourceType.ENERGY, 100),
+                new ResourceAmount(ResourceType.DATA, 100)
         );
         playerService.setPlayerResources(playerResources);
 
         List<ResourceAmount> buildingCostResources = Arrays.asList(
-                new ResourceAmount(ResourceType.WOOD, 70),
-                new ResourceAmount(ResourceType.WATER, 100)
+                new ResourceAmount(ResourceType.ENERGY, 70),
+                new ResourceAmount(ResourceType.DATA, 100)
         );
-        Building building = new Building(false, ConstructionType.HOUSE);
+        Building building = new Building(false, ConstructionType.OP_BASE);
         building.setResourceCost(buildingCostResources);
 
         assertTrue(playerService.checkIfPlayerHasEnoughResources(building));
@@ -59,16 +59,16 @@ class PlayerServiceTest {
     @Test
     void checkIfPlayerHasEnoughResourcesReturnsFalseWhenResourcesAreInsufficient() {
         List<ResourceAmount> playerResources = Arrays.asList(
-                new ResourceAmount(ResourceType.WOOD, 100),
-                new ResourceAmount(ResourceType.WATER, 100)
+                new ResourceAmount(ResourceType.ENERGY, 100),
+                new ResourceAmount(ResourceType.DATA, 100)
         );
         playerService.setPlayerResources(playerResources);
 
         List<ResourceAmount> buildingCostResources = Arrays.asList(
-                new ResourceAmount(ResourceType.WOOD, 120),
-                new ResourceAmount(ResourceType.WATER, 100)
+                new ResourceAmount(ResourceType.ENERGY, 120),
+                new ResourceAmount(ResourceType.DATA, 100)
         );
-        Building building = new Building(false, ConstructionType.HOUSE);
+        Building building = new Building(false, ConstructionType.OP_BASE);
         building.setResourceCost(buildingCostResources);
 
         assertFalse(playerService.checkIfPlayerHasEnoughResources(building));
@@ -76,7 +76,7 @@ class PlayerServiceTest {
 
     @Test
     void checkIfBuildingAmountHasReachedReturnsTrueWhenLimitReached() {
-        Building building = new Building(true, ConstructionType.HOUSE);
+        Building building = new Building(true, ConstructionType.OP_BASE);
         building.setAmountConstructionsAllowed(1);
 
         playerService.addNewBuilding(building);
@@ -86,7 +86,7 @@ class PlayerServiceTest {
 
     @Test
     void checkIfBuildingAmountHasReachedReturnsFalseWhenLimitReachedButIsNotBuilt() {
-        Building building = new Building(false, ConstructionType.HOUSE);
+        Building building = new Building(false, ConstructionType.OP_BASE);
         building.setAmountConstructionsAllowed(1);
 
         playerService.addNewBuilding(building);
@@ -96,7 +96,7 @@ class PlayerServiceTest {
 
     @Test
     void checkIfBuildingAmountHasReachedReturnsFalseWhenLimitNotReached() {
-        Building building = new Building(false, ConstructionType.HOUSE);
+        Building building = new Building(false, ConstructionType.OP_BASE);
         building.setAmountConstructionsAllowed(2);
 
         playerService.addNewBuilding(building);
@@ -106,7 +106,7 @@ class PlayerServiceTest {
 
     @Test
     void checkIfBuildingHasReachedItsMaximLevelReturnsTrueWhenMaxLevelReached() {
-        Building building = new Building(false, ConstructionType.HOUSE);
+        Building building = new Building(false, ConstructionType.OP_BASE);
 
         building.setMaxLevel(5);
         building.setLevel(5);
@@ -116,7 +116,7 @@ class PlayerServiceTest {
 
     @Test
     void checkIfBuildingHasReachedItsMaximLevelReturnsFalseWhenMaxLevelNotReached() {
-        Building building = new Building(false, ConstructionType.HOUSE);
+        Building building = new Building(false, ConstructionType.OP_BASE);
 
         building.setMaxLevel(5);
         building.setLevel(4);
@@ -125,18 +125,18 @@ class PlayerServiceTest {
     }
 
     @Test
-    void sendWorkersToConstructionJobAssignsWorkersToConstruction() {
-        Building building = new Building(false, ConstructionType.HOUSE);
-        playerService.setPlayerResources(List.of(new ResourceAmount(ResourceType.WOOD, 100)));
-        playerService.sendWorkersToConstructionJob(ConstructionProcess.CREATION, building);
-        boolean shouldHaveOneAvailableWorker = playerService.getWorkerAvailable().isOccupied();
-        assertFalse(shouldHaveOneAvailableWorker);
+    void sendCyberOperativesToConstructionJobAssignsCyberOperativesToConstruction() {
+        Building building = new Building(false, ConstructionType.OP_BASE);
+        playerService.setPlayerResources(List.of(new ResourceAmount(ResourceType.ENERGY, 100)));
+        playerService.sendCyberOperativesToConstructionJob(ConstructionProcess.CREATION, building);
+        boolean shouldHaveOneAvailableCyberOperative = playerService.getCyberOperativeAvailable().isOccupied();
+        assertFalse(shouldHaveOneAvailableCyberOperative);
     }
 
     @Test
-    void sendWorkersToSearchJobAssignsWorkersToSearch() {
-        playerService.sendWorkersToSearchJob(ResourceType.WOOD);
-        assertFalse(playerService.getWorkerAvailable().isOccupied());
+    void sendCyberOperativesToSearchJobAssignsCyberOperativesToSearch() {
+        playerService.sendCyberOperativesToSearchJob(ResourceType.ENERGY);
+        assertFalse(playerService.getCyberOperativeAvailable().isOccupied());
     }
 
     @Test

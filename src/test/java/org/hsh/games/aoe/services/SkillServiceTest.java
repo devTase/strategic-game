@@ -28,12 +28,12 @@ class SkillServiceTest {
         playerService = new PlayerService(player);
         
         // Add sufficient resources for testing
-        playerService.addResource(ResourceType.WOOD, 10000);
-        playerService.addResource(ResourceType.FOOD, 10000);
-        playerService.addResource(ResourceType.STONE, 10000);
+        playerService.addResource(ResourceType.ENERGY, 10000);
+        playerService.addResource(ResourceType.DATA, 10000);
+        playerService.addResource(ResourceType.COMPONENTS, 10000);
         
-        // Add Academy building
-        Building academy = new Building(true, ConstructionType.ACADEMY);
+        // Add Training Facility building
+        Building academy = new Building(true, ConstructionType.TRAINING_FACILITY);
         academy.setBuilt(true);
         playerService.addNewBuilding(academy);
     }
@@ -96,9 +96,9 @@ class SkillServiceTest {
         assertEquals(2, currentUpgrade.getToLevel());
         assertFalse(currentUpgrade.isFinished());
         
-        // Verify worker is occupied
-        assertTrue(playerService.getWorkers().stream().anyMatch(Worker::isOccupied),
-                  "At least one worker should be occupied");
+        // Verify cyber operative is occupied
+        assertTrue(playerService.getCyberOperatives().stream().anyMatch(CyberOperative::isOccupied),
+                  "At least one cyber operative should be occupied");
         
         // Wait for upgrade to complete (should be quick due to test duration)
         Thread.sleep(100); // Give thread time to start
@@ -153,9 +153,9 @@ class SkillServiceTest {
     }
     
     @Test
-    void testStartUpgrade_NoWorkerAvailable_ThrowsException() {
-        // Occupy all workers
-        playerService.getWorkers().forEach(worker -> worker.setOccupied(true));
+    void testStartUpgrade_NoCyberOperativeAvailable_ThrowsException() {
+        // Occupy all cyber operatives
+        playerService.getCyberOperatives().forEach(operative -> operative.setOccupied(true));
         
         assertThrows(IllegalStateException.class, () -> {
             skillService.startUpgrade(playerService, SkillType.CONSTRUCTION_SPEED);

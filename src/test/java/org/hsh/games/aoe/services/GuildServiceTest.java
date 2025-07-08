@@ -1,6 +1,6 @@
 package org.hsh.games.aoe.services;
 
-import org.hsh.games.aoe.entities.guild.*;
+import org.hsh.games.aoe.entities.rebelcell.*;
 import org.hsh.games.aoe.entities.ResourceType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -86,18 +86,18 @@ class GuildServiceTest {
         
         // When
         Guild updatedGuild = guildService.invitePlayer(
-            guild.id(), newPlayerId, "leader", GuildRank.RECRUIT);
+            guild.id(), newPlayerId, "leader", RebelCellRank.HACKER);
         
         // Then
         assertTrue(updatedGuild.hasMember(newPlayerId));
         assertEquals(2, updatedGuild.getMemberCount());
-        assertEquals(GuildRank.RECRUIT, updatedGuild.getMember(newPlayerId).rank());
+        assertEquals(RebelCellRank.HACKER, updatedGuild.getMember(newPlayerId).rank());
     }
     
     @Test
     void invitePlayerWithInvalidGuildThrowsException() {
-        assertThrows(IllegalArgumentException.class, () -> 
-            guildService.invitePlayer("invalid-guild", "player1", "leader", GuildRank.RECRUIT));
+        assertThrows(IllegalArgumentException.class, () ->
+            guildService.invitePlayer("invalid-guild", "player1", "leader", RebelCellRank.HACKER));
     }
     
     @Test
@@ -106,8 +106,8 @@ class GuildServiceTest {
         Guild guild = guildService.createGuild("Test Guild", "leader", 1000);
         
         // When & Then
-        assertThrows(IllegalArgumentException.class, () -> 
-            guildService.invitePlayer(guild.id(), "player2", "nonmember", GuildRank.RECRUIT));
+        assertThrows(IllegalArgumentException.class, () ->
+            guildService.invitePlayer(guild.id(), "player2", "nonmember", RebelCellRank.HACKER));
     }
     
     @Test
@@ -115,25 +115,25 @@ class GuildServiceTest {
         // Given
         Guild guild1 = guildService.createGuild("Guild 1", "leader1", 1000);
         Guild guild2 = guildService.createGuild("Guild 2", "leader2", 1000);
-        guildService.invitePlayer(guild1.id(), "player1", "leader1", GuildRank.RECRUIT);
+        guildService.invitePlayer(guild1.id(), "player1", "leader1", RebelCellRank.HACKER);
         
         // When & Then
-        assertThrows(IllegalArgumentException.class, () -> 
-            guildService.invitePlayer(guild2.id(), "player1", "leader2", GuildRank.RECRUIT));
+        assertThrows(IllegalArgumentException.class, () ->
+            guildService.invitePlayer(guild2.id(), "player1", "leader2", RebelCellRank.HACKER));
     }
     
     @Test
     void changeRankSuccessfullyPromotesMember() {
         // Given
         Guild guild = guildService.createGuild("Test Guild", "leader", 1000);
-        guildService.invitePlayer(guild.id(), "player1", "leader", GuildRank.RECRUIT);
+        guildService.invitePlayer(guild.id(), "player1", "leader", RebelCellRank.HACKER);
         
         // When
         Guild updatedGuild = guildService.changeRank(
-            guild.id(), "player1", GuildRank.MEMBER, "leader");
+            guild.id(), "player1", RebelCellRank.OPERATOR, "leader");
         
         // Then
-        assertEquals(GuildRank.MEMBER, updatedGuild.getMember("player1").rank());
+        assertEquals(RebelCellRank.OPERATOR, updatedGuild.getMember("player1").rank());
     }
     
     @Test
@@ -142,20 +142,20 @@ class GuildServiceTest {
         Guild guild = guildService.createGuild("Test Guild", "leader", 1000);
         
         // When & Then
-        assertThrows(IllegalArgumentException.class, () -> 
-            guildService.changeRank(guild.id(), "leader", GuildRank.MEMBER, "leader"));
+        assertThrows(IllegalArgumentException.class, () ->
+            guildService.changeRank(guild.id(), "leader", RebelCellRank.OPERATOR, "leader"));
     }
     
     @Test
     void changeRankWithoutPermissionThrowsException() {
         // Given
         Guild guild = guildService.createGuild("Test Guild", "leader", 1000);
-        guildService.invitePlayer(guild.id(), "player1", "leader", GuildRank.RECRUIT);
-        guildService.invitePlayer(guild.id(), "player2", "leader", GuildRank.RECRUIT);
+        guildService.invitePlayer(guild.id(), "player1", "leader", RebelCellRank.HACKER);
+        guildService.invitePlayer(guild.id(), "player2", "leader", RebelCellRank.HACKER);
         
         // When & Then
-        assertThrows(IllegalArgumentException.class, () -> 
-            guildService.changeRank(guild.id(), "player2", GuildRank.MEMBER, "player1"));
+        assertThrows(IllegalArgumentException.class, () ->
+            guildService.changeRank(guild.id(), "player2", RebelCellRank.OPERATOR, "player1"));
     }
     
     @Test
@@ -165,10 +165,10 @@ class GuildServiceTest {
         
         // When
         Guild updatedGuild = guildService.depositToVault(
-            guild.id(), ResourceType.WOOD, 100, "leader");
+            guild.id(), ResourceType.ENERGY, 100, "leader");
         
         // Then
-        assertEquals(100, updatedGuild.vault().getResourceQuantity(ResourceType.WOOD));
+        assertEquals(100, updatedGuild.vault().getResourceQuantity(ResourceType.ENERGY));
     }
     
     @Test
@@ -178,7 +178,7 @@ class GuildServiceTest {
         
         // When & Then
         assertThrows(IllegalArgumentException.class, () -> 
-            guildService.depositToVault(guild.id(), ResourceType.WOOD, 100, "nonmember"));
+            guildService.depositToVault(guild.id(), ResourceType.ENERGY, 100, "nonmember"));
     }
     
     @Test
@@ -188,14 +188,14 @@ class GuildServiceTest {
         
         // When & Then
         assertThrows(IllegalArgumentException.class, () -> 
-            guildService.depositToVault(guild.id(), ResourceType.WOOD, -10, "leader"));
+            guildService.depositToVault(guild.id(), ResourceType.ENERGY, -10, "leader"));
     }
     
     @Test
     void removePlayerFromGuildSuccessfullyRemovesMember() {
         // Given
         Guild guild = guildService.createGuild("Test Guild", "leader", 1000);
-        guildService.invitePlayer(guild.id(), "player1", "leader", GuildRank.RECRUIT);
+        guildService.invitePlayer(guild.id(), "player1", "leader", RebelCellRank.HACKER);
         
         // When
         Guild updatedGuild = guildService.removePlayerFromGuild("player1", "leader");
@@ -210,7 +210,7 @@ class GuildServiceTest {
     void removePlayerFromGuildAllowsSelfRemoval() {
         // Given
         Guild guild = guildService.createGuild("Test Guild", "leader", 1000);
-        guildService.invitePlayer(guild.id(), "player1", "leader", GuildRank.RECRUIT);
+        guildService.invitePlayer(guild.id(), "player1", "leader", RebelCellRank.HACKER);
         
         // When
         Guild updatedGuild = guildService.removePlayerFromGuild("player1", "player1");
@@ -224,8 +224,8 @@ class GuildServiceTest {
     void removePlayerWithoutPermissionThrowsException() {
         // Given
         Guild guild = guildService.createGuild("Test Guild", "leader", 1000);
-        guildService.invitePlayer(guild.id(), "player1", "leader", GuildRank.RECRUIT);
-        guildService.invitePlayer(guild.id(), "player2", "leader", GuildRank.RECRUIT);
+        guildService.invitePlayer(guild.id(), "player1", "leader", RebelCellRank.HACKER);
+        guildService.invitePlayer(guild.id(), "player2", "leader", RebelCellRank.HACKER);
         
         // When & Then
         assertThrows(IllegalArgumentException.class, () -> 
