@@ -1,0 +1,187 @@
+package org.hsh.games.aoe.domain.entities.resources;
+
+import org.hsh.games.aoe.entities.Difficulty;
+import org.hsh.games.aoe.shared.utils.ThreadUtils;
+import org.hsh.games.aoe.domain.valueobjects.ResourceQuantity;
+
+import java.util.List;
+import java.util.Random;
+
+public class Resource {
+    ResourceType type;
+    String name;
+    Difficulty hardToGet;
+    int timeLimitForSearch;
+    int amountMaxToBeFound;
+    int pricePerUnit;
+
+    public Resource(ResourceType resourceType) {
+        this.type = resourceType;
+        this.name = resourceType.getDescription();
+        this.hardToGet = resourceType.getHardToGet();
+        this.timeLimitForSearch = resourceType.getTimeLimitForSearch();
+        this.amountMaxToBeFound = resourceType.getAmountMaxToBeFound();
+        this.pricePerUnit = resourceType.getPricePerUnit();
+    }
+
+    public void search(List<ResourceAmount> playerResources, String workerName, String currentMission) {
+        Random random = new Random();
+        int lowestSearchTime = random.nextInt(ThreadUtils.toMilliseconds(1), timeLimitForSearch/2);
+        int totalSearchTime = random.nextInt(lowestSearchTime, timeLimitForSearch);
+        int amountMax = amountMaxToBeFound/2;
+        if(amountMax < 2) amountMax = 3;
+        int lowestAmountToBeFound = random.nextInt(1, amountMax);
+
+        System.out.printf("O operativo cyber começou a tarefa de %s\nTermina dentro de %d minutos.\n", currentMission, ThreadUtils.toMinutes(totalSearchTime));
+
+        try {
+
+            int splittedTime = totalSearchTime/3;
+            Thread.sleep(splittedTime);
+            isPLayerWorkerInjured();
+            if(isPLayerWorkerKilled()) return;
+            Thread.sleep(totalSearchTime-splittedTime);
+            ResourceAmount resourceFound = new ResourceAmount(type, random.nextInt(lowestAmountToBeFound, amountMaxToBeFound));
+            addToPlayerResources(playerResources, resourceFound);
+            System.out.printf("\nO operativo cyber voltou para base com %d de %s\n", resourceFound.getAmount(), resourceFound.getResource().getDescription());
+        } catch (java.lang.InterruptedException e) {
+            System.out.println("O operativo cyber foi comprometido enquanto procurava resources!!");
+        }
+    }
+
+    public boolean isPLayerWorkerKilled() {
+        if(hardToGet.equals(Difficulty.EASY)) return false;
+        if(hardToGet.equals(Difficulty.MEDIUM)) {
+            Random random = new Random();
+            int killed = random.nextInt(1, 100);
+            if(killed > 80) {
+                System.out.println("O operativo cyber foi atacado por defensas do sistema e foi eliminado");
+                return true;
+            }
+            return false;
+        }
+
+        if(hardToGet.equals(Difficulty.HARD) || hardToGet.equals(Difficulty.EXTREME)) {
+            Random random = new Random();
+            int killed = random.nextInt(1, 100);
+            if(killed > 70) {
+                System.out.println("O operativo cyber foi atacado por defensas do sistema e foi eliminado");
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
+
+    public void isPLayerWorkerInjured() {
+        if(hardToGet.equals(Difficulty.EASY)) return;
+        if(hardToGet.equals(Difficulty.MEDIUM)) {
+            Random random = new Random();
+            int injured = random.nextInt(1, 100);
+            if(injured > 80) {
+                System.out.println("\nO operativo cyber foi atacado por defesas do sistema e voltou para base com menos recursos");
+            }
+            return;
+        }
+        if(hardToGet.equals(Difficulty.HARD) || hardToGet.equals(Difficulty.EXTREME)) {
+            Random random = new Random();
+            int injured = random.nextInt(1, 100);
+            if(injured > 60) {
+                System.out.println("\nO operativo cyber foi atacado por defensas do sistema e voltou para base com menos recursos");
+            }
+            return;
+        }
+        Random random = new Random();
+        int injured = random.nextInt(1, 100);
+        if(injured > 50) {
+            System.out.println("\nO operativo cyber foi atacado por defensas do sistema e voltou para base com menos recursos");
+        }
+    }
+
+    public void addToPlayerResources(List<ResourceAmount> playerResources, ResourceAmount resourcesToAdd) {
+        for(ResourceAmount x : playerResources) {
+            if(x.getResource().equals(resourcesToAdd.getResource())) {
+                x.setAmount(x.getAmount() + resourcesToAdd.getAmount());
+            }
+        }
+    }
+
+    public ResourceType getType() {
+        return type;
+    }
+
+    public void setType(ResourceType type) {
+        this.type = type;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Difficulty getHardToGet() {
+        return hardToGet;
+    }
+
+    public void setHardToGet(Difficulty hardToGet) {
+        this.hardToGet = hardToGet;
+    }
+
+    public int getTimeLimitForSearch() {
+        return timeLimitForSearch;
+    }
+
+    public void setTimeLimitForSearch(int timeLimitForSearch) {
+        this.timeLimitForSearch = timeLimitForSearch;
+    }
+
+    public int getAmountMaxToBeFound() {
+        return amountMaxToBeFound;
+    }
+
+    public void setAmountMaxToBeFound(int amountMaxToBeFound) {
+        this.amountMaxToBeFound = amountMaxToBeFound;
+    }
+
+    public int getPricePerUnit() {
+        return pricePerUnit;
+    }
+
+    public void setPricePerUnit(int pricePerUnit) {
+        this.pricePerUnit = pricePerUnit;
+    }
+
+    // Additional methods for ResourceManagementUseCase compatibility
+    public int getAmount() {
+        return this.amountMaxToBeFound;
+    }
+
+    public Resource subtract(ResourceQuantity quantity) {
+        if (quantity.getType() != this.type) {
+            throw new IllegalArgumentException("Cannot subtract different resource types");
+        }
+        
+        int newAmount = this.amountMaxToBeFound - quantity.getAmount();
+        if (newAmount < 0) {
+            throw new IllegalArgumentException("Insufficient resources");
+        }
+        
+        Resource newResource = new Resource(this.type);
+        newResource.setAmountMaxToBeFound(newAmount);
+        return newResource;
+    }
+
+    public boolean hasEnough(ResourceQuantity quantity) {
+        return quantity.getType() == this.type && this.amountMaxToBeFound >= quantity.getAmount();
+    }
+
+    public void addToPlayerResources(ResourceQuantity quantity) {
+        if (quantity.getType() != this.type) {
+            throw new IllegalArgumentException("Cannot add different resource types");
+        }
+        this.amountMaxToBeFound += quantity.getAmount();
+    }
+}

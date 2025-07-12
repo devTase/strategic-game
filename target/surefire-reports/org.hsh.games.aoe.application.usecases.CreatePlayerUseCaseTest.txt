@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: org.hsh.games.aoe.application.usecases.CreatePlayerUseCaseTest
+-------------------------------------------------------------------------------
+Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.534 s -- in org.hsh.games.aoe.application.usecases.CreatePlayerUseCaseTest

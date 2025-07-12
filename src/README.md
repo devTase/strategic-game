@@ -4,7 +4,7 @@
 - Select a farming name
 - After that, you receive 3 workers
 - You don't have a house yet.
-- You have allways a status bar indicating how many resources you have at the moment.
+- You have always a status bar indicating how many resources you have at the moment.
 - Resources available are:
   - gold
   - wood

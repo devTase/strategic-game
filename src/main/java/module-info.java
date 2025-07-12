@@ -7,6 +7,5 @@ module org.hsh.games.aoe {
     requires org.kordamp.bootstrapfx.core;
     requires com.almasb.fxgl.all;
 
-    opens org.hsh.games.aoe.visual.modal to javafx.fxml;
-    exports org.hsh.games.aoe.visual.modal;
+    // TODO: Add visual packages when implemented
 }
