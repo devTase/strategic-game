@@ -217,20 +217,4 @@ class PlayerTest {
         // Then
         assertEquals(newPhase, player.getTechPhase());
     }
-
-    @Test
-    @DisplayName("Should handle deprecated era age methods")
-    void shouldHandleDeprecatedEraAgeMethods() {
-        // Given
-        Player player = new Player("Test Village");
-        EraAge eraAge = EraAge.BRONZE_AGE;
-
-        // When
-        player.setEraAge(eraAge);
-        EraAge retrievedEra = player.getEraAge();
-
-        // Then
-        assertNotNull(retrievedEra);
-        assertEquals(eraAge.getLevel(), retrievedEra.getLevel());
-    }
 }

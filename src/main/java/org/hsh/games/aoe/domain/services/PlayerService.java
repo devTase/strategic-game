@@ -344,12 +344,6 @@ public class PlayerService {
         }
     }
 
-    // Deprecated method for backward compatibility
-    @Deprecated(since = "2.0", forRemoval = true)
-    public void checkForNewEraConditions() {
-        checkForNewPhaseConditions();
-    }
-
     public Set<String> getAvailableConstructionTypes() {
         return buildingList.stream()
                 .filter(building -> !checkIfBuildingAmountHasReached(building) && !checkIfBuildingHasReachedItsMaximLevel(building))

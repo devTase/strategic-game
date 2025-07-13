@@ -2,6 +2,7 @@ package org.hsh.games.aoe.infrastructure.adapters.inbound.console;
 
 import org.hsh.games.aoe.application.dto.PlayerDTO;
 import org.hsh.games.aoe.application.dto.ResourceDTO;
+import org.hsh.games.aoe.application.ports.inbound.CyberOperativeManagementPort;
 import org.hsh.games.aoe.application.ports.inbound.PlayerManagementPort;
 import org.hsh.games.aoe.application.ports.inbound.ResourceManagementPort;
 import org.hsh.games.aoe.domain.entities.resources.ResourceType;
@@ -21,13 +22,16 @@ public class ConsoleGameController {
     
     private final PlayerManagementPort playerManagementPort;
     private final ResourceManagementPort resourceManagementPort;
+    private final CyberOperativeManagementPort cyberOperativePort;
     private final Scanner scanner;
     private PlayerDTO currentPlayer;
     
     public ConsoleGameController(PlayerManagementPort playerManagementPort, 
-                               ResourceManagementPort resourceManagementPort) {
+                               ResourceManagementPort resourceManagementPort,
+                               CyberOperativeManagementPort cyberOperativePort) {
         this.playerManagementPort = playerManagementPort;
         this.resourceManagementPort = resourceManagementPort;
+        this.cyberOperativePort = cyberOperativePort;
         this.scanner = new Scanner(System.in);
     }
     
@@ -78,14 +82,14 @@ public class ConsoleGameController {
             }
             
             ConsoleUtils.clearConsole();
-            showEnhancedDashboard();
+            showMainDashboard();
             showMainMenu();
             
             int choice = scanner.nextInt();
             scanner.nextLine();
             
             ConsoleUtils.clearConsole();
-            showEnhancedDashboard();
+            showMainDashboard();
             
             switch (choice) {
                 case 1:
@@ -116,7 +120,7 @@ public class ConsoleGameController {
         }
     }
     
-    private void showEnhancedDashboard() {
+    private void showMainDashboard() {
         PlayerId playerId = new PlayerId(currentPlayer.playerId());
         List<ResourceDTO> resources = resourceManagementPort.getPlayerResources(playerId);
         
@@ -136,7 +140,7 @@ public class ConsoleGameController {
         System.out.println("╠══════════════════════════════════════════════════════════════════════════════════════════════╣");
         
         for (ResourceDTO resource : resources) {
-            String icon = getResourceIcon(resource.type());
+            String icon = resource.type().getIcon();
             System.out.printf("║ %s %-12s: %-8d                                                        ║%n", 
                 icon, resource.description(), resource.amount());
         }
@@ -157,7 +161,7 @@ public class ConsoleGameController {
         
         int index = 1;
         for (ResourceType resourceType : availableResources) {
-            String icon = getResourceIcon(resourceType);
+            String icon = resourceType.getIcon();
             ConsoleDisplayUtils.printResourceItem(index, resourceType.getDescription(), icon);
             index++;
         }
@@ -165,22 +169,24 @@ public class ConsoleGameController {
         ConsoleDisplayUtils.printMenuFooter();
         System.out.print("\n⚔️  Choose the resource to gather: ");
         
-        int input = scanner.nextInt();
-        scanner.nextLine();
-        
-        if (input < 1 || input > availableResources.size()) {
-            ConsoleDisplayUtils.printErrorMessage(ApplicationConstants.MESSAGE_WRONG_OPTION_TRY_AGAIN);
-            return;
+        int input = 0;
+        while (input < 1 || input > availableResources.size()) {
+            input = scanner.nextInt();
+            scanner.nextLine();
+            if(input< 1 || input > availableResources.size()) {
+                ConsoleDisplayUtils.printErrorMessage(ApplicationConstants.MESSAGE_WRONG_OPTION_TRY_AGAIN);
+            }
         }
         
         ResourceType selectedResource = availableResources.get(input - 1);
         
         try {
-            // Simulate resource gathering
-            int gatherAmount = 10 + (int) (Math.random() * 20);
-            resourceManagementPort.gatherResource(playerId, selectedResource, gatherAmount);
-            
-            ConsoleDisplayUtils.printSuccessMessage("Successfully gathered " + gatherAmount + " " + selectedResource.getDescription());
+            boolean dispatched = cyberOperativePort.searchResource(playerId, selectedResource);
+            if(dispatched){
+                ConsoleDisplayUtils.printSuccessMessage("Operative sent to gather " + selectedResource.getDescription());
+            }else{
+                ConsoleDisplayUtils.printWarningMessage("No free operatives, try later.");
+            }
         } catch (Exception e) {
             ConsoleDisplayUtils.printErrorMessage("Failed to gather resource: " + e.getMessage());
         }
@@ -215,7 +221,7 @@ public class ConsoleGameController {
         List<ResourceDTO> resources = resourceManagementPort.getPlayerResources(playerId);
         System.out.println("\n📦 Resources:");
         for (ResourceDTO resource : resources) {
-            String icon = getResourceIcon(resource.type());
+            String icon = resource.type().getIcon();
             System.out.printf("  %s %s: %d%n", icon, resource.description(), resource.amount());
         }
         
@@ -241,19 +247,7 @@ public class ConsoleGameController {
             case EXO_REALITY -> "👁️";
         };
     }
-    
-    private String getResourceIcon(ResourceType resourceType) {
-        return switch (resourceType) {
-            case ENERGY -> "⚡";
-            case DATA -> "💾";
-            case COMPONENTS -> "🔧";
-            case CIRCUITS -> "🖲️";
-            case NANOMATERIALS -> "⚛️";
-            case QUANTUM_ENERGY -> "🌟";
-            case CRYPTO -> "💰";
-        };
-    }
-    
+
     private void waitForUser() {
         ConsoleDisplayUtils.printWaitPrompt();
         scanner.nextLine();

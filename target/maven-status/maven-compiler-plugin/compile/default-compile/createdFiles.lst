@@ -10,6 +10,7 @@ org/hsh/games/aoe/infrastructure/configuration/ApplicationBootstrapConfig.class
 org/hsh/games/aoe/infrastructure/adapters/outbound/persistence/InMemoryPlayerRepository.class
 org/hsh/games/aoe/domain/entities/rebelcell/MissionType.class
 org/hsh/games/aoe/domain/entities/rebelcell/TerritoryStatus.class
+org/hsh/games/aoe/Game.class
 org/hsh/games/aoe/domain/entities/achievements/AchievementCategory.class
 org/hsh/games/aoe/application/ports/outbound/PlayerRepositoryPort.class
 org/hsh/games/aoe/application/usecases/ResourceManagementUseCase.class
@@ -20,12 +21,14 @@ org/hsh/games/aoe/domain/entities/resources/ResourceType.class
 org/hsh/games/aoe/domain/entities/rebelcell/Guild.class
 org/hsh/games/aoe/application/dto/DailyRewardDTO.class
 org/hsh/games/aoe/application/ports/inbound/PlayerManagementPort.class
+org/hsh/games/aoe/application/usecases/CyberOperativeManagementUseCase.class
+org/hsh/games/aoe/infrastructure/adapters/outbound/threading/ResourcesGatheringThread.class
 org/hsh/games/aoe/domain/entities/skills/PlayerSkills.class
 org/hsh/games/aoe/domain/entities/DailyReward$1.class
 org/hsh/games/aoe/domain/entities/rebelcell/RebelCellRank.class
 org/hsh/games/aoe/domain/exceptions/InvalidPlayerException.class
 org/hsh/games/aoe/domain/entities/skills/SkillValidationUtils.class
-org/hsh/games/aoe/GameHexagonal.class
+org/hsh/games/aoe/application/ports/inbound/CyberOperativeManagementPort.class
 org/hsh/games/aoe/domain/entities/achievements/Achievement.class
 org/hsh/games/aoe/application/ports/inbound/ResourceManagementPort.class
 org/hsh/games/aoe/domain/entities/achievements/AchievementReward$ResourceReward.class
@@ -73,7 +76,6 @@ org/hsh/games/aoe/domain/entities/resources/ResourceType$1.class
 org/hsh/games/aoe/domain/exceptions/DomainException.class
 org/hsh/games/aoe/domain/entities/buildings/ConstructionType.class
 org/hsh/games/aoe/application/ports/outbound/GuildServicePort.class
-org/hsh/games/aoe/infrastructure/adapters/outbound/threading/SearchResourcesThread.class
 org/hsh/games/aoe/domain/entities/rebelcell/GuildMember.class
 org/hsh/games/aoe/infrastructure/adapters/outbound/notification/ConsoleNotificationAdapter.class
 org/hsh/games/aoe/domain/entities/resources/Resource.class

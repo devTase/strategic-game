@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
@@ -27,6 +28,7 @@ import static org.mockito.Mockito.*;
  * @author devTASE
  */
 @DisplayName("CreatePlayerUseCase Tests")
+@ExtendWith(MockitoExtension.class)
 class CreatePlayerUseCaseTest {
 
     @Mock
@@ -39,7 +41,6 @@ class CreatePlayerUseCaseTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
         createPlayerUseCase = new CreatePlayerUseCase(playerRepository, notificationPort);
     }
 

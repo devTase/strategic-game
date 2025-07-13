@@ -8,13 +8,13 @@ import org.hsh.games.aoe.domain.entities.resources.ResourceAmount;
 
 import java.util.List;
 
-public class SearchResourcesThread extends Thread {
+public class ResourcesGatheringThread extends Thread {
 
     private Resource resourceToLookFor;
     private CyberOperative operative;
     private List<ResourceAmount> playerResources;
 
-    public SearchResourcesThread(Resource resourceToLookFor, List<ResourceAmount> playerResources, CyberOperative operative) {
+    public ResourcesGatheringThread(Resource resourceToLookFor, List<ResourceAmount> playerResources, CyberOperative operative) {
         this.resourceToLookFor = resourceToLookFor;
         this.operative = operative;
         this.playerResources = playerResources;

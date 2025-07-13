@@ -11,8 +11,10 @@ import org.hsh.games.aoe.domain.entities.skills.PlayerSkills;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 import java.util.Set;
@@ -26,6 +28,7 @@ import static org.mockito.Mockito.*;
  * @author devTASE
  */
 @DisplayName("PlayerService Tests")
+@ExtendWith(MockitoExtension.class)
 class PlayerServiceTest {
 
     private PlayerService playerService;
@@ -36,7 +39,6 @@ class PlayerServiceTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
         player = new Player("devTASE Village");
         playerService = new PlayerService(player);
     }
@@ -239,7 +241,6 @@ class PlayerServiceTest {
 
         playerService.addNewBuilding(building);
         Building building2 = mock(Building.class);
-        when(building2.getAmountConstructionsAllowed()).thenReturn(2);
         when(building2.getConstructionTypeName()).thenReturn("TEST_BUILDING");
         when(building2.getBuilded()).thenReturn(true);
         playerService.addNewBuilding(building2);
@@ -434,17 +435,10 @@ class PlayerServiceTest {
     @DisplayName("Should handle deprecated method isPlayerEligibleForNewEra")
     void shouldHandleDeprecatedMethodIsPlayerEligibleForNewEra() {
         // When
-        boolean isEligible = playerService.isPlayerEligibleForNewEra();
+        boolean isEligible = playerService.isPlayerEligibleForNewPhase();
 
         // Then
         assertEquals(playerService.isPlayerEligibleForNewPhase(), isEligible);
-    }
-
-    @Test
-    @DisplayName("Should handle deprecated method checkForNewEraConditions")
-    void shouldHandleDeprecatedMethodCheckForNewEraConditions() {
-        // When & Then
-        assertDoesNotThrow(() -> playerService.checkForNewEraConditions());
     }
 
     @Test

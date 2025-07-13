@@ -494,7 +494,7 @@ public class GuildMissionService {
         switch (missionType) {
             case RESOURCE_RUN -> {
                 // Include phase-appropriate resources using ResourceType utility
-                List<ResourceType> phaseResources = ResourceType.getResourcesPackBasedOnCurrentEra(phase.getLevel());
+                List<ResourceType> phaseResources = ResourceType.getResourcesPackBasedOnCurrentPhase(phase.getLevel());
                 
                 // Add basic resources for resource runs
                 rewards.put(ResourceType.ENERGY, (int)((50 + random.nextInt(50)) * phaseMultiplier));
@@ -514,7 +514,7 @@ public class GuildMissionService {
                 
                 // Higher phases get additional advanced resources
                 if (phase.getLevel() >= 4) { // Drone Dominion and above
-                    List<ResourceType> advancedResources = ResourceType.getResourcesPackBasedOnCurrentEra(phase.getLevel());
+                    List<ResourceType> advancedResources = ResourceType.getResourcesPackBasedOnCurrentPhase(phase.getLevel());
                     if (!advancedResources.isEmpty()) {
                         ResourceType advancedResource = advancedResources.get(0);
                         rewards.put(advancedResource, (int)((15 + random.nextInt(25)) * phaseMultiplier));
@@ -535,7 +535,7 @@ public class GuildMissionService {
                 rewards.put(ResourceType.CIRCUITS, (int)((25 + random.nextInt(25)) * phaseMultiplier));
                 
                 // Vault defense gets defensive resources based on phase
-                List<ResourceType> availableResources = ResourceType.getResourcesPackBasedOnCurrentEra(phase.getLevel());
+                List<ResourceType> availableResources = ResourceType.getResourcesPackBasedOnCurrentPhase(phase.getLevel());
                 if (availableResources.contains(ResourceType.COMPONENTS)) {
                     rewards.put(ResourceType.COMPONENTS, (int)((30 + random.nextInt(30)) * phaseMultiplier));
                 }

@@ -14,8 +14,10 @@ import org.hsh.games.aoe.domain.valueobjects.PlayerId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,6 +33,7 @@ import static org.mockito.Mockito.*;
  * @author devTASE
  */
 @DisplayName("ResourceManagementUseCase Tests")
+@ExtendWith(MockitoExtension.class)
 class ResourceManagementUseCaseTest {
 
     @Mock
@@ -46,7 +49,6 @@ class ResourceManagementUseCaseTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
         resourceManagementUseCase = new ResourceManagementUseCase(
             resourceRepository, playerRepository, notificationPort);
     }
@@ -194,7 +196,6 @@ class ResourceManagementUseCaseTest {
         Player player = new Player("Test Village");
         player.setTechPhase(TechPhase.UPRISING);
 
-        when(playerRepository.exists(playerId)).thenReturn(true);
         when(playerRepository.findById(playerId)).thenReturn(Optional.of(player));
 
         // When

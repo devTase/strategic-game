@@ -1,4 +1,5 @@
 org/hsh/games/aoe/domain/services/PlayerServiceTest.class
+org/hsh/games/aoe/domain/entities/resources/ResourceTypeCapacityTest.class
 org/hsh/games/aoe/infrastructure/adapters/inbound/network/NetworkGameServerTest.class
 org/hsh/games/aoe/domain/entities/PlayerTest.class
 org/hsh/games/aoe/domain/entities/TechPhaseTest.class
@@ -6,6 +7,7 @@ org/hsh/games/aoe/infrastructure/adapters/inbound/network/NetworkGameServerInteg
 org/hsh/games/aoe/domain/services/DailyRewardServiceTest.class
 org/hsh/games/aoe/application/usecases/ResourceManagementUseCaseTest.class
 org/hsh/games/aoe/application/usecases/CreatePlayerUseCaseTest.class
+org/hsh/games/aoe/application/usecases/CyberOperativeManagementUseCaseTest.class
 org/hsh/games/aoe/domain/services/SkillServiceTest.class
 org/hsh/games/aoe/application/dto/ResourceDTOTest.class
 org/hsh/games/aoe/application/dto/PlayerDTOTest.class

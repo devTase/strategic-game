@@ -8,8 +8,10 @@ import org.hsh.games.aoe.domain.entities.resources.ResourceType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
@@ -23,6 +25,7 @@ import static org.mockito.Mockito.*;
  * @author devTASE
  */
 @DisplayName("DailyRewardService Tests")
+@ExtendWith(MockitoExtension.class)
 class DailyRewardServiceTest {
 
     private DailyRewardService dailyRewardService;
@@ -35,7 +38,6 @@ class DailyRewardServiceTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
         dailyRewardService = new DailyRewardService();
     }
 

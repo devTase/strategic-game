@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: org.hsh.games.aoe.infrastructure.adapters.inbound.network.NetworkGameServerIntegrationTest
 -------------------------------------------------------------------------------
-Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.970 s -- in org.hsh.games.aoe.infrastructure.adapters.inbound.network.NetworkGameServerIntegrationTest
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.958 s -- in org.hsh.games.aoe.infrastructure.adapters.inbound.network.NetworkGameServerIntegrationTest

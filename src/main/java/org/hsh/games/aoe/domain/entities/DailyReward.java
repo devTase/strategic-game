@@ -16,14 +16,6 @@ public record DailyReward(int day, List<ResourceAmount> baseRewards, boolean isS
                 .toList();
     }
 
-    // Backward compatibility method
-    @Deprecated(since = "2.0", forRemoval = true)
-    public List<ResourceAmount> getAdjustedRewards(EraAge currentEra) {
-        // Convert EraAge to TechPhase for backward compatibility
-        TechPhase phase = TechPhase.getByLevel(currentEra.getLevel());
-        return getAdjustedRewards(phase);
-    }
-
     private double calculatePhaseMultiplier(TechPhase phase) {
         return switch (phase) {
             case UPRISING -> 1.0;

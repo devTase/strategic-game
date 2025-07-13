@@ -1,7 +1,7 @@
 package org.hsh.games.aoe.domain.entities.resources;
 
+import org.hsh.games.aoe.domain.entities.Difficulty;
 import org.hsh.games.aoe.domain.valueobjects.ResourceQuantity;
-import org.hsh.games.aoe.entities.Difficulty;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

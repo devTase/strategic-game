@@ -224,7 +224,6 @@ public class ConsoleDisplayUtils {
      * Creates a footer for menus
      */
     public static void printMenuFooter() {
-        System.out.println("║                                                                                   ║");
         System.out.println("╚═══════════════════════════════════════════════════════════════════════════════════╝");
     }
     

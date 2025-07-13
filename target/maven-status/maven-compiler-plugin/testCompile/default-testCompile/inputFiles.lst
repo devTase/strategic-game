@@ -4,10 +4,12 @@
 /Users/tiagoesteves/Desktop/Repos/github/strategic-game/src/test/java/org/hsh/games/aoe/domain/entities/resources/ResourceTest.java
 /Users/tiagoesteves/Desktop/Repos/github/strategic-game/src/test/java/org/hsh/games/aoe/domain/entities/DailyRewardTest.java
 /Users/tiagoesteves/Desktop/Repos/github/strategic-game/src/test/java/org/hsh/games/aoe/domain/entities/PlayerTest.java
+/Users/tiagoesteves/Desktop/Repos/github/strategic-game/src/test/java/org/hsh/games/aoe/domain/entities/resources/ResourceTypeCapacityTest.java
 /Users/tiagoesteves/Desktop/Repos/github/strategic-game/src/test/java/org/hsh/games/aoe/application/dto/ResourceDTOTest.java
 /Users/tiagoesteves/Desktop/Repos/github/strategic-game/src/test/java/org/hsh/games/aoe/infrastructure/adapters/inbound/network/NetworkGameServerTest.java
 /Users/tiagoesteves/Desktop/Repos/github/strategic-game/src/test/java/org/hsh/games/aoe/application/dto/PlayerDTOTest.java
 /Users/tiagoesteves/Desktop/Repos/github/strategic-game/src/test/java/org/hsh/games/aoe/application/dto/DailyRewardDTOTest.java
+/Users/tiagoesteves/Desktop/Repos/github/strategic-game/src/test/java/org/hsh/games/aoe/application/usecases/CyberOperativeManagementUseCaseTest.java
 /Users/tiagoesteves/Desktop/Repos/github/strategic-game/src/test/java/org/hsh/games/aoe/application/usecases/CreatePlayerUseCaseTest.java
 /Users/tiagoesteves/Desktop/Repos/github/strategic-game/src/test/java/org/hsh/games/aoe/application/usecases/ResourceManagementUseCaseTest.java
 /Users/tiagoesteves/Desktop/Repos/github/strategic-game/src/test/java/org/hsh/games/aoe/domain/entities/TechPhaseTest.java

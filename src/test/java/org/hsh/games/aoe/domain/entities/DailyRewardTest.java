@@ -45,11 +45,10 @@ class DailyRewardTest {
         List<ResourceAmount> baseRewards = List.of(reward1);
         DailyReward reward = new DailyReward(5, baseRewards, true, "Special reward");
 
-        EraAge eraAge = EraAge.IRON_AGE; // Level 3
         TechPhase correspondingPhase = TechPhase.getByLevel(3); // corresponds to NEURAL_NEXUS
 
         // When
-        List<ResourceAmount> adjustedRewardsEra = reward.getAdjustedRewards(eraAge);
+        List<ResourceAmount> adjustedRewardsEra = reward.getAdjustedRewards(correspondingPhase);
         List<ResourceAmount> adjustedRewardsPhase = reward.getAdjustedRewards(correspondingPhase);
 
         // Then

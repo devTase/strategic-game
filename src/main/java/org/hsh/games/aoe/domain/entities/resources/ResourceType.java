@@ -1,6 +1,6 @@
 package org.hsh.games.aoe.domain.entities.resources;
 
-import org.hsh.games.aoe.entities.Difficulty;
+import org.hsh.games.aoe.domain.entities.Difficulty;
 import org.hsh.games.aoe.domain.entities.TechPhase;
 import org.hsh.games.aoe.shared.utils.ThreadUtils;
 
@@ -9,13 +9,13 @@ import java.util.Map;
 import java.util.Objects;
 
 public enum ResourceType {
-    ENERGY("Energy Cells", 250, Difficulty.EASY, ThreadUtils.toMilliseconds(8), 150, 5),
-    DATA("Data Streams", 180, Difficulty.EASY, ThreadUtils.toMilliseconds(6), 120, 3),
-    COMPONENTS("Tech Components", 120, Difficulty.MEDIUM, ThreadUtils.toMilliseconds(12), 80, 8),
-    CIRCUITS("Neural Circuits", 60, Difficulty.MEDIUM, ThreadUtils.toMilliseconds(18), 50, 15),
-    NANOMATERIALS("Nanomaterials", 30, Difficulty.HARD, ThreadUtils.toMilliseconds(25), 35, 25),
-    QUANTUM_ENERGY("Quantum Energy", 15, Difficulty.EXTREME, ThreadUtils.toMilliseconds(35), 20, 50),
-    CRYPTO("Crypto Tokens", 8, Difficulty.EXTREME, ThreadUtils.toMilliseconds(40), 12, 100);
+    ENERGY("Energy Cells", 250, Difficulty.EASY, ThreadUtils.toMilliseconds(8), 150, 5, "⚡", 1000, 10, 50),
+    DATA("Data Streams", 180, Difficulty.EASY, ThreadUtils.toMilliseconds(6), 120, 3, "💾", 800, 5, 30),
+    COMPONENTS("Tech Components", 120, Difficulty.MEDIUM, ThreadUtils.toMilliseconds(12), 80, 8, "🔧", 600, 3, 20),
+    CIRCUITS("Neural Circuits", 60, Difficulty.MEDIUM, ThreadUtils.toMilliseconds(18), 50, 15, "🖲️", 400, 2, 15),
+    NANOMATERIALS("Nanomaterials", 30, Difficulty.HARD, ThreadUtils.toMilliseconds(25), 35, 25, "⚛️", 200, 1, 10),
+    QUANTUM_ENERGY("Quantum Energy", 15, Difficulty.EXTREME, ThreadUtils.toMilliseconds(35), 20, 50, "🌟", 100, 1, 5),
+    CRYPTO("Crypto Tokens", 8, Difficulty.EXTREME, ThreadUtils.toMilliseconds(40), 12, 100, "💰", 50, 1, 3);
 
     // Legacy resource mapping for transition period
     private static final Map<String, ResourceType> LEGACY_MAPPING = Map.of(
@@ -37,6 +37,10 @@ public enum ResourceType {
     int amountMaxToBeFound;
     int pricePerUnit;
     int initialOffer;
+    String icon;
+    private final int maxCap;
+    private final int minGather;
+    private final int maxGather;
 
     ResourceType(
             String description,
@@ -44,7 +48,11 @@ public enum ResourceType {
             Difficulty hardToGet,
             int timeLimitForSearch,
             int amountMaxToBeFound,
-            int pricePerUnit
+            int pricePerUnit,
+            String icon,
+            int maxCap,
+            int minGather,
+            int maxGather
     ) {
         this.description = description;
         this.hardToGet = hardToGet;
@@ -52,6 +60,14 @@ public enum ResourceType {
         this.amountMaxToBeFound = amountMaxToBeFound;
         this.pricePerUnit = pricePerUnit;
         this.initialOffer = initialOffer;
+        this.icon = icon;
+        this.maxCap = maxCap;
+        this.minGather = minGather;
+        this.maxGather = maxGather;
+    }
+
+    public String getIcon() {
+        return icon;
     }
 
     public int getInitialOffer() {
@@ -101,6 +117,30 @@ public enum ResourceType {
     public void setPricePerUnit(int pricePerUnit) {
         this.pricePerUnit = pricePerUnit;
     }
+    
+    /**
+     * Gets the maximum capacity for this resource type
+     * @return The maximum amount that can be stored for this resource
+     */
+    public int getMaxCap() {
+        return maxCap;
+    }
+
+    /**
+     * Gets the minimum amount that can be gathered per collection for this resource type
+     * @return The minimum gathering amount
+     */
+    public int getMinGather() {
+        return minGather;
+    }
+
+    /**
+     * Gets the maximum amount that can be gathered per collection for this resource type
+     * @return The maximum gathering amount
+     */
+    public int getMaxGather() {
+        return maxGather;
+    }
 
     /**
      * Gets resources available in the given phase level.
@@ -122,16 +162,6 @@ public enum ResourceType {
             case EXO_REALITY -> List.of(QUANTUM_ENERGY, CRYPTO);
             default -> List.of();
         };
-    }
-
-    /**
-     * Legacy method to maintain backward compatibility with EraAge.
-     * @deprecated Use getResourcesPackBasedOnCurrentPhase instead
-     */
-    @Deprecated
-    public static List<ResourceType> getResourcesPackBasedOnCurrentEra(int currentEraLevel) {
-        // Map legacy era levels to new phase system
-        return getResourcesPackBasedOnCurrentPhase(currentEraLevel);
     }
 
     /**

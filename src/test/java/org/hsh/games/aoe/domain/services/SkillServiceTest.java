@@ -13,8 +13,10 @@ import org.hsh.games.aoe.domain.entities.skills.SkillUpgradeProcess;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 import java.util.Map;
@@ -28,6 +30,7 @@ import static org.mockito.Mockito.*;
  * @author devTASE
  */
 @DisplayName("SkillService Tests")
+@ExtendWith(MockitoExtension.class)
 class SkillServiceTest {
 
     private SkillService skillService;
@@ -49,7 +52,6 @@ class SkillServiceTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
         skillService = SkillService.getInstance();
     }
 

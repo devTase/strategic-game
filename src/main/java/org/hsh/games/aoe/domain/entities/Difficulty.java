@@ -1,4 +1,4 @@
-package org.hsh.games.aoe.entities;
+package org.hsh.games.aoe.domain.entities;
 
 public enum Difficulty {
     EXTREME,

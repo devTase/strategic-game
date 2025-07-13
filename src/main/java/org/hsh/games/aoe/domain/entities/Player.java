@@ -52,19 +52,6 @@ public class Player {
         return techPhase;
     }
 
-    // Deprecated methods for backward compatibility - will be removed in future versions
-    @Deprecated(since = "2.0", forRemoval = true)
-    public void setEraAge(EraAge eraAge) {
-        // Convert EraAge to TechPhase for backward compatibility
-        this.techPhase = TechPhase.getByLevel(eraAge.getLevel());
-    }
-
-    @Deprecated(since = "2.0", forRemoval = true) 
-    public EraAge getEraAge() {
-        // Convert TechPhase to EraAge for backward compatibility
-        return EraAge.getByLevel(techPhase.getLevel());
-    }
-
     public String getGuildId() {
         return guildId;
     }

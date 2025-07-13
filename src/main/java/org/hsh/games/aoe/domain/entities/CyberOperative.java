@@ -7,7 +7,7 @@ import org.hsh.games.aoe.domain.entities.resources.ResourceAmount;
 import org.hsh.games.aoe.domain.entities.resources.ResourceType;
 import org.hsh.games.aoe.infrastructure.adapters.outbound.threading.ConstructionBuildingThread;
 import org.hsh.games.aoe.infrastructure.adapters.outbound.threading.ConstructionUpdatingThread;
-import org.hsh.games.aoe.infrastructure.adapters.outbound.threading.SearchResourcesThread;
+import org.hsh.games.aoe.infrastructure.adapters.outbound.threading.ResourcesGatheringThread;
 import org.hsh.games.aoe.shared.utils.ThreadUtils;
 
 import java.util.List;
@@ -73,7 +73,7 @@ public class CyberOperative extends Consumer<ResourceAmount> {
 
     public void searchResources(ResourceType resourceType, List<ResourceAmount> playerResources) {
         currentMission = "Procurar Recursos: " + resourceType.getDescription();
-        new SearchResourcesThread(new Resource(resourceType), playerResources, this).start();
+        new ResourcesGatheringThread(new Resource(resourceType), playerResources, this).start();
     }
 
     public void makeConstruction(ConstructionProcess process, Building building, List<ResourceAmount> playerResources, List<CyberOperative> operativeList) {

@@ -1,9 +1,8 @@
 package org.hsh.games.aoe.domain.entities.buildings;
 
 public enum ConstructionProcess {
-    CREATION("Construção"),
-    UPDATE("Atualização"),
-    ;
+    CREATION("In Construction"),
+    UPDATE("In Update");
 
     String process;
 
