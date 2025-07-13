@@ -1,7 +1,6 @@
 package org.hsh.games.aoe.domain.services;
 
 import org.hsh.games.aoe.domain.entities.CyberOperative;
-import org.hsh.games.aoe.domain.entities.Player;
 import org.hsh.games.aoe.domain.entities.buildings.Building;
 import org.hsh.games.aoe.domain.entities.buildings.ConstructionType;
 import org.hsh.games.aoe.domain.entities.resources.ResourceAmount;
@@ -15,7 +14,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
@@ -173,7 +171,7 @@ class SkillServiceTest {
         setupNoCurrentUpgrade();
         when(playerService.getPlayerSkills()).thenReturn(playerSkills);
         when(playerSkills.getSkill(SkillType.CONSTRUCTION_SPEED)).thenReturn(mockSkill);
-        when(mockSkill.getLevel()).thenReturn(10);
+        when(mockSkill.level()).thenReturn(10);
 
         // When & Then
         IllegalStateException exception = assertThrows(IllegalStateException.class, 
@@ -243,7 +241,7 @@ class SkillServiceTest {
         when(playerService.getPlayerSkills()).thenReturn(playerSkills);
         when(playerSkills.getCurrentUpgradeProcess()).thenReturn(completedProcess);
         when(playerSkills.getSkill(SkillType.CONSTRUCTION_SPEED)).thenReturn(mockSkill);
-        when(mockSkill.getLevel()).thenReturn(1);
+        when(mockSkill.level()).thenReturn(1);
         setupSufficientResources();
         when(cyberOperative.getName()).thenReturn("TestOperative");
         when(playerService.getCyberOperativeAvailable()).thenReturn(cyberOperative);
@@ -282,7 +280,7 @@ class SkillServiceTest {
     private void setupSkillAtLevel(int level) {
         when(playerService.getPlayerSkills()).thenReturn(playerSkills);
         when(playerSkills.getSkill(SkillType.CONSTRUCTION_SPEED)).thenReturn(mockSkill);
-        when(mockSkill.getLevel()).thenReturn(level);
+        when(mockSkill.level()).thenReturn(level);
     }
 
     private void setupSufficientResources() {

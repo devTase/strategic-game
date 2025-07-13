@@ -54,7 +54,7 @@ public class PlayerAchievements {
         if (achievementProgress == null) {
             throw new IllegalArgumentException("Achievement progress cannot be null");
         }
-        achievementProgressMap.put(achievementProgress.getAchievement().getId(), achievementProgress);
+        achievementProgressMap.put(achievementProgress.getAchievement().id(), achievementProgress);
     }
     
     /**
@@ -87,7 +87,7 @@ public class PlayerAchievements {
     public int getTotalPoints() {
         return achievementProgressMap.values().stream()
                 .filter(AchievementProgress::isUnlocked)
-                .mapToInt(progress -> progress.getAchievement().getPoints())
+                .mapToInt(progress -> progress.getAchievement().points())
                 .sum();
     }
     

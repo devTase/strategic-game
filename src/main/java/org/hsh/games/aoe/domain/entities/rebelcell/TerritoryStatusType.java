@@ -6,7 +6,7 @@ package org.hsh.games.aoe.domain.entities.rebelcell;
  * 
  * @author devTASE
  */
-public enum TerritoryStatus {
+public enum TerritoryStatusType {
     CONTROLLED("Controlled", "⚡", "Territory is under full rebel control"),
     CONTESTED("Contested", "⚔️", "Territory is being disputed"),
     ABANDONED("Abandoned", "🏚️", "Territory has been abandoned"),
@@ -19,7 +19,7 @@ public enum TerritoryStatus {
     private final String emoji;
     private final String description;
 
-    TerritoryStatus(String displayName, String emoji, String description) {
+    TerritoryStatusType(String displayName, String emoji, String description) {
         this.displayName = displayName;
         this.emoji = emoji;
         this.description = description;

@@ -15,7 +15,7 @@ import java.util.Objects;
  */
 public record GuildMember(
         String playerId,
-        RebelCellRank rank,
+        RebelCellRankType rank,
         LocalDateTime joinDate
 ) {
     
@@ -38,7 +38,7 @@ public record GuildMember(
      * @param rank The guild rank
      * @return A new GuildMember instance
      */
-    public static GuildMember createNew(String playerId, RebelCellRank rank) {
+    public static GuildMember createNew(String playerId, RebelCellRankType rank) {
         return new GuildMember(playerId, rank, LocalDateTime.now());
     }
     
@@ -48,7 +48,7 @@ public record GuildMember(
      * @return A new GuildMember instance with HACKER rank
      */
     public static GuildMember createNewRecruit(String playerId) {
-        return new GuildMember(playerId, RebelCellRank.HACKER, LocalDateTime.now());
+        return new GuildMember(playerId, RebelCellRankType.HACKER, LocalDateTime.now());
     }
     
     /**
@@ -56,7 +56,7 @@ public record GuildMember(
      * @param newRank The new rank to assign
      * @return A new GuildMember instance with the updated rank
      */
-    public GuildMember withRank(RebelCellRank newRank) {
+    public GuildMember withRank(RebelCellRankType newRank) {
         return new GuildMember(playerId, newRank, joinDate);
     }
     
@@ -81,7 +81,7 @@ public record GuildMember(
      * @return true if the member's rank is CELL_LEADER
      */
     public boolean isLeader() {
-        return rank == RebelCellRank.CELL_LEADER;
+        return rank == RebelCellRankType.CELL_LEADER;
     }
     
     /**
@@ -89,7 +89,7 @@ public record GuildMember(
      * @return true if the member's rank is INFILTRATOR
      */
     public boolean isInfiltrator() {
-        return rank == RebelCellRank.INFILTRATOR;
+        return rank == RebelCellRankType.INFILTRATOR;
     }
     
     /**

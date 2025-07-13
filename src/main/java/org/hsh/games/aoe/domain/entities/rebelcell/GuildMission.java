@@ -20,10 +20,10 @@ public class GuildMission {
     private final Map<ResourceType, Integer> rewards;
     private final LocalDateTime deadline;
     private final Set<String> participants;
-    private final MissionStatus status;
+    private final MissionStatusType status;
 
     private GuildMission(String missionId, MissionType type, Map<ResourceType, Integer> rewards, 
-                         LocalDateTime deadline, Set<String> participants, MissionStatus status) {
+                         LocalDateTime deadline, Set<String> participants, MissionStatusType status) {
         this.missionId = missionId;
         this.type = type;
         this.rewards = new HashMap<>(rewards);
@@ -34,7 +34,7 @@ public class GuildMission {
 
     public static GuildMission createNew(String missionId, MissionType type, 
                                         Map<ResourceType, Integer> rewards, LocalDateTime deadline) {
-        return new GuildMission(missionId, type, rewards, deadline, new HashSet<>(), MissionStatus.PENDING);
+        return new GuildMission(missionId, type, rewards, deadline, new HashSet<>(), MissionStatusType.PENDING);
     }
 
     public GuildMission addParticipant(String participantId) {
@@ -44,15 +44,15 @@ public class GuildMission {
     }
 
     public GuildMission start() {
-        return new GuildMission(missionId, type, rewards, deadline, participants, MissionStatus.IN_PROGRESS);
+        return new GuildMission(missionId, type, rewards, deadline, participants, MissionStatusType.IN_PROGRESS);
     }
 
     public GuildMission complete() {
-        return new GuildMission(missionId, type, rewards, deadline, participants, MissionStatus.COMPLETED);
+        return new GuildMission(missionId, type, rewards, deadline, participants, MissionStatusType.COMPLETED);
     }
 
     public GuildMission fail() {
-        return new GuildMission(missionId, type, rewards, deadline, participants, MissionStatus.FAILED);
+        return new GuildMission(missionId, type, rewards, deadline, participants, MissionStatusType.FAILED);
     }
 
     public boolean requiresStealth() {
@@ -83,7 +83,7 @@ public class GuildMission {
         return new HashSet<>(participants);
     }
 
-    public MissionStatus getStatus() {
+    public MissionStatusType getStatus() {
         return status;
     }
 
@@ -109,7 +109,7 @@ public class GuildMission {
      * @return Updated mission with CANCELED status
      */
     public GuildMission cancel() {
-        return new GuildMission(missionId, type, rewards, deadline, participants, MissionStatus.CANCELED);
+        return new GuildMission(missionId, type, rewards, deadline, participants, MissionStatusType.CANCELED);
     }
 
     /**
@@ -132,7 +132,7 @@ public class GuildMission {
      * Gets mission status  
      * @return mission status
      */
-    public MissionStatus status() {
+    public MissionStatusType status() {
         return status;
     }
 

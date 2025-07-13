@@ -6,7 +6,7 @@ import org.hsh.games.aoe.domain.entities.Player;
 import org.hsh.games.aoe.domain.entities.TechPhase;
 import org.hsh.games.aoe.domain.entities.buildings.Building;
 import org.hsh.games.aoe.domain.entities.buildings.BuildingAndResourceAvailabilityPerLevel;
-import org.hsh.games.aoe.domain.entities.buildings.ConstructionProcess;
+import org.hsh.games.aoe.domain.entities.buildings.ConstructionProcessType;
 import org.hsh.games.aoe.domain.entities.skills.PlayerSkills;
 import org.hsh.games.aoe.shared.constants.ApplicationConstants;
 import org.hsh.games.aoe.domain.entities.buildings.ConstructionType;
@@ -305,7 +305,7 @@ public class PlayerService {
         return building.getLevel() >= building.getMaxLevel();
     }
 
-    public void sendCyberOperativesToConstructionJob(ConstructionProcess process, Building construction) {
+    public void sendCyberOperativesToConstructionJob(ConstructionProcessType process, Building construction) {
         prepareNeededResources(construction);
         getCyberOperativeAvailable().makeConstruction(process, construction, playerResources, cyberOperatives);
     }

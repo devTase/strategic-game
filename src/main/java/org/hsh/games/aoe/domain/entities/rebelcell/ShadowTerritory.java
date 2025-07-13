@@ -10,9 +10,9 @@ public class ShadowTerritory {
     private final String territoryId;
     private final String name;
     private final String controllingGuildId;
-    private final TerritoryStatus status;
+    private final TerritoryStatusType status;
 
-    private ShadowTerritory(String territoryId, String name, String controllingGuildId, TerritoryStatus status) {
+    private ShadowTerritory(String territoryId, String name, String controllingGuildId, TerritoryStatusType status) {
         this.territoryId = territoryId;
         this.name = name;
         this.controllingGuildId = controllingGuildId;
@@ -20,14 +20,14 @@ public class ShadowTerritory {
     }
 
     public static ShadowTerritory createNew(String territoryId, String name, String controllingGuildId) {
-        return new ShadowTerritory(territoryId, name, controllingGuildId, TerritoryStatus.CONTROLLED);
+        return new ShadowTerritory(territoryId, name, controllingGuildId, TerritoryStatusType.CONTROLLED);
     }
 
     public static ShadowTerritory createNeutral(String territoryId, String name) {
-        return new ShadowTerritory(territoryId, name, null, TerritoryStatus.NEUTRAL);
+        return new ShadowTerritory(territoryId, name, null, TerritoryStatusType.NEUTRAL);
     }
 
-    public ShadowTerritory withStatus(TerritoryStatus newStatus) {
+    public ShadowTerritory withStatus(TerritoryStatusType newStatus) {
         return new ShadowTerritory(territoryId, name, controllingGuildId, newStatus);
     }
 
@@ -43,7 +43,7 @@ public class ShadowTerritory {
         return controllingGuildId;
     }
 
-    public TerritoryStatus getStatus() {
+    public TerritoryStatusType getStatus() {
         return status;
     }
 
@@ -52,7 +52,7 @@ public class ShadowTerritory {
      * @return true if territory can be conquered
      */
     public boolean isAvailableForConquest() {
-        return status == TerritoryStatus.NEUTRAL || status == TerritoryStatus.CONTESTED;
+        return status == TerritoryStatusType.NEUTRAL || status == TerritoryStatusType.CONTESTED;
     }
 
     /**
@@ -61,14 +61,14 @@ public class ShadowTerritory {
      * @return Updated territory with new status
      */
     public ShadowTerritory claimByGuild(String guildId) {
-        return new ShadowTerritory(territoryId, name, guildId, TerritoryStatus.UNDER_SIEGE);
+        return new ShadowTerritory(territoryId, name, guildId, TerritoryStatusType.UNDER_SIEGE);
     }
 
     /**
      * Gets the territory status
      * @return Current territory status
      */
-    public TerritoryStatus status() {
+    public TerritoryStatusType status() {
         return status;
     }
 
@@ -77,7 +77,7 @@ public class ShadowTerritory {
      * @return Updated territory with neutral status
      */
     public ShadowTerritory liberate() {
-        return new ShadowTerritory(territoryId, name, null, TerritoryStatus.NEUTRAL);
+        return new ShadowTerritory(territoryId, name, null, TerritoryStatusType.NEUTRAL);
     }
 
     /**
@@ -85,7 +85,7 @@ public class ShadowTerritory {
      * @return Updated territory with under siege status
      */
     public ShadowTerritory putUnderSiege() {
-        return new ShadowTerritory(territoryId, name, controllingGuildId, TerritoryStatus.UNDER_SIEGE);
+        return new ShadowTerritory(territoryId, name, controllingGuildId, TerritoryStatusType.UNDER_SIEGE);
     }
 
     /**

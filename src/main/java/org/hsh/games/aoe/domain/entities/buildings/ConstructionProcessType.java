@@ -1,12 +1,12 @@
 package org.hsh.games.aoe.domain.entities.buildings;
 
-public enum ConstructionProcess {
+public enum ConstructionProcessType {
     CREATION("In Construction"),
     UPDATE("In Update");
 
     String process;
 
-    ConstructionProcess(String process) {
+    ConstructionProcessType(String process) {
         this.process = process;
     }
 

@@ -33,7 +33,7 @@ public class GuildEvent {
         return new GuildEvent(guildId, playerId + " left the guild.");
     }
 
-    public static GuildEvent createMemberPromoted(String guildId, String playerId, RebelCellRank newRank) {
+    public static GuildEvent createMemberPromoted(String guildId, String playerId, RebelCellRankType newRank) {
         return new GuildEvent(guildId, playerId + " promoted to " + newRank.getDisplayName() + ".");
     }
 

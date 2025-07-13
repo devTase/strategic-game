@@ -2,13 +2,8 @@ package org.hsh.games.aoe.domain.entities.skills;
 
 import java.util.Objects;
 
-public final class Skill {
-    private final SkillType type;
-    private final int level;
-    private final String description;
-    private final double baseEffectPerLevel;
-
-    public Skill(SkillType type, int level, String description, double baseEffectPerLevel) {
+public record Skill(SkillType type, int level, String description, double baseEffectPerLevel) {
+    public Skill {
         if (type == null) {
             throw new IllegalArgumentException("Skill type cannot be null");
         }
@@ -18,27 +13,7 @@ public final class Skill {
         if (description == null || description.trim().isEmpty()) {
             throw new IllegalArgumentException("Skill description cannot be null or empty");
         }
-        
-        this.type = type;
-        this.level = level;
-        this.description = description;
-        this.baseEffectPerLevel = baseEffectPerLevel;
-    }
 
-    public SkillType getType() {
-        return type;
-    }
-
-    public int getLevel() {
-        return level;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public double getBaseEffectPerLevel() {
-        return baseEffectPerLevel;
     }
 
     public double getTotalEffect() {
@@ -51,14 +26,9 @@ public final class Skill {
         if (o == null || getClass() != o.getClass()) return false;
         Skill skill = (Skill) o;
         return level == skill.level &&
-               Double.compare(skill.baseEffectPerLevel, baseEffectPerLevel) == 0 &&
-               type == skill.type &&
-               Objects.equals(description, skill.description);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(type, level, description, baseEffectPerLevel);
+                Double.compare(skill.baseEffectPerLevel, baseEffectPerLevel) == 0 &&
+                type == skill.type &&
+                Objects.equals(description, skill.description);
     }
 
     @Override

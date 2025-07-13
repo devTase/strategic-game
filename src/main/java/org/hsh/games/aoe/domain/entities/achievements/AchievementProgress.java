@@ -58,7 +58,7 @@ public class AchievementProgress {
     }
 
     private void checkUnlockStatus() {
-        if (currentProgress >= achievement.getPoints() && !isUnlocked) {
+        if (currentProgress >= achievement.points() && !isUnlocked) {
             isUnlocked = true;
             unlockDate = LocalDateTime.now();
         }

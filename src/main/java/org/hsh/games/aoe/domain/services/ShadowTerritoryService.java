@@ -2,7 +2,7 @@ package org.hsh.games.aoe.domain.services;
 
 import org.hsh.games.aoe.domain.entities.rebelcell.Guild;
 import org.hsh.games.aoe.domain.entities.rebelcell.ShadowTerritory;
-import org.hsh.games.aoe.domain.entities.rebelcell.TerritoryStatus;
+import org.hsh.games.aoe.domain.entities.rebelcell.TerritoryStatusType;
 
 import java.util.Map;
 import java.util.Set;
@@ -84,7 +84,7 @@ public class ShadowTerritoryService {
      * @return Updated shadow territory
      * @throws IllegalArgumentException if update is invalid
      */
-    public ShadowTerritory updateTerritoryStatus(String territoryId, TerritoryStatus status) {
+    public ShadowTerritory updateTerritoryStatus(String territoryId, TerritoryStatusType status) {
         Objects.requireNonNull(territoryId, "Territory ID cannot be null");
         Objects.requireNonNull(status, "Territory status cannot be null");
 
@@ -94,7 +94,7 @@ public class ShadowTerritoryService {
         }
 
         // Cannot update to neutral if claimed
-        if (status == TerritoryStatus.NEUTRAL && territory.status().isControlledByGuild()) {
+        if (status == TerritoryStatusType.NEUTRAL && territory.status().isControlledByGuild()) {
             throw new IllegalArgumentException("Controlled territories cannot be set to neutral");
         }
 

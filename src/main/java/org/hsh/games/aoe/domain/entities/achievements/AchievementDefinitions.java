@@ -40,9 +40,9 @@ public final class AchievementDefinitions {
      * @param category the achievement category to filter by
      * @return unmodifiable list of achievements in the specified category
      */
-    public static List<Achievement> getAchievementsByCategory(AchievementCategory category) {
+    public static List<Achievement> getAchievementsByCategory(AchievementCategoryType category) {
         return ACHIEVEMENTS.stream()
-                .filter(achievement -> achievement.getCategory() == category)
+                .filter(achievement -> achievement.category() == category)
                 .toList();
     }
     
@@ -292,7 +292,7 @@ public final class AchievementDefinitions {
      */
     private static Achievement createConstructionAchievement(String id, String title, String description, 
                                                            int points, Map<String, Object> conditions) {
-        return new Achievement(id, title, description, AchievementCategory.CONSTRUCTION, points, conditions);
+        return new Achievement(id, title, description, AchievementCategoryType.CONSTRUCTION, points, conditions);
     }
     
     /**
@@ -300,7 +300,7 @@ public final class AchievementDefinitions {
      */
     private static Achievement createResourceAchievement(String id, String title, String description, 
                                                        int points, Map<String, Object> conditions) {
-        return new Achievement(id, title, description, AchievementCategory.RESOURCES, points, conditions);
+        return new Achievement(id, title, description, AchievementCategoryType.RESOURCES, points, conditions);
     }
     
     /**
@@ -308,7 +308,7 @@ public final class AchievementDefinitions {
      */
     private static Achievement createWorkerAchievement(String id, String title, String description, 
                                                      int points, Map<String, Object> conditions) {
-        return new Achievement(id, title, description, AchievementCategory.WORKERS, points, conditions);
+        return new Achievement(id, title, description, AchievementCategoryType.WORKERS, points, conditions);
     }
     
     /**
@@ -316,7 +316,7 @@ public final class AchievementDefinitions {
      */
     private static Achievement createTimeAchievement(String id, String title, String description, 
                                                    int points, Map<String, Object> conditions) {
-        return new Achievement(id, title, description, AchievementCategory.TIME, points, conditions);
+        return new Achievement(id, title, description, AchievementCategoryType.TIME, points, conditions);
     }
     
     /**
@@ -328,6 +328,6 @@ public final class AchievementDefinitions {
         conditions.put("targetEra", targetEra.name());
         conditions.put("eraLevel", targetEra.getLevel());
         
-        return new Achievement(id, title, description, AchievementCategory.ERA_PROGRESS, points, conditions);
+        return new Achievement(id, title, description, AchievementCategoryType.ERA_PROGRESS, points, conditions);
     }
 }

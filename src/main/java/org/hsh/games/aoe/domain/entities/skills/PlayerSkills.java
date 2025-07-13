@@ -59,7 +59,7 @@ public class PlayerSkills {
         if (skill == null) {
             throw new IllegalArgumentException("Skill cannot be null");
         }
-        skills.put(skill.getType(), skill);
+        skills.put(skill.type(), skill);
     }
 
     /**

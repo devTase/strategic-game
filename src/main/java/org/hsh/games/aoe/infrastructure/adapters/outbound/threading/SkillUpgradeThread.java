@@ -75,8 +75,8 @@ public class SkillUpgradeThread extends Thread {
                 Skill upgradedSkill = new Skill(
                     skillType,
                     upgradeProcess.getToLevel(),
-                    currentSkill.getDescription(),
-                    currentSkill.getBaseEffectPerLevel()
+                    currentSkill.description(),
+                    currentSkill.baseEffectPerLevel()
                 );
                 
                 // Update skill
@@ -87,7 +87,7 @@ public class SkillUpgradeThread extends Thread {
                 playerSkills.setCurrentUpgradeProcess(null);
                 
                 System.out.println("✅ Skill upgrade completed! " + skillType.getDisplayName() + 
-                                 " is now level " + upgradedSkill.getLevel());
+                                 " is now level " + upgradedSkill.level());
                 
                 // Notify completion listener if set
                 if (onUpgradeCompleteListener != null) {

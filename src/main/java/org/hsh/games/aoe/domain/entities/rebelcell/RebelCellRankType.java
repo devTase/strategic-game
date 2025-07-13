@@ -6,8 +6,7 @@ package org.hsh.games.aoe.domain.entities.rebelcell;
  * 
  * @author devTASE
  */
-public enum RebelCellRank {
-    
+public enum RebelCellRankType {
     HACKER("Hacker", "Rebel Hacker", "💻", "Expert in bypassing security systems and gathering intelligence"),
     OPERATOR("Operator", "Rebel Operator", "📡", "Strategist in coordinating mission logistics and communications"),
     CELL_LEADER("Cell Leader", "Rebel Cell Leader", "👨‍✈️", "Leader of the cell guiding the strategic direction"),
@@ -18,7 +17,7 @@ public enum RebelCellRank {
     private final String emoji;
     private final String description;
     
-    RebelCellRank(String rank, String displayName, String emoji, String description) {
+    RebelCellRankType(String rank, String displayName, String emoji, String description) {
         this.rank = rank;
         this.displayName = displayName;
         this.emoji = emoji;
@@ -50,8 +49,8 @@ public enum RebelCellRank {
      * @param displayName the display name to search for
      * @return the matching RebelCellRank, or null if not found
      */
-    public static RebelCellRank getByDisplayName(String displayName) {
-        for (RebelCellRank rank : values()) {
+    public static RebelCellRankType getByDisplayName(String displayName) {
+        for (RebelCellRankType rank : values()) {
             if (rank.getDisplayName().equalsIgnoreCase(displayName)) {
                 return rank;
             }

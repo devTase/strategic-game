@@ -109,12 +109,12 @@ public class SkillService {
         }
         
         // Validation 3: Check if skill is already at max level
-        if (currentSkill.getLevel() >= 10) {
+        if (currentSkill.level() >= 10) {
             throw new IllegalStateException("Skill " + skillType.getDisplayName() + 
                                           " is already at maximum level (10)");
         }
         
-        int newLevel = currentSkill.getLevel() + 1;
+        int newLevel = currentSkill.level() + 1;
         
         // Calculate dynamic costs and duration
         List<ResourceAmount> requiredResources = calculateUpgradeCost(newLevel);
@@ -140,7 +140,7 @@ public class SkillService {
         // Create upgrade process
         SkillUpgradeProcess upgradeProcess = SkillUpgradeProcess.builder()
             .skillType(skillType)
-            .fromLevel(currentSkill.getLevel())
+            .fromLevel(currentSkill.level())
             .toLevel(newLevel)
             .startEpochMillis(System.currentTimeMillis())
             .durationMillis(upgradeDuration)
@@ -164,7 +164,7 @@ public class SkillService {
         upgradeThread.start();
         
         System.out.println("🎓 Started upgrading " + skillType.getDisplayName() + 
-                         " from level " + currentSkill.getLevel() + " to level " + newLevel);
+                         " from level " + currentSkill.level() + " to level " + newLevel);
         System.out.println("⏱️ Upgrade will complete in " + (upgradeDuration / 1000) + " seconds");
         System.out.println("👷 Cyber operative " + availableOperative.getName() + " is now working on the upgrade");
     }

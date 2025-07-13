@@ -5,7 +5,7 @@ package org.hsh.games.aoe.domain.entities.achievements;
  * 
  * @author devTASE
  */
-public enum AchievementCategory {
+public enum AchievementCategoryType {
     
     CONSTRUCTION("Construction", "Achievements related to building and construction"),
     RESOURCES("Resources", "Achievements related to resource collection and management"),
@@ -16,7 +16,7 @@ public enum AchievementCategory {
     private final String displayName;
     private final String description;
     
-    AchievementCategory(String displayName, String description) {
+    AchievementCategoryType(String displayName, String description) {
         this.displayName = displayName;
         this.description = description;
     }
@@ -34,8 +34,8 @@ public enum AchievementCategory {
      * @param displayName the display name to search for
      * @return the matching AchievementCategory, or null if not found
      */
-    public static AchievementCategory getByDisplayName(String displayName) {
-        for (AchievementCategory category : values()) {
+    public static AchievementCategoryType getByDisplayName(String displayName) {
+        for (AchievementCategoryType category : values()) {
             if (category.getDisplayName().equalsIgnoreCase(displayName)) {
                 return category;
             }

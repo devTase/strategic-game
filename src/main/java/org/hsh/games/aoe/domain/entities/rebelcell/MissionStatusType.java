@@ -6,7 +6,7 @@ package org.hsh.games.aoe.domain.entities.rebelcell;
  * 
  * @author devTASE
  */
-public enum MissionStatus {
+public enum MissionStatusType {
     PENDING("Pending", "⏳", "Mission is waiting to be started"),
     IN_PROGRESS("In Progress", "🚀", "Mission is currently being executed"),
     COMPLETED("Completed", "✅", "Mission completed successfully"),
@@ -18,7 +18,7 @@ public enum MissionStatus {
     private final String emoji;
     private final String description;
 
-    MissionStatus(String displayName, String emoji, String description) {
+    MissionStatusType(String displayName, String emoji, String description) {
         this.displayName = displayName;
         this.emoji = emoji;
         this.description = description;

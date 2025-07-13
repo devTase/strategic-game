@@ -2,7 +2,7 @@ package org.hsh.games.aoe.domain.services;
 
 import org.hsh.games.aoe.domain.entities.rebelcell.Guild;
 import org.hsh.games.aoe.domain.entities.rebelcell.GuildMember;
-import org.hsh.games.aoe.domain.entities.rebelcell.RebelCellRank;
+import org.hsh.games.aoe.domain.entities.rebelcell.RebelCellRankType;
 import org.hsh.games.aoe.domain.entities.rebelcell.SpyReport;
 import org.hsh.games.aoe.domain.entities.resources.ResourceType;
 
@@ -215,7 +215,7 @@ public class GuildService {
      * @return Updated Guild with the new member
      * @throws IllegalArgumentException if invitation is invalid
      */
-    public Guild invitePlayer(String guildId, String playerId, String inviterPlayerId, RebelCellRank rank) {
+    public Guild invitePlayer(String guildId, String playerId, String inviterPlayerId, RebelCellRankType rank) {
         Objects.requireNonNull(guildId, "Guild ID cannot be null");
         Objects.requireNonNull(playerId, "Player ID cannot be null");
         Objects.requireNonNull(inviterPlayerId, "Inviter player ID cannot be null");
@@ -259,7 +259,7 @@ public class GuildService {
      * @return Updated Guild with the changed rank
      * @throws IllegalArgumentException if rank change is invalid
      */
-    public Guild changeRank(String guildId, String playerId, RebelCellRank newRank, String authorityPlayerId) {
+    public Guild changeRank(String guildId, String playerId, RebelCellRankType newRank, String authorityPlayerId) {
         Objects.requireNonNull(guildId, "Guild ID cannot be null");
         Objects.requireNonNull(playerId, "Player ID cannot be null");
         Objects.requireNonNull(newRank, "New rank cannot be null");
