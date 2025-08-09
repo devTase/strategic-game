@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="99.344" tests="32" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="114.31" tests="35" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="24"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
-    <property name="java.class.path" value="/Users/tiagoesteves/Desktop/Repos/github/strategic-game/target/test-classes:/Users/tiagoesteves/.m2/repository/org/openjfx/javafx-controls/21/javafx-controls-21.jar:/Users/tiagoesteves/.m2/repository/org/openjfx/javafx-graphics/21/javafx-graphics-21.jar:/Users/tiagoesteves/.m2/repository/org/openjfx/javafx-base/21/javafx-base-21.jar:/Users/tiagoesteves/.m2/repository/org/openjfx/javafx-fxml/21/javafx-fxml-21.jar:/Users/tiagoesteves/.m2/repository/org/openjfx/javafx-media/21/javafx-media-21.jar:/Users/tiagoesteves/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-common/1.8.10/kotlin-stdlib-common-1.8.10.jar:/Users/tiagoesteves/.m2/repository/org/jetbrains/annotations/13.0/annotations-13.0.jar:/Users/tiagoesteves/.m2/repository/junit/junit/4.13.2/junit-4.13.2.jar:/Users/tiagoesteves/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:/Users/tiagoesteves/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.1/junit-jupiter-5.10.1.jar:/Users/tiagoesteves/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.1/junit-jupiter-api-5.10.1.jar:/Users/tiagoesteves/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/tiagoesteves/.m2/repository/org/junit/platform/junit-platform-commons/1.10.1/junit-platform-commons-1.10.1.jar:/Users/tiagoesteves/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/tiagoesteves/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.1/junit-jupiter-params-5.10.1.jar:/Users/tiagoesteves/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.1/junit-jupiter-engine-5.10.1.jar:/Users/tiagoesteves/.m2/repository/org/junit/platform/junit-platform-engine/1.10.1/junit-platform-engine-1.10.1.jar:/Users/tiagoesteves/.m2/repository/org/mockito/mockito-core/5.14.2/mockito-core-5.14.2.jar:/Users/tiagoesteves/.m2/repository/net/bytebuddy/byte-buddy/1.15.4/byte-buddy-1.15.4.jar:/Users/tiagoesteves/.m2/repository/net/bytebuddy/byte-buddy-agent/1.15.4/byte-buddy-agent-1.15.4.jar:/Users/tiagoesteves/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:"/>
+    <property name="java.class.path" value="/Users/ctw02217/Desktop/personal-repo/strategic-game/target/test-classes:/Users/ctw02217/.m2/repository/org/openjfx/javafx-controls/21/javafx-controls-21.jar:/Users/ctw02217/.m2/repository/org/openjfx/javafx-graphics/21/javafx-graphics-21.jar:/Users/ctw02217/.m2/repository/org/openjfx/javafx-base/21/javafx-base-21.jar:/Users/ctw02217/.m2/repository/org/openjfx/javafx-fxml/21/javafx-fxml-21.jar:/Users/ctw02217/.m2/repository/org/openjfx/javafx-media/21/javafx-media-21.jar:/Users/ctw02217/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-common/1.8.10/kotlin-stdlib-common-1.8.10.jar:/Users/ctw02217/.m2/repository/org/jetbrains/annotations/13.0/annotations-13.0.jar:/Users/ctw02217/.m2/repository/junit/junit/4.13.2/junit-4.13.2.jar:/Users/ctw02217/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:/Users/ctw02217/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.1/junit-jupiter-5.10.1.jar:/Users/ctw02217/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.1/junit-jupiter-api-5.10.1.jar:/Users/ctw02217/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/ctw02217/.m2/repository/org/junit/platform/junit-platform-commons/1.10.1/junit-platform-commons-1.10.1.jar:/Users/ctw02217/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/ctw02217/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.1/junit-jupiter-params-5.10.1.jar:/Users/ctw02217/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.1/junit-jupiter-engine-5.10.1.jar:/Users/ctw02217/.m2/repository/org/junit/platform/junit-platform-engine/1.10.1/junit-platform-engine-1.10.1.jar:/Users/ctw02217/.m2/repository/org/mockito/mockito-core/5.14.2/mockito-core-5.14.2.jar:/Users/ctw02217/.m2/repository/net/bytebuddy/byte-buddy/1.15.4/byte-buddy-1.15.4.jar:/Users/ctw02217/.m2/repository/net/bytebuddy/byte-buddy-agent/1.15.4/byte-buddy-agent-1.15.4.jar:/Users/ctw02217/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/Users/ctw02217/.m2/repository/org/mockito/mockito-junit-jupiter/5.14.2/mockito-junit-jupiter-5.14.2.jar:"/>
     <property name="java.vm.vendor" value="Homebrew"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="java.vendor.url" value="https://github.com/Homebrew/homebrew-core/issues"/>
@@ -11,47 +11,47 @@
     <property name="os.name" value="Mac OS X"/>
     <property name="java.vm.specification.version" value="24"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
-    <property name="user.country" value="PT"/>
+    <property name="user.country" value="US"/>
     <property name="sun.boot.library.path" value="/opt/homebrew/Cellar/openjdk/24.0.1/libexec/openjdk.jdk/Contents/Home/lib"/>
-    <property name="sun.java.command" value="org.apache.maven.surefire.booter.ForkedBooter /Users/tiagoesteves/Desktop/Repos/github/strategic-game/target/surefire 2025-07-12T13-11-49_558-jvmRun1 surefire-20250712131149725_1tmp surefire_0-20250712131149725_2tmp"/>
+    <property name="sun.java.command" value="org.apache.maven.surefire.booter.ForkedBooter /Users/ctw02217/Desktop/personal-repo/strategic-game/target/surefire 2025-08-09T04-06-02_510-jvmRun1 surefire-20250809040602615_1tmp surefire_0-20250809040602615_2tmp"/>
     <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="jdk.debug" value="release"/>
-    <property name="surefire.test.class.path" value="/Users/tiagoesteves/Desktop/Repos/github/strategic-game/target/test-classes:/Users/tiagoesteves/.m2/repository/org/openjfx/javafx-controls/21/javafx-controls-21.jar:/Users/tiagoesteves/.m2/repository/org/openjfx/javafx-graphics/21/javafx-graphics-21.jar:/Users/tiagoesteves/.m2/repository/org/openjfx/javafx-base/21/javafx-base-21.jar:/Users/tiagoesteves/.m2/repository/org/openjfx/javafx-fxml/21/javafx-fxml-21.jar:/Users/tiagoesteves/.m2/repository/org/openjfx/javafx-media/21/javafx-media-21.jar:/Users/tiagoesteves/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-common/1.8.10/kotlin-stdlib-common-1.8.10.jar:/Users/tiagoesteves/.m2/repository/org/jetbrains/annotations/13.0/annotations-13.0.jar:/Users/tiagoesteves/.m2/repository/junit/junit/4.13.2/junit-4.13.2.jar:/Users/tiagoesteves/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:/Users/tiagoesteves/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.1/junit-jupiter-5.10.1.jar:/Users/tiagoesteves/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.1/junit-jupiter-api-5.10.1.jar:/Users/tiagoesteves/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/tiagoesteves/.m2/repository/org/junit/platform/junit-platform-commons/1.10.1/junit-platform-commons-1.10.1.jar:/Users/tiagoesteves/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/tiagoesteves/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.1/junit-jupiter-params-5.10.1.jar:/Users/tiagoesteves/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.1/junit-jupiter-engine-5.10.1.jar:/Users/tiagoesteves/.m2/repository/org/junit/platform/junit-platform-engine/1.10.1/junit-platform-engine-1.10.1.jar:/Users/tiagoesteves/.m2/repository/org/mockito/mockito-core/5.14.2/mockito-core-5.14.2.jar:/Users/tiagoesteves/.m2/repository/net/bytebuddy/byte-buddy/1.15.4/byte-buddy-1.15.4.jar:/Users/tiagoesteves/.m2/repository/net/bytebuddy/byte-buddy-agent/1.15.4/byte-buddy-agent-1.15.4.jar:/Users/tiagoesteves/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:"/>
+    <property name="surefire.test.class.path" value="/Users/ctw02217/Desktop/personal-repo/strategic-game/target/test-classes:/Users/ctw02217/.m2/repository/org/openjfx/javafx-controls/21/javafx-controls-21.jar:/Users/ctw02217/.m2/repository/org/openjfx/javafx-graphics/21/javafx-graphics-21.jar:/Users/ctw02217/.m2/repository/org/openjfx/javafx-base/21/javafx-base-21.jar:/Users/ctw02217/.m2/repository/org/openjfx/javafx-fxml/21/javafx-fxml-21.jar:/Users/ctw02217/.m2/repository/org/openjfx/javafx-media/21/javafx-media-21.jar:/Users/ctw02217/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-common/1.8.10/kotlin-stdlib-common-1.8.10.jar:/Users/ctw02217/.m2/repository/org/jetbrains/annotations/13.0/annotations-13.0.jar:/Users/ctw02217/.m2/repository/junit/junit/4.13.2/junit-4.13.2.jar:/Users/ctw02217/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:/Users/ctw02217/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.1/junit-jupiter-5.10.1.jar:/Users/ctw02217/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.1/junit-jupiter-api-5.10.1.jar:/Users/ctw02217/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/ctw02217/.m2/repository/org/junit/platform/junit-platform-commons/1.10.1/junit-platform-commons-1.10.1.jar:/Users/ctw02217/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/ctw02217/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.1/junit-jupiter-params-5.10.1.jar:/Users/ctw02217/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.1/junit-jupiter-engine-5.10.1.jar:/Users/ctw02217/.m2/repository/org/junit/platform/junit-platform-engine/1.10.1/junit-platform-engine-1.10.1.jar:/Users/ctw02217/.m2/repository/org/mockito/mockito-core/5.14.2/mockito-core-5.14.2.jar:/Users/ctw02217/.m2/repository/net/bytebuddy/byte-buddy/1.15.4/byte-buddy-1.15.4.jar:/Users/ctw02217/.m2/repository/net/bytebuddy/byte-buddy-agent/1.15.4/byte-buddy-agent-1.15.4.jar:/Users/ctw02217/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/Users/ctw02217/.m2/repository/org/mockito/mockito-junit-jupiter/5.14.2/mockito-junit-jupiter-5.14.2.jar:"/>
     <property name="sun.cpu.endian" value="little"/>
-    <property name="user.home" value="/Users/tiagoesteves"/>
+    <property name="user.home" value="/Users/ctw02217"/>
     <property name="user.language" value="en"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
-    <property name="jdk.module.path" value="/Users/tiagoesteves/Desktop/Repos/github/strategic-game/target/classes:/Users/tiagoesteves/.m2/repository/org/openjfx/javafx-controls/21/javafx-controls-21-mac-aarch64.jar:/Users/tiagoesteves/.m2/repository/org/openjfx/javafx-graphics/21/javafx-graphics-21-mac-aarch64.jar:/Users/tiagoesteves/.m2/repository/org/openjfx/javafx-base/21/javafx-base-21-mac-aarch64.jar:/Users/tiagoesteves/.m2/repository/org/openjfx/javafx-fxml/21/javafx-fxml-21-mac-aarch64.jar:/Users/tiagoesteves/.m2/repository/org/openjfx/javafx-media/21/javafx-media-21-mac-aarch64.jar:/Users/tiagoesteves/.m2/repository/org/controlsfx/controlsfx/11.1.2/controlsfx-11.1.2.jar:/Users/tiagoesteves/.m2/repository/com/dlsc/formsfx/formsfx-core/11.6.0/formsfx-core-11.6.0.jar:/Users/tiagoesteves/.m2/repository/org/kordamp/bootstrapfx/bootstrapfx-core/0.4.0/bootstrapfx-core-0.4.0.jar:/Users/tiagoesteves/.m2/repository/com/github/almasb/fxgl/17.3/fxgl-17.3.jar:/Users/tiagoesteves/.m2/repository/com/github/almasb/fxgl-core/17.3/fxgl-core-17.3.jar:/Users/tiagoesteves/.m2/repository/com/gluonhq/attach/audio/4.0.17/audio-4.0.17.jar:/Users/tiagoesteves/.m2/repository/com/github/almasb/fxgl-io/17.3/fxgl-io-17.3.jar:/Users/tiagoesteves/.m2/repository/com/gluonhq/attach/storage/4.0.17/storage-4.0.17.jar:/Users/tiagoesteves/.m2/repository/com/gluonhq/attach/util/4.0.17/util-4.0.17.jar:/Users/tiagoesteves/.m2/repository/com/github/almasb/fxgl-entity/17.3/fxgl-entity-17.3.jar:/Users/tiagoesteves/.m2/repository/com/github/almasb/fxgl-scene/17.3/fxgl-scene-17.3.jar:/Users/tiagoesteves/.m2/repository/com/github/almasb/fxgl-gameplay/17.3/fxgl-gameplay-17.3.jar:/Users/tiagoesteves/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.14.2/jackson-annotations-2.14.2.jar:/Users/tiagoesteves/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.14.2/jackson-databind-2.14.2.jar:/Users/tiagoesteves/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.14.2/jackson-core-2.14.2.jar:/Users/tiagoesteves/.m2/repository/com/gluonhq/attach/lifecycle/4.0.17/lifecycle-4.0.17.jar:/Users/tiagoesteves/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib/1.8.10/kotlin-stdlib-1.8.10.jar"/>
+    <property name="jdk.module.path" value="/Users/ctw02217/Desktop/personal-repo/strategic-game/target/classes:/Users/ctw02217/.m2/repository/org/openjfx/javafx-controls/21/javafx-controls-21-mac-aarch64.jar:/Users/ctw02217/.m2/repository/org/openjfx/javafx-graphics/21/javafx-graphics-21-mac-aarch64.jar:/Users/ctw02217/.m2/repository/org/openjfx/javafx-base/21/javafx-base-21-mac-aarch64.jar:/Users/ctw02217/.m2/repository/org/openjfx/javafx-fxml/21/javafx-fxml-21-mac-aarch64.jar:/Users/ctw02217/.m2/repository/org/openjfx/javafx-media/21/javafx-media-21-mac-aarch64.jar:/Users/ctw02217/.m2/repository/org/controlsfx/controlsfx/11.1.2/controlsfx-11.1.2.jar:/Users/ctw02217/.m2/repository/com/dlsc/formsfx/formsfx-core/11.6.0/formsfx-core-11.6.0.jar:/Users/ctw02217/.m2/repository/org/kordamp/bootstrapfx/bootstrapfx-core/0.4.0/bootstrapfx-core-0.4.0.jar:/Users/ctw02217/.m2/repository/com/github/almasb/fxgl/17.3/fxgl-17.3.jar:/Users/ctw02217/.m2/repository/com/github/almasb/fxgl-core/17.3/fxgl-core-17.3.jar:/Users/ctw02217/.m2/repository/com/gluonhq/attach/audio/4.0.17/audio-4.0.17.jar:/Users/ctw02217/.m2/repository/com/github/almasb/fxgl-io/17.3/fxgl-io-17.3.jar:/Users/ctw02217/.m2/repository/com/gluonhq/attach/storage/4.0.17/storage-4.0.17.jar:/Users/ctw02217/.m2/repository/com/gluonhq/attach/util/4.0.17/util-4.0.17.jar:/Users/ctw02217/.m2/repository/com/github/almasb/fxgl-entity/17.3/fxgl-entity-17.3.jar:/Users/ctw02217/.m2/repository/com/github/almasb/fxgl-scene/17.3/fxgl-scene-17.3.jar:/Users/ctw02217/.m2/repository/com/github/almasb/fxgl-gameplay/17.3/fxgl-gameplay-17.3.jar:/Users/ctw02217/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.14.2/jackson-annotations-2.14.2.jar:/Users/ctw02217/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.14.2/jackson-databind-2.14.2.jar:/Users/ctw02217/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.14.2/jackson-core-2.14.2.jar:/Users/ctw02217/.m2/repository/com/gluonhq/attach/lifecycle/4.0.17/lifecycle-4.0.17.jar:/Users/ctw02217/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib/1.8.10/kotlin-stdlib-1.8.10.jar"/>
     <property name="java.version.date" value="2025-04-15"/>
     <property name="java.home" value="/opt/homebrew/Cellar/openjdk/24.0.1/libexec/openjdk.jdk/Contents/Home"/>
     <property name="file.separator" value="/"/>
-    <property name="basedir" value="/Users/tiagoesteves/Desktop/Repos/github/strategic-game"/>
+    <property name="basedir" value="/Users/ctw02217/Desktop/personal-repo/strategic-game"/>
     <property name="java.vm.compressedOopsMode" value="Zero based"/>
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="apple.awt.application.name" value="ForkedBooter"/>
-    <property name="surefire.real.class.path" value="/Users/tiagoesteves/.m2/repository/org/apache/maven/surefire/surefire-booter/3.2.5/surefire-booter-3.2.5.jar:/Users/tiagoesteves/.m2/repository/org/apache/maven/surefire/surefire-api/3.2.5/surefire-api-3.2.5.jar:/Users/tiagoesteves/.m2/repository/org/apache/maven/surefire/surefire-logger-api/3.2.5/surefire-logger-api-3.2.5.jar:/Users/tiagoesteves/.m2/repository/org/apache/maven/surefire/surefire-shared-utils/3.2.5/surefire-shared-utils-3.2.5.jar:/Users/tiagoesteves/.m2/repository/org/apache/maven/surefire/surefire-extensions-spi/3.2.5/surefire-extensions-spi-3.2.5.jar:/Users/tiagoesteves/Desktop/Repos/github/strategic-game/target/test-classes:/Users/tiagoesteves/.m2/repository/org/openjfx/javafx-controls/21/javafx-controls-21.jar:/Users/tiagoesteves/.m2/repository/org/openjfx/javafx-graphics/21/javafx-graphics-21.jar:/Users/tiagoesteves/.m2/repository/org/openjfx/javafx-base/21/javafx-base-21.jar:/Users/tiagoesteves/.m2/repository/org/openjfx/javafx-fxml/21/javafx-fxml-21.jar:/Users/tiagoesteves/.m2/repository/org/openjfx/javafx-media/21/javafx-media-21.jar:/Users/tiagoesteves/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-common/1.8.10/kotlin-stdlib-common-1.8.10.jar:/Users/tiagoesteves/.m2/repository/org/jetbrains/annotations/13.0/annotations-13.0.jar:/Users/tiagoesteves/.m2/repository/junit/junit/4.13.2/junit-4.13.2.jar:/Users/tiagoesteves/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:/Users/tiagoesteves/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.1/junit-jupiter-5.10.1.jar:/Users/tiagoesteves/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.1/junit-jupiter-api-5.10.1.jar:/Users/tiagoesteves/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/tiagoesteves/.m2/repository/org/junit/platform/junit-platform-commons/1.10.1/junit-platform-commons-1.10.1.jar:/Users/tiagoesteves/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/tiagoesteves/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.1/junit-jupiter-params-5.10.1.jar:/Users/tiagoesteves/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.1/junit-jupiter-engine-5.10.1.jar:/Users/tiagoesteves/.m2/repository/org/junit/platform/junit-platform-engine/1.10.1/junit-platform-engine-1.10.1.jar:/Users/tiagoesteves/.m2/repository/org/mockito/mockito-core/5.14.2/mockito-core-5.14.2.jar:/Users/tiagoesteves/.m2/repository/net/bytebuddy/byte-buddy/1.15.4/byte-buddy-1.15.4.jar:/Users/tiagoesteves/.m2/repository/net/bytebuddy/byte-buddy-agent/1.15.4/byte-buddy-agent-1.15.4.jar:/Users/tiagoesteves/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/Users/tiagoesteves/.m2/repository/org/apache/maven/surefire/surefire-junit-platform/3.2.5/surefire-junit-platform-3.2.5.jar:/Users/tiagoesteves/.m2/repository/org/apache/maven/surefire/common-java5/3.2.5/common-java5-3.2.5.jar:/Users/tiagoesteves/.m2/repository/org/junit/platform/junit-platform-launcher/1.10.1/junit-platform-launcher-1.10.1.jar"/>
+    <property name="surefire.real.class.path" value="/Users/ctw02217/.m2/repository/org/apache/maven/surefire/surefire-booter/3.2.5/surefire-booter-3.2.5.jar:/Users/ctw02217/.m2/repository/org/apache/maven/surefire/surefire-api/3.2.5/surefire-api-3.2.5.jar:/Users/ctw02217/.m2/repository/org/apache/maven/surefire/surefire-logger-api/3.2.5/surefire-logger-api-3.2.5.jar:/Users/ctw02217/.m2/repository/org/apache/maven/surefire/surefire-shared-utils/3.2.5/surefire-shared-utils-3.2.5.jar:/Users/ctw02217/.m2/repository/org/apache/maven/surefire/surefire-extensions-spi/3.2.5/surefire-extensions-spi-3.2.5.jar:/Users/ctw02217/Desktop/personal-repo/strategic-game/target/test-classes:/Users/ctw02217/.m2/repository/org/openjfx/javafx-controls/21/javafx-controls-21.jar:/Users/ctw02217/.m2/repository/org/openjfx/javafx-graphics/21/javafx-graphics-21.jar:/Users/ctw02217/.m2/repository/org/openjfx/javafx-base/21/javafx-base-21.jar:/Users/ctw02217/.m2/repository/org/openjfx/javafx-fxml/21/javafx-fxml-21.jar:/Users/ctw02217/.m2/repository/org/openjfx/javafx-media/21/javafx-media-21.jar:/Users/ctw02217/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-common/1.8.10/kotlin-stdlib-common-1.8.10.jar:/Users/ctw02217/.m2/repository/org/jetbrains/annotations/13.0/annotations-13.0.jar:/Users/ctw02217/.m2/repository/junit/junit/4.13.2/junit-4.13.2.jar:/Users/ctw02217/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:/Users/ctw02217/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.1/junit-jupiter-5.10.1.jar:/Users/ctw02217/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.1/junit-jupiter-api-5.10.1.jar:/Users/ctw02217/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/ctw02217/.m2/repository/org/junit/platform/junit-platform-commons/1.10.1/junit-platform-commons-1.10.1.jar:/Users/ctw02217/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/ctw02217/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.1/junit-jupiter-params-5.10.1.jar:/Users/ctw02217/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.1/junit-jupiter-engine-5.10.1.jar:/Users/ctw02217/.m2/repository/org/junit/platform/junit-platform-engine/1.10.1/junit-platform-engine-1.10.1.jar:/Users/ctw02217/.m2/repository/org/mockito/mockito-core/5.14.2/mockito-core-5.14.2.jar:/Users/ctw02217/.m2/repository/net/bytebuddy/byte-buddy/1.15.4/byte-buddy-1.15.4.jar:/Users/ctw02217/.m2/repository/net/bytebuddy/byte-buddy-agent/1.15.4/byte-buddy-agent-1.15.4.jar:/Users/ctw02217/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/Users/ctw02217/.m2/repository/org/mockito/mockito-junit-jupiter/5.14.2/mockito-junit-jupiter-5.14.2.jar:/Users/ctw02217/.m2/repository/org/apache/maven/surefire/surefire-junit-platform/3.2.5/surefire-junit-platform-3.2.5.jar:/Users/ctw02217/.m2/repository/org/apache/maven/surefire/common-java5/3.2.5/common-java5-3.2.5.jar:/Users/ctw02217/.m2/repository/org/junit/platform/junit-platform-launcher/1.10.1/junit-platform-launcher-1.10.1.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.runtime.version" value="24.0.1"/>
-    <property name="user.name" value="tiagoesteves"/>
+    <property name="user.name" value="ctw02217"/>
     <property name="stdout.encoding" value="UTF-8"/>
     <property name="path.separator" value=":"/>
-    <property name="os.version" value="15.5"/>
+    <property name="os.version" value="15.6"/>
     <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
     <property name="file.encoding" value="UTF-8"/>
     <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
     <property name="java.vendor.version" value="Homebrew"/>
-    <property name="localRepository" value="/Users/tiagoesteves/.m2/repository"/>
+    <property name="localRepository" value="/Users/ctw02217/.m2/repository"/>
     <property name="java.vendor.url.bug" value="https://github.com/Homebrew/homebrew-core/issues"/>
-    <property name="java.io.tmpdir" value="/var/folders/06/26b2chdn2s3bg4ssdchbsj_00000gn/T/"/>
+    <property name="java.io.tmpdir" value="/var/folders/fd/_xt62_tx5qb8hrhr45js52s1snbq8r/T/"/>
     <property name="java.version" value="24.0.1"/>
-    <property name="user.dir" value="/Users/tiagoesteves/Desktop/Repos/github/strategic-game"/>
+    <property name="user.dir" value="/Users/ctw02217/Desktop/personal-repo/strategic-game"/>
     <property name="os.arch" value="aarch64"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
     <property name="native.encoding" value="UTF-8"/>
-    <property name="java.library.path" value="/Users/tiagoesteves/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:."/>
+    <property name="java.library.path" value="/Users/ctw02217/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:."/>
     <property name="java.vm.info" value="mixed mode"/>
     <property name="stderr.encoding" value="UTF-8"/>
     <property name="java.vendor" value="Homebrew"/>
@@ -60,31 +60,37 @@
     <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.class.version" value="68.0"/>
   </properties>
-  <testcase name="shouldGetConstructionCostMultiplier" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.032">
+  <testcase name="shouldGetConstructionCostMultiplier" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.025">
     <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
 ]]></system-out>
   </testcase>
-  <testcase name="shouldGetDailyRewardService" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.009">
+  <testcase name="shouldGetDailyRewardService" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.007">
     <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
 ]]></system-out>
   </testcase>
-  <testcase name="shouldCheckIfBuildingAmountHasReachedLimit" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.016">
+  <testcase name="shouldCheckIfBuildingAmountHasReachedLimit" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.011">
     <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
 ]]></system-out>
   </testcase>
-  <testcase name="shouldSetGuildService" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.008">
+  <testcase name="shouldStartWith3CyberOperatives" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.003">
     <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
 ]]></system-out>
   </testcase>
-  <testcase name="shouldHandleDeprecatedMethodIsPlayerEligibleForNewEra" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.008">
+  <testcase name="shouldFailToRecruitWhenInsufficientResources" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.006">
+    <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
+🚫 You've reached the maximum number of cyber operatives for your current tech phase!
+💡 Avance para a próxima fase tecnológica para aumentar o limite!
+]]></system-out>
+  </testcase>
+  <testcase name="shouldHandleDeprecatedMethodIsPlayerEligibleForNewEra" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.007">
     <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
 ]]></system-out>
   </testcase>
-  <testcase name="shouldGetAvailableConstructionTypes" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.011">
+  <testcase name="shouldGetAvailableConstructionTypes" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.006">
     <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
 ]]></system-out>
   </testcase>
-  <testcase name="shouldGetMissingMandatoryBuildings" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.013">
+  <testcase name="shouldGetMissingMandatoryBuildings" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.007">
     <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
 ]]></system-out>
   </testcase>
@@ -96,18 +102,18 @@
     <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
 ]]></system-out>
   </testcase>
-  <testcase name="shouldCheckIfFirstTimeBuilding" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.008">
+  <testcase name="shouldCheckIfFirstTimeBuilding" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.006">
     <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
 ]]></system-out>
   </testcase>
-  <testcase name="shouldHandleExceptionWhenClaimingRewardTwice" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.015">
+  <testcase name="shouldHandleExceptionWhenClaimingRewardTwice" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.008">
     <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
 Recompensa diária coletada!
 Energy Cells: +50
 Data Streams: +50
 ]]></system-out>
   </testcase>
-  <testcase name="shouldGetPlayer" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.011">
+  <testcase name="shouldGetPlayer" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.005">
     <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
 ]]></system-out>
   </testcase>
@@ -117,7 +123,7 @@ Todos os seus operativos cyber estão ocupados com tarefas!
 Crie mais operativos cyber.
 ]]></system-out>
   </testcase>
-  <testcase name="shouldGetLootMultiplier" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.004">
+  <testcase name="shouldGetLootMultiplier" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.005">
     <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
 ]]></system-out>
   </testcase>
@@ -125,38 +131,37 @@ Crie mais operativos cyber.
     <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
 ]]></system-out>
   </testcase>
-  <testcase name="shouldGetPlayerSkills" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.009">
+  <testcase name="shouldGetPlayerSkills" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.004">
     <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
 ]]></system-out>
   </testcase>
-  <testcase name="shouldAddNewResourceWhenNotExists" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.011">
+  <testcase name="shouldAddNewResourceWhenNotExists" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.005">
     <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
 ]]></system-out>
   </testcase>
-  <testcase name="shouldCheckIfPlayerIsEligibleForNewPhase" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.006">
+  <testcase name="shouldCheckIfPlayerIsEligibleForNewPhase" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.007">
     <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
 ]]></system-out>
   </testcase>
-  <testcase name="shouldGetConstructionTimeMultiplier" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.005">
+  <testcase name="shouldGetConstructionTimeMultiplier" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.008">
     <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
+✅ Skill upgrade completed! Construction Speed is now level 2
+Cyber operative TestOperative is now available
+✅ Skill upgrade completed! Construction Speed is now level 2
+Cyber operative TestOperative is now available
 ]]></system-out>
   </testcase>
   <testcase name="shouldGetBuildingsFromConstructionName" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.007">
     <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
+
+Operativo cyber consumiu 5 de Energy Cells
+
+Operativo cyber consumiu 5 de Energy Cells
+
+Operativo cyber consumiu 5 de Energy Cells
 ]]></system-out>
-    <system-err><![CDATA[Error completing skill upgrade: Skill description cannot be null or empty
-java.lang.IllegalArgumentException: Skill description cannot be null or empty
-	at org.hsh.games.aoe@1.0-SNAPSHOT/org.hsh.games.aoe.domain.entities.skills.Skill.<init>(Skill.java:19)
-	at org.hsh.games.aoe@1.0-SNAPSHOT/org.hsh.games.aoe.infrastructure.adapters.outbound.threading.SkillUpgradeThread.completeUpgrade(SkillUpgradeThread.java:79)
-	at org.hsh.games.aoe@1.0-SNAPSHOT/org.hsh.games.aoe.infrastructure.adapters.outbound.threading.SkillUpgradeThread.run(SkillUpgradeThread.java:48)
-Error completing skill upgrade: Skill description cannot be null or empty
-java.lang.IllegalArgumentException: Skill description cannot be null or empty
-	at org.hsh.games.aoe@1.0-SNAPSHOT/org.hsh.games.aoe.domain.entities.skills.Skill.<init>(Skill.java:19)
-	at org.hsh.games.aoe@1.0-SNAPSHOT/org.hsh.games.aoe.infrastructure.adapters.outbound.threading.SkillUpgradeThread.completeUpgrade(SkillUpgradeThread.java:79)
-	at org.hsh.games.aoe@1.0-SNAPSHOT/org.hsh.games.aoe.infrastructure.adapters.outbound.threading.SkillUpgradeThread.run(SkillUpgradeThread.java:48)
-]]></system-err>
   </testcase>
-  <testcase name="shouldAddResourceToExistingResource" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.004">
+  <testcase name="shouldAddResourceToExistingResource" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.007">
     <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
 
 Operativo cyber consumiu 5 de Energy Cells
@@ -166,7 +171,19 @@ Operativo cyber consumiu 5 de Energy Cells
 Operativo cyber consumiu 5 de Energy Cells
 ]]></system-out>
   </testcase>
-  <testcase name="shouldReturnFalseWhenNotEnoughResourcesForBuilding" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.006">
+  <testcase name="shouldFailToRecruitWhenAtOperativeLimit" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.006">
+    <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
+
+Operativo cyber consumiu 5 de Energy Cells
+
+Operativo cyber consumiu 5 de Energy Cells
+
+Operativo cyber consumiu 5 de Energy Cells
+🚫 You've reached the maximum number of cyber operatives for your current tech phase!
+💡 Avance para a próxima fase tecnológica para aumentar o limite!
+]]></system-out>
+  </testcase>
+  <testcase name="shouldReturnFalseWhenNotEnoughResourcesForBuilding" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.009">
     <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
 
 Operativo cyber consumiu 5 de Energy Cells
@@ -176,7 +193,7 @@ Operativo cyber consumiu 5 de Energy Cells
 Operativo cyber consumiu 5 de Energy Cells
 ]]></system-out>
   </testcase>
-  <testcase name="shouldCheckIfBuildingHasReachedMaxLevel" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.005">
+  <testcase name="shouldCheckIfBuildingHasReachedMaxLevel" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.01">
     <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
 
 Operativo cyber consumiu 5 de Energy Cells
@@ -186,17 +203,7 @@ Operativo cyber consumiu 5 de Energy Cells
 Operativo cyber consumiu 5 de Energy Cells
 ]]></system-out>
   </testcase>
-  <testcase name="shouldCheckIfPlayerHasEnoughResourcesForBuilding" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.01">
-    <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
-
-Operativo cyber consumiu 5 de Energy Cells
-
-Operativo cyber consumiu 5 de Energy Cells
-
-Operativo cyber consumiu 5 de Energy Cells
-]]></system-out>
-  </testcase>
-  <testcase name="shouldHandleDeprecatedMethodCheckForNewEraConditions" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.011">
+  <testcase name="shouldCheckIfPlayerHasEnoughResourcesForBuilding" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.009">
     <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
 
 Operativo cyber consumiu 5 de Energy Cells
@@ -216,7 +223,7 @@ Operativo cyber consumiu 5 de Energy Cells
 Operativo cyber consumiu 5 de Energy Cells
 ]]></system-out>
   </testcase>
-  <testcase name="shouldCreatePlayerServiceWithPlayer" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="6.007">
+  <testcase name="shouldCreatePlayerServiceWithPlayer" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="6.013">
     <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
 
 Operativo cyber consumiu 5 de Energy Cells
@@ -233,7 +240,27 @@ Operativo cyber consumiu 5 de Energy Cells
 Operativo cyber consumiu 5 de Energy Cells
 ]]></system-out>
   </testcase>
-  <testcase name="shouldValidateMandatoryBuildings" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.007">
+  <testcase name="shouldRecruitNewCyberOperativeWhenConditionsMet" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="6.01">
+    <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
+
+Operativo cyber consumiu 5 de Energy Cells
+
+Operativo cyber consumiu 5 de Energy Cells
+
+Operativo cyber consumiu 5 de Energy Cells
+Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Augmented Streets
+
+Operativo cyber consumiu 5 de Energy Cells
+
+Operativo cyber consumiu 5 de Energy Cells
+
+Operativo cyber consumiu 5 de Energy Cells
+💰 Deducted 250 Energy, 150 Data, 80 Components
+✅ New cyber operative recruited to your network!
+🤖 CyberOperative operative4 foi adicionado à sua rede! (4/5 operativos)
+]]></system-out>
+  </testcase>
+  <testcase name="shouldValidateMandatoryBuildings" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.011">
     <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
 
 Operativo cyber consumiu 5 de Energy Cells
@@ -243,7 +270,7 @@ Operativo cyber consumiu 5 de Energy Cells
 Operativo cyber consumiu 5 de Energy Cells
 ]]></system-out>
   </testcase>
-  <testcase name="shouldClaimDailyReward" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.008">
+  <testcase name="shouldClaimDailyReward" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.007">
     <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
 
 Operativo cyber consumiu 5 de Energy Cells
@@ -256,7 +283,7 @@ Energy Cells: +50
 Data Streams: +50
 ]]></system-out>
   </testcase>
-  <testcase name="shouldReturnFalseForAlreadyBuiltBuilding" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.021">
+  <testcase name="shouldReturnFalseForAlreadyBuiltBuilding" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.011">
     <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
 
 Operativo cyber consumiu 5 de Energy Cells
@@ -266,7 +293,7 @@ Operativo cyber consumiu 5 de Energy Cells
 Operativo cyber consumiu 5 de Energy Cells
 ]]></system-out>
   </testcase>
-  <testcase name="shouldClaimDailyRewardWithGuildOptionWhenNotDepositingToGuild" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.008">
+  <testcase name="shouldShowRecruitmentCost" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.005">
     <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
 
 Operativo cyber consumiu 5 de Energy Cells
@@ -274,13 +301,29 @@ Operativo cyber consumiu 5 de Energy Cells
 Operativo cyber consumiu 5 de Energy Cells
 
 Operativo cyber consumiu 5 de Energy Cells
-💰 Recompensa diária coletada para o inventário!
-Energy Cells: +50
-Data Streams: +50
+🚫 Já atingiste o limite máximo de operativos para esta fase tecnológica!
+📊 Limite atual: 3/3 operativos
 ]]></system-out>
   </testcase>
-  <testcase name="shouldGetCyberOperatives" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.01">
+  <testcase name="shouldGetCyberOperatives" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="3.006">
     <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
+
+Operativo cyber consumiu 5 de Energy Cells
+
+Operativo cyber consumiu 5 de Energy Cells
+
+Operativo cyber consumiu 5 de Energy Cells
+]]></system-out>
+  </testcase>
+  <testcase name="shouldCalculateMaxCyberOperativesBasedOnTechPhase" classname="org.hsh.games.aoe.domain.services.PlayerServiceTest" time="6.011">
+    <system-out><![CDATA[Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Uprising
+
+Operativo cyber consumiu 5 de Energy Cells
+
+Operativo cyber consumiu 5 de Energy Cells
+
+Operativo cyber consumiu 5 de Energy Cells
+Descoberta Uma Nova FASE TECNOLÓGICA! A Fase Augmented Streets
 
 Operativo cyber consumiu 5 de Energy Cells
 

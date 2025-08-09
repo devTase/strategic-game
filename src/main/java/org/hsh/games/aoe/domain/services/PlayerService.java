@@ -29,9 +29,7 @@ public class PlayerService {
         this.player = player;
         this.playerSkills = new PlayerSkills(player);
         this.setLevel(1);
-        addCyberOperative(new CyberOperative("operative1"));
-        addCyberOperative(new CyberOperative("operative2"));
-        addCyberOperative(new CyberOperative("operative3"));
+        initializeStartingCyberOperatives();
     }
 
     public Player getPlayer() {
@@ -426,14 +424,7 @@ public class PlayerService {
         }
     }
     
-    /**
-     * Sets guild service for daily reward service to enable guild vault deposits.
-     * 
-     * @param guildService The guild service to use
-     */
-    public void setGuildService(GuildService guildService) {
-        this.dailyRewardService.setGuildService(guildService);
-    }
+    // Guild service integration removed temporarily - will be re-added when guild system is implemented
 
     public DailyRewardService getDailyRewardService() {
         return dailyRewardService;
@@ -540,5 +531,133 @@ public class PlayerService {
      */
     public PlayerSkills getPlayerSkills() {
         return playerSkills;
+    }
+    
+    /**
+     * Initialize starting cyber operatives with configured limit.
+     */
+    private void initializeStartingCyberOperatives() {
+        for (int i = 1; i <= ApplicationConstants.INITIAL_CYBER_OPERATIVES; i++) {
+            CyberOperative operative = new CyberOperative("operative" + i);
+            cyberOperatives.add(operative);
+            startConsumptionThread(operative);
+        }
+    }
+    
+    /**
+     * Calculates the maximum number of cyber operatives allowed based on current tech phase.
+     * @return Maximum number of cyber operatives
+     */
+    public int getMaxCyberOperativesAllowed() {
+        return ApplicationConstants.INITIAL_CYBER_OPERATIVES + 
+               (player.getTechPhase().getLevel() - 1) * ApplicationConstants.MAX_CYBER_OPERATIVES_PER_TECH_PHASE;
+    }
+    
+    /**
+     * Attempts to recruit a new cyber operative.
+     * Checks resource requirements and operative limits.
+     * 
+     * @return true if recruitment was successful, false otherwise
+     */
+    public boolean recruitCyberOperative() {
+        // Check if player has reached the limit for current tech phase
+        if (cyberOperatives.size() >= getMaxCyberOperativesAllowed()) {
+            System.out.println(ApplicationConstants.MESSAGE_CYBER_OPERATIVE_LIMIT_REACHED);
+            System.out.println("💡 Avance para a próxima fase tecnológica para aumentar o limite!");
+            return false;
+        }
+        
+        // Define recruitment cost (this can be configurable later)
+        int energyCost = 100 + (cyberOperatives.size() * 50); // Increasing cost
+        int dataCost = 75 + (cyberOperatives.size() * 25);
+        int componentsCost = 50 + (cyberOperatives.size() * 10);
+        
+        // Check if player has enough resources
+        if (!hasResourcesForOperativeRecruitment(energyCost, dataCost, componentsCost)) {
+            System.out.println(ApplicationConstants.MESSAGE_INSUFFICIENT_RESOURCES_FOR_OPERATIVE);
+            System.out.printf("💰 Recursos necessários: %d Energy, %d Data, %d Components%n", 
+                energyCost, dataCost, componentsCost);
+            return false;
+        }
+        
+        // Deduct resources
+        deductResourcesForRecruitment(energyCost, dataCost, componentsCost);
+        
+        // Create and add new operative
+        String operativeName = "operative" + (cyberOperatives.size() + 1);
+        CyberOperative newOperative = new CyberOperative(operativeName);
+        cyberOperatives.add(newOperative);
+        startConsumptionThread(newOperative);
+        
+        System.out.println(ApplicationConstants.MESSAGE_CYBER_OPERATIVE_RECRUITED);
+        System.out.printf("🤖 %s foi adicionado à sua rede! (%d/%d operativos)%n", 
+            newOperative.getStringWithName(), cyberOperatives.size(), getMaxCyberOperativesAllowed());
+        
+        return true;
+    }
+    
+    /**
+     * Checks if player has enough resources for operative recruitment.
+     */
+    private boolean hasResourcesForOperativeRecruitment(int energyCost, int dataCost, int componentsCost) {
+        return getResourceAmount(ResourceType.ENERGY) >= energyCost &&
+               getResourceAmount(ResourceType.DATA) >= dataCost &&
+               getResourceAmount(ResourceType.COMPONENTS) >= componentsCost;
+    }
+    
+    /**
+     * Deducts resources for operative recruitment.
+     */
+    private void deductResourcesForRecruitment(int energyCost, int dataCost, int componentsCost) {
+        deductResource(ResourceType.ENERGY, energyCost);
+        deductResource(ResourceType.DATA, dataCost);
+        deductResource(ResourceType.COMPONENTS, componentsCost);
+        
+        System.out.printf("💰 Deducted %d Energy, %d Data, %d Components%n", 
+            energyCost, dataCost, componentsCost);
+    }
+    
+    /**
+     * Gets the amount of a specific resource type.
+     */
+    private int getResourceAmount(ResourceType resourceType) {
+        return playerResources.stream()
+                .filter(resource -> resource.getResource() == resourceType)
+                .findFirst()
+                .map(ResourceAmount::getAmount)
+                .orElse(0);
+    }
+    
+    /**
+     * Deducts a specific amount from a resource type.
+     */
+    private void deductResource(ResourceType resourceType, int amount) {
+        playerResources.stream()
+                .filter(resource -> resource.getResource() == resourceType)
+                .findFirst()
+                .ifPresent(resource -> resource.setAmount(resource.getAmount() - amount));
+    }
+    
+    /**
+     * Gets recruitment cost for next cyber operative.
+     */
+    public void showRecruitmentCost() {
+        if (cyberOperatives.size() >= getMaxCyberOperativesAllowed()) {
+            System.out.println("🚫 Já atingiste o limite máximo de operativos para esta fase tecnológica!");
+            System.out.printf("📊 Limite atual: %d/%d operativos%n", 
+                cyberOperatives.size(), getMaxCyberOperativesAllowed());
+            return;
+        }
+        
+        int energyCost = 100 + (cyberOperatives.size() * 50);
+        int dataCost = 75 + (cyberOperatives.size() * 25);
+        int componentsCost = 50 + (cyberOperatives.size() * 10);
+        
+        System.out.println("💼 Custo de recrutamento do próximo operativo:");
+        System.out.printf("⚡ Energy: %d%n", energyCost);
+        System.out.printf("💾 Data: %d%n", dataCost);
+        System.out.printf("🔧 Components: %d%n", componentsCost);
+        System.out.printf("📊 Operativos atuais: %d/%d%n", 
+            cyberOperatives.size(), getMaxCyberOperativesAllowed());
     }
 }

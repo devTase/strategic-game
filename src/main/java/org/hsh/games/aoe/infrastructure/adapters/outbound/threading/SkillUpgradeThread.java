@@ -71,11 +71,17 @@ public class SkillUpgradeThread extends Thread {
                     return;
                 }
                 
+                // Get description, provide default if null or empty
+                String description = currentSkill.description();
+                if (description == null || description.trim().isEmpty()) {
+                    description = getDefaultDescription(skillType);
+                }
+                
                 // Create upgraded skill
                 Skill upgradedSkill = new Skill(
                     skillType,
                     upgradeProcess.getToLevel(),
-                    currentSkill.description(),
+                    description,
                     currentSkill.baseEffectPerLevel()
                 );
                 
@@ -115,5 +121,18 @@ public class SkillUpgradeThread extends Thread {
      */
     public SkillUpgradeProcess getUpgradeProcess() {
         return upgradeProcess;
+    }
+    
+    /**
+     * Provides default descriptions for skill types when description is missing.
+     * @param skillType The skill type
+     * @return Default description for the skill type
+     */
+    private String getDefaultDescription(SkillType skillType) {
+        return switch (skillType) {
+            case CONSTRUCTION_SPEED -> "Increases construction speed";
+            case CONSTRUCTION_COST -> "Reduces construction cost";
+            case PLUNDER_BONUS -> "Increases plunder bonus";
+        };
     }
 }

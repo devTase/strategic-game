@@ -31,6 +31,13 @@ public class ApplicationConstants {
     public static final String MESSAGE_WORKER_SENT_TO_GATHER = "🛰️ Your cyber operative has been deployed to harvest resources from the net!";
     public static final String MESSAGE_WORKER_SENT_TO_BUILD = "🏢️ Your cyber operative has initiated assembly of the selected module!";
     
+    // CyberOperative limits
+    public static final int INITIAL_CYBER_OPERATIVES = 3;
+    public static final int MAX_CYBER_OPERATIVES_PER_TECH_PHASE = 2;
+    public static final String MESSAGE_CYBER_OPERATIVE_LIMIT_REACHED = "🚫 You've reached the maximum number of cyber operatives for your current tech phase!";
+    public static final String MESSAGE_CYBER_OPERATIVE_RECRUITED = "✅ New cyber operative recruited to your network!";
+    public static final String MESSAGE_INSUFFICIENT_RESOURCES_FOR_OPERATIVE = "💾 Insufficient resources to recruit a new cyber operative!";
+    
     // Resource messages
     public static final String MESSAGE_RESOURCES_GATHERED = "✅ Your data-miners have returned with valuable intel!";
     public static final String MESSAGE_CONSTRUCTION_COMPLETE = "🏗️ Module assembly has been completed successfully!";
